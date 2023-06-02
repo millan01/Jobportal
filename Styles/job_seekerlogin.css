@@ -1,0 +1,132 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    background-color: #f5e3d6;
+}
+.navbar_flow{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FBEEEE;
+
+
+}
+.one{
+    color: #B4710D;
+}
+.logo{
+    /* margin: 17px 26px 0px 45px; */
+    margin-left: 16px;
+    font-size: 40px;
+    word-spacing: 0px;
+
+}
+.logo span{
+    /* margin:0px; */
+    word-spacing:0px;
+    /* font-size: 30px; */
+    /* color: rgb(19, 16, 16); */
+}
+.header a{
+    font-size: 20px;
+   margin: 13px;
+    text-decoration: none;
+}
+.buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* justify-content: flex-end; */
+    gap: 10px;
+    margin: 0px 56px 0px 0px;
+    /* padding: 0px 15px 24px 0px; */
+    /* border-radius: 8px; */
+}
+.buttons button{
+    border-radius: 11px;
+    /* margin: 10px 11px 8px 10px; */
+    padding: 6px 11px 6px 11px;
+}
+
+
+.imagesection img{
+    width: 588px;
+    height: 463px;
+    border-radius: 6px 0px 0px 6px;
+    box-shadow:1px #B4710D;
+}
+
+.formlogin{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 86px;
+    width: 1350px;
+    height: 463px;
+} 
+.login{
+    margin:0;
+    background-color: rgb(234, 241, 241);
+    width: 24%;
+    border-radius: 0px 6px 6px 0px;
+}
+.innersection{
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.inputfields{
+    margin-left: 20px;
+}
+.login h2{
+    margin-top: 22px;
+    margin-left: 96px;
+}
+.login h4{
+    margin-top:14px ;
+    margin-left: 52px;
+}
+.inputfields div{
+    display: block;
+    /* margin-top: 20px; */
+}
+
+.input-field input[type="email"]{
+    margin-top: 20px;
+}
+.formlogin input[type="email"],
+.formlogin input[type="password"]{
+    margin-bottom:20px ;
+    padding: 8px;
+    width:250px;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    border-radius: 2px;
+}
+.buttn{
+    padding: 7px;
+    width: 250px;
+    /* margin-left: px; */
+    border:none;
+    border-radius:8px;
+    background-color:rgba(5, 56, 52, 0.377);
+    color: white;
+    font-size: 16px;
+
+}
+.resetsection .forget{
+    margin-top: 14px;
+    margin-left:60px ;
+}
+.resetsection .register{
+    display: grid;
+    margin-top: 14px;
+    margin-left: 60px;
+}
+/* .register span{
+    font-size: 16px;
+} */
