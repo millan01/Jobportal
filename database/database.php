@@ -19,6 +19,7 @@ $sql = "CREATE TABLE job(
     FOREIGN KEY(companyID) REFERENCES company(company_id),
     companyName varchar(200) not null
 )";
+    $sql = "UPDATE job set status = case when deadline_date >= CURDATE() Then 'Active' else 'Expire' end ";
 $sql = "CREATE TABLE Job_seeker(
     Job_seeker_id int(20) unsigned auto_increment primary key,
     Full_name varchar(100) not null,

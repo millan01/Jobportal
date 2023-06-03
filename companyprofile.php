@@ -17,6 +17,9 @@ $result = mysqli_query($conn, $sql);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="./styles/companyprofilee.css">
+  <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
+  <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
+  <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
 </head>
 
 <body>
@@ -171,6 +174,8 @@ $result = mysqli_query($conn, $sql);
 
                     if (empty($categoryErr) && empty($titleErr) && empty($deadlineErr) && empty($no_of_vacancyErr) && empty($salaryErr) && empty($locationErr) && empty($jobtypeErr) && empty($decriptionErr)) {
                       $postdate = date('Y-m-d H:i:s');
+
+                      
                       include('./database/connection.php');
                       $email = $_SESSION['email'];
                       $sql = "SELECT company_id,company_name FROM company WHERE email = '$email'";
@@ -332,11 +337,13 @@ $result = mysqli_query($conn, $sql);
                   <td>
                     <?php echo $row['deadline_date']; ?>
                   </td>
-                  <td> </td>
                   <td>
-                    <?php echo '<a class = "btn" href ="jobview.php?id=' . $row['job_id'] . '">View</a>' ?>
-                    <?php echo '<a class = "btn"  href ="companyprofile.php?id=' . $row['job_id'] . '">Edit</a>' ?>
-                    <?php echo '<a class="btn" href="javascript:void(0);" onclick="confirmDelete(' . $row['job_id'] . ');">Delete</a>' ?>
+                    <?php echo $row['Status'];?>
+                  </td>
+                  <td>
+                     <!-- echo '<a class = "btn" href ="jobview.php?id=' . $row['job_id'] . '">View</a>' -->
+                    <?php echo '<a class = "btn"  href ="companyprofile.php?id=' . $row['job_id'] . '"> <button style="padding:3px 6px; background-color:;"> Edit <i class ="fa fa-edit" style="color: #5B5BD0; font-weight:lighter;"></i></button></a>' ?>
+                    <?php echo '<a class="btn" href="javascript:void(0);" onclick="confirmDelete(' . $row['job_id'] . ');"><button style ="padding:3px 6px">Delete <i class="fa fa-trash" style=" color: #F33636; font-weight: lighter;"></i> </button></a>' ?>
 
 
                   </td>
@@ -359,8 +366,8 @@ $result = mysqli_query($conn, $sql);
 
         <!---------------------change password-------------->
         <?php
-        $email = $Newpassword = $confirmpassword='';
-        $currentpassErr = $confirmpassErr = $newpasswordErr ='';
+        $email = $Newpassword = $confirmpassword = '';
+        $currentpassErr = $confirmpassErr = $newpasswordErr = '';
         if (isset($_POST['changepass'])) {
           //code to verify the current password
           $sql = "SELECT password from company where email = ?";
@@ -375,13 +382,13 @@ $result = mysqli_query($conn, $sql);
           } else {
             $currentpass = "Current password doesn't matched";
           }
-
+          $stmt->close();
 
           //validate new password
           if (empty($_POST['newpassword'])) {
             $currentpassErr = "password is required";
           } else {
-            $Newpassword= test_input($_POST['newpassword']);
+            $Newpassword = test_input($_POST['newpassword']);
             //check if the password is strong or not
             if (strlen($Newpassword) < 8) {
               $newpasswordErr = "Password must be at least 8 characters long";
@@ -406,25 +413,27 @@ $result = mysqli_query($conn, $sql);
           }
 
           //update the password into database
-
-          if(empty($currentpassErr) && empty($newpasswordErr) && empty($confirmpassErr)){
+        
+          if (empty($currentpassErr) && empty($newpasswordErr) && empty($confirmpassErr)) {
             require_once('./database/connection.php');
 
-            $update_pass = password_hash($Newpassword,PASSWORD_DEFAULT);
+            $update_pass = password_hash($Newpassword, PASSWORD_DEFAULT);
 
-            //   $stmt= $conn->prepare("UPDATE company SET password = ?");
-            // $stmt->bind_param("s",$update_pass);
-            // $stmt->execute();
-            // $stm->close();
-            $sql = "UPDATE company SET password = $update_pass where email = $companyemail";
-            if($conn->query($sql)==TRUE){
-
-              header('location:companyprofile.php');
-            }
-
+            $stmt = $conn->prepare("UPDATE company SET password = ?");
+            $stmt->bind_param("s", $update_pass);
+            $stmt->execute();
+            $stmt->close();
+            // $sql = "UPDATE company SET password = $update_pass where email = $companyemail";
+            // $result = $conn->query($sql);
+            // if ($result) {
+        
+            echo "password updated sucessfully";
+            // header('location:companyprofile.php');
+            // }
           }
-          
+
         }
+
         ?>
         <div id="changepassword" class="container">
           <div class="change-password">
@@ -441,12 +450,16 @@ $result = mysqli_query($conn, $sql);
 
                   <label for="newpassword">New Password</label>
                   <input type="password" name="newpassword" id="newpassword">
-                  <span> <?php echo $newpasswordErr; ?></span>
+                  <span>
+                    <?php echo $newpasswordErr; ?>
+                  </span>
 
 
                   <label for="conformpassword">Conform Password</label>
                   <input type="password" name="conformpassword" id="conformpassword">
-                  <span><?php echo $confirmpassErr; ?></span>
+                  <span>
+                    <?php echo $confirmpassErr; ?>
+                  </span>
 
 
                   <input type="submit" name="changepass" value="Change Password">

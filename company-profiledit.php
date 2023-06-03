@@ -41,14 +41,14 @@ if (isset($session)) {
         }
         $companydesc = test_input($_POST['details']);
 
-        // $imagefile ="";
-        // $target_dir = "./images/uploaded_image";
-        // $a = $_FILES["image"]["name"];
-        // $target_file = $target_dir.$a;
-        // if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-		// }else{
-        //     $imageErr = "Error uploading file";
-        // }
+        $imagefile ="";
+        $target_dir = "./images/uploaded_image";
+        $a = $_FILES["image"]["name"];
+        $target_file = $target_dir.$a;
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+		}else{
+            $imageErr = "Error uploading file";
+        }
 
         if (empty($comapnynameErr) && empty($contactpersonErr) && empty($companyaddressErr) && empty($companywebsiteErr) && empty($companyphoneErr) && empty($companyemailErr) && empty($companydescErr) ) {
             $stmt = $conn->prepare("UPDATE company SET company_name =? ,conatact_personname =?,email=?,phone=?,location=?,website=?,description=? where email =?");
