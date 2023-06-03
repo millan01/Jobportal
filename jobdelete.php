@@ -5,7 +5,7 @@ if(isset($_GET['job_id'])){
 
     
     $stmt = $conn->prepare("DELETE FROM job WHERE job_id = ?");
-    $stmt->bind_param("i", $del);
+    $stmt->bind_param("i", $del); 
     $stmt->execute();
     $stmt->close();
 

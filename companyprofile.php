@@ -16,7 +16,7 @@ $result = mysqli_query($conn, $sql);
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="./styles/companyprofilee.css">
+  <link rel="stylesheet" href="./styles/companyproffile.css">
   <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
   <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
   <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
@@ -102,9 +102,6 @@ $result = mysqli_query($conn, $sql);
             <?php
           }
           ?>
-          <div class="updateprofile">
-
-          </div>
         </div>
 
 
@@ -342,7 +339,7 @@ $result = mysqli_query($conn, $sql);
                   </td>
                   <td>
                      <!-- echo '<a class = "btn" href ="jobview.php?id=' . $row['job_id'] . '">View</a>' -->
-                    <?php echo '<a class = "btn"  href ="companyprofile.php?id=' . $row['job_id'] . '"> <button style="padding:3px 6px; background-color:;"> Edit <i class ="fa fa-edit" style="color: #5B5BD0; font-weight:lighter;"></i></button></a>' ?>
+                    <?php echo '<a class = "btn"  href ="jobedit.php?job_id='.$row['job_id'] . '"> <button style="padding:3px 6px; background-color:;"> Edit <i class ="fa fa-edit" style="color: #5B5BD0; font-weight:lighter;"></i></button></a>' ?>
                     <?php echo '<a class="btn" href="javascript:void(0);" onclick="confirmDelete(' . $row['job_id'] . ');"><button style ="padding:3px 6px">Delete <i class="fa fa-trash" style=" color: #F33636; font-weight: lighter;"></i> </button></a>' ?>
 
 

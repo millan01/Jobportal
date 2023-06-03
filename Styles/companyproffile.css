@@ -1,4 +1,4 @@
-ybody{
+body{
     margin: 0;
     padding: 0;
 }
@@ -11,14 +11,14 @@ ybody{
 .dashboard-page{
     display: flex;
     width: 100%;
-    height: 92vh;
+    height: 129vh;
     background-color: #dfdfdf;
 }
 
 .dashboard-nav{
   flex-basis: 15%;
   background-color: rgb(15, 34, 34);
-  height: 92vh;
+  height:129vh;
 }
 .dashboard-content{
     flex-basis: 85%;
@@ -131,6 +131,15 @@ input[type="submit"]{
 }
 input[type="submit"]:hover{
     color: white;
+}
+textarea{
+    padding: 10px;
+    max-width: 100%;
+    line-height: 1;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 
