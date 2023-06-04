@@ -183,11 +183,20 @@ $result = mysqli_query($conn, $sql);
                         $companyName = $row['company_name'];
                       }
 
+                      
 
                       $stmt = $conn->prepare("INSERT INTO job(Category,Job_title, posted_date,deadline_date,no_of_vacancy ,estimated_salary,job_address,Job_Type,Job_description,companyID,CompanyName)VALUES (?,?,?,?,?,?,?,?,?,?,?)");
                       $stmt->bind_param("ssssissssis", $category, $title, $postdate, $deadline_datee, $no_of_vacancy, $salary, $location, $jobtype, $description, $companyID, $companyName);
                       $stmt->execute();
                       $stmt->close();
+
+                      $sql = "UPDATE job set status = case when deadline_date >= CURDATE() Then 'Active' else 'Expire' end ";
+                      $result = mysqli_query($conn,$sql);
+                      if($result){
+                        $stmt  = "INSERT into job(status) VALUES $result";
+                      }else{
+                        die ("Error").mysqli_connect_error();
+                      }
                     }
                   }
                   function test_input($data)
@@ -204,13 +213,13 @@ $result = mysqli_query($conn, $sql);
                     <select name="basciinfo" id="basicinfo" value="<?php ?>">
                       <option value="" id="Select company/industry category">Select company/industry category</option>
                       <option value="IT&Telecommunication" id="IT&Telecommunication">IT&Telecommunication</option>
-                      <option value="Graphic Designing" id="Design/Graphics">Design/Graphics</option>
-                      <option value="finance" id="Account/Finance">Account/Finance</option>
+                      <option value="Design/Graphics" id="Design/Graphics">Design/Graphics</option>
+                      <option value="Account/Finance" id="Account/Finance">Account/Finance</option>
                       <option value="Medical" id="Medical">Medical</option>
-                      <option value="NGO/ING" id="NGO/ING">NGO/ING</option>
+                      <option value="NGO/INGO" id="NGO/ING">NGO/INGO</option>
                       <option value="Engineering/Architectures" id="Engineering/Architecture">Engineering/Architectures
                       </option>
-                      <option value="Tou/Travel" id="Tour/Travel">Tour/Travel</option>
+                      <option value="Tour/Travel" id="Tour/Travel">Tour/Travel</option>
                       <option value="E-comerce" id="E-comerce">E-comerce</option>
                       <span style="color:red">
                         <?php echo $categoryErr; ?>
@@ -250,8 +259,8 @@ $result = mysqli_query($conn, $sql);
                     <label for="jobtype">Job-Type</label>
                     <select name="jobtype" id="jobtype">
                       <option value="">Select Job-type</option>
-                      <option value="Full-time">Full-time</option>
-                      <option value="part-time">Part-time</option>
+                      <option value="Fulltime">Full time</option>
+                      <option value="Parttime">Part time</option>
                       <option value="Remote">Remote</option>
                     </select>
                     <span style="color:red">
