@@ -112,7 +112,7 @@ include('./database/connection.php');
                                     <?php echo $row['job_title']; ?>
                                 </li>
                                 <li>
-                                    <?php echo $row['job_address']; ?>
+                                    <?php echo $row['CompanyName']; ?>
                                 </li>
                             </div>
                         </div>

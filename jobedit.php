@@ -8,9 +8,9 @@ if (!isset($companyemail)) {
 $category = $title = $deadline = $no_of_vacancy = $salary = $location = $jobtype = $decription = '';
 $categoryErr = $titleErr = $deadlineErr = $no_of_vacancyErr = $salaryErr = $locationErr = $jobtypeErr = $descriptionErr = '';
 $select = $jobtitle = $deadlinedate = $noofvacancy = $estimatedsalary = $jobaddress = $type = $jobdescription = '';
-if (isset($_POST[""]) && !empty($_POST['post'])) {
-  
-  $jobidd = $_POST['hiddenid'];
+if (isset($_POST[""]) && !empty($_POST['replace'])) {
+
+  $id = $_POST['job_id'];
 
   if (empty($_POST['basciinfo'])) {
     $categoryErr = "Category type not selected";
@@ -60,27 +60,21 @@ if (isset($_POST[""]) && !empty($_POST['post'])) {
     $description = test_input($_POST['jobdescription']);
   }
 
-  if (
-    empty($categoryErr) && empty($titleErr) && empty($deadlineErr) && empty($no_of_vacancyErr) && empty($salaryErr) &&
-    empty($locationErr) && empty($jobtypeErr) && empty($decriptionErr)
-  ) {
+  if (empty($categoryErr) && empty($titleErr) && empty($deadlineErr) && empty($no_of_vacancyErr) && empty($salaryErr) && empty($locationErr) && empty($jobtypeErr) && empty($decriptionErr)) {
 
-    if (empty($categoryErr) && empty($titleErr) && empty($deadlineErr) && empty($no_of_vacancyErr) && empty($salaryErr) && empty($locationErr) && empty($jobtypeErr) && empty($decriptionErr)) {
-
-      $stmt = $conn->prepare("UPDATE job SET Category =?,Job_title=?,deadline_date=?,no_of_vacancy=?,estimated_salary=?,job_address=?,Job_Type=?,Job_description=? where job  = ? ");
-      $stmt->bind_param("sssissssi", $category, $title, $deadline_datee, $no_of_vacancy, $salary, $location, $jobtype, $description, $jobidd);
-      $stmt->execute();
-      header("location:companyprofile.php");
-      $stmt->close();
-    }
+    $stmt = $conn->prepare("UPDATE job SET Category =?,Job_title=?,deadline_date=?,no_of_vacancy=?,estimated_salary=?,job_address=?,Job_Type=?,Job_description=? where 	job_id = ? ");
+    $stmt->bind_param("sssissssi", $category, $title, $deadline_datee, $no_of_vacancy, $salary, $location, $jobtype, $description, $id);
+    $stmt->execute();
+    $stmt->close();
+    header("location:companyprofile.php");
   }
-}
+} else {
   //check id before processiong further
-   if (isset($_GET['job_id']) && !empty(trim($_GET['job_id']))) {
-    $jobid = trim($_GET['job_id']);
+  if (isset($_GET['job_id'])) {
+    $id = trim($_GET['job_id']);
 
     $stmt = $conn->prepare("SELECT * from job where job_id = ?");
-    $stmt->bind_param("i", $jobid);
+    $stmt->bind_param("i", $id);
     $stmt->execute();
 
     $result = $stmt->get_result();
@@ -103,9 +97,13 @@ if (isset($_POST[""]) && !empty($_POST['post'])) {
     }
     $stmt->close();
   } else {
-    header("location:index.php");
-    exit();
+    echo header('location:index.php');
   }
+}
+// }else {
+//   header("location:index.php");
+//   exit();
+// }
 
 function test_input($data)
 {
@@ -155,21 +153,19 @@ function test_input($data)
                   <h3>Post JOb</h3>
                   <div class="basicinfo">
                     <form action="" method="post">
-
+                      <?php echo $id; ?>
                       <label for="Category"></label>
                       <select name="basciinfo" id="basicinfo">
 
                         <option value="" id="Select company/industry category" value="">Select
                           company/industry category</option>
-                        <option value="IT&Telecommunication" id="IT&Telecommunication"
-                          <?php echo ($select == 'IT&Telecommunication') ? 'selected' : ''; ?>>
-                          IT&Telecommunication</option>
-                        <option value="Design/Graphics" id="Design/Graphics"<?php echo ($select == 'Design/Graphics') ? 'selected' : ''; ?>>Design/Graphics</option>
+                        <option value="IT&Telecommunication" id="IT&Telecommunication" <?php echo ($select == 'IT&Telecommunication') ? 'selected' : ''; ?>>IT&Telecommunication</option>
+                        <option value="Design/Graphics" id="Design/Graphics" <?php echo ($select == 'Design/Graphics') ? 'selected' : ''; ?>>Design/Graphics</option>
                         <option value="Account/Finance" id="Account/Finance" <?php echo ($select == 'Account/Finance') ? 'selected' : ''; ?>>Account/Finance</option>
                         <option value="Medical" id="Medical" value="Medical" <?php echo ($select == 'Medical') ? 'selected' : ''; ?>>Medical</option>
-                        <option value="NGO/INGO" id="NGO/ING"<?php echo ($select == 'NGO/INGO') ? 'selected' : ''; ?>>NGO/INGO</option>
-                        <option value=" Engineering/Architectures" id="Engineering/Architecture" <?php echo ($select == 'Engineering/Architectures') ? 'selected' : ''; ?>>
-                          Engineering/Architectures
+                        <option value="NGO/INGO" id="NGO/ING" <?php echo ($select == 'NGO/INGO') ? 'selected' : ''; ?>>
+                          NGO/INGO</option>
+                        <option value=" Engineering/Architectures" id="Engineering/Architecture" <?php echo ($select == 'Engineering/Architectures') ? 'selected' : ''; ?>>Engineering/Architectures
                         </option>
                         <option id="Tour/Travel" value="Tour/Travel" <?php echo ($select == 'Tour/Travel') ? 'selected' : ''; ?>>Tour/Travel</option>
                         <option id="E-comerce" value="E-comerce" <?php echo ($select == 'E-comerce') ? 'selected' : ''; ?>>E-comerce</option>
@@ -212,9 +208,11 @@ function test_input($data)
                       <label for="jobtype">Job-Type</label>
                       <select name="jobtype" id="jobtype">
                         <option value="">Select Job-type</option>
-                        <option value="Fulltime"<?php echo($type ='Fulltime')? 'selected': '';?>>Full-time</option>
-                        <option value="Parttime"<?php echo($type ='Parttime')? 'selected': '';?>>Part-time</option>
-                        <option value="Remote"<?php echo($type ='Remote')? 'selected': '';?>>Remote</option>
+                        <option value="Full time" <?php echo ($type = 'Full time') ? 'selected' : ''; ?>>Full time
+                        </option>
+                        <option value="Part time" <?php echo ($type = 'Part time') ? 'selected' : ''; ?>>Part time
+                        </option>
+                        <option value="Remote" <?php echo ($type = 'Remote') ? 'selected' : ''; ?>>Remote</option>
                       </select>
                       <span style="color:red">
                         <?php $jobtypeErr; ?>
@@ -228,9 +226,8 @@ function test_input($data)
                       <span style="color:red">
                         <?php echo $descriptionErr; ?>
                       </span>
-                    
-                      <input type="hidden">
-                      <input type="submit" value="Update" name="post" class="post">
+                      <input type="hidden" name="job_id" value="<?php echo $id; ?>" />
+                      <input type="submit" name="replace" value="Update" class="post">
                       <!-- <input type="submit" value="Delete"> -->
 
                     </form>

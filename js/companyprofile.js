@@ -21,6 +21,6 @@ function showcontent(event, contentindex) {
   function confirmDelete(jobId) {
     var confirmed = confirm('Are you sure you want to delete?');
     if (confirmed) {
-        window.location.href ="../jobdelete.php?job_id=" + jobId;
+        window.location.href ="jobdelete.php?job_id=" + jobId;
     }
 }

@@ -259,8 +259,8 @@ $result = mysqli_query($conn, $sql);
                     <label for="jobtype">Job-Type</label>
                     <select name="jobtype" id="jobtype">
                       <option value="">Select Job-type</option>
-                      <option value="Fulltime">Full time</option>
-                      <option value="Parttime">Part time</option>
+                      <option value="Full time">Full time</option>
+                      <option value="Part time">Part time</option>
                       <option value="Remote">Remote</option>
                     </select>
                     <span style="color:red">
