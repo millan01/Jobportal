@@ -10,7 +10,7 @@ include('./database/connection.php');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="./styles/index.css">
+    <link rel="stylesheet" href="./styles/indexx.css">
 </head>
 
 <body>
@@ -22,7 +22,7 @@ include('./database/connection.php');
         </div>
 
         <div class="links">
-            <a href="">Home</a>
+            <a href="index.php">Home</a>
             <a href="">Blog</a>
             <a href="">Contact</a>
             <a href="">About us</a>
@@ -46,8 +46,8 @@ include('./database/connection.php');
             <div class="afterlogin">
                 <img src="./images/Account icon.svg" alt="#" class="test">
                 <div class="dropdown">
-                    <a href="companyprofile.php">profile</a>
-                    <a href="sessiondestroy.php">Log out</a>
+                    <a href="companyprofile.php"><button>profile</button></a>
+                    <a href="sessiondestroy.php"><button>Log out</button></a>
                 </div>
             </div>
             <?php } ?>
