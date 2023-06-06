@@ -1,7 +1,7 @@
 * {
     margin: 0px;
     padding: 0px;
-    /* background-color: #DCE3E9; */
+   
   }
   .navbarflow {
     display: flex;
@@ -68,9 +68,14 @@
     margin-right: 135px;
     margin-top: 20px;
 }
+.jobdescription{
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 20px;
+}
 .jobsection-vert-one{
     background-color: #EFF5F9;
-    max-width: 60%;
+    max-width: 70%;
 
 }
 .upper-one{
@@ -112,6 +117,9 @@
 .upper-two .comp-desc{
     margin: 6px;
 }
+.title{
+  margin: 20px;
+}
 
 .upper-three{
     border: 1px solid;
@@ -128,4 +136,94 @@
 }
 .upper-three .job-spec .job-specgrid .job-specgrid-grid div{
     margin: 10px;
+}
+
+.upper-four{
+  border: 1px solid;
+  margin: 20px 20px 0px 20px;
+}
+.upper-four .description h3{
+  border-bottom: 1px solid;
+  margin:0px 0px 0px 0px ;
+  background-color: #fbeeee;
+}
+.upper-four p{
+  margin: 10px;
+}
+
+.upper-five button{
+  padding:6px 20px;
+  float: right;
+  margin-top: 20px;
+  margin-right: 20px;
+  background-color: green;
+  border: 1px;
+  font-size: 20px;
+  border-radius: 4px;
+}
+.upper-five button:hover{
+  color: white;
+}
+
+.jobsection-vert-two{
+  width: 31%;
+}
+.jobsection-vert-two .info{
+  border: 1px solid;
+  margin-top: 70px;
+  height: 90px;
+  background-color: #EFF5F9;
+}
+.jobsection-vert-two .info p{
+  margin: 10px;
+}
+.jobsection-vert-two .relatedjobtitle{
+  background-color: #fbeeee;
+  /* margin: 4px; */
+}
+
+.jobsection-vert-two .relatedjob{
+  border: 1px solid;
+  margin-top: 20px;
+  background-color: #EFF5F9;
+}
+
+.jobsection-vert-two .relatedjob .relatedjob-upper{
+  border: 1px solid;
+  margin: 10px;
+}
+ .relatedjob-upper{
+  display: flex;
+  gap: 10px;
+}
+
+.relatedjob-upper{
+  background-color: white;
+}
+
+
+.otherjob{
+  border: 1px solid;
+  margin-top: 20px;
+  background-color:#EFF5F9 ;
+}
+.jobsection-vert-two .otherjob .otherjobtitle{
+  background-color: #fbeeee;
+  align-items: center;
+  /* margin-left: 10px; */
+}
+.jobsection-vert-two .otherjob .otherjobtitle h3{
+  margin-left: 35%;
+}
+.otherjob-upper{
+  display: flex;
+  gap: 10px;
+  border: 1px solid;
+  margin: 10px;
+  background-color:white ;
+}
+
+
+.footer{
+  margin-top: 30px;
 }

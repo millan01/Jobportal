@@ -114,7 +114,7 @@ $result = mysqli_query($conn, $sql);
                 <h3>Post JOb</h3>
                 <div class="basicinfo">
                   <?php
-                  $category = $title = $deadline = $no_of_vacancy = $salary = $location = $jobtype = $decription = '';
+                  $category = $title = $deadline = $no_of_vacancy = $salary = $location = $jobtype = $decription =$turnicatedescription = '';
                   $categoryErr = $titleErr = $deadlineErr = $no_of_vacancyErr = $salaryErr = $locationErr = $jobtypeErr = $descriptionErr = '';
 
                   if (isset($_POST['post'])) {
@@ -167,6 +167,7 @@ $result = mysqli_query($conn, $sql);
                       $decriptionErr = "Job description cannot be left empty";
                     } else {
                       $description = test_input($_POST['jobdescription']);
+                      $turnicatedescription = substr($description, 0,255);
                     }
 
                     if (empty($categoryErr) && empty($titleErr) && empty($deadlineErr) && empty($no_of_vacancyErr) && empty($salaryErr) && empty($locationErr) && empty($jobtypeErr) && empty($decriptionErr)) {
@@ -184,9 +185,9 @@ $result = mysqli_query($conn, $sql);
                       }
 
                       
-
+                      
                       $stmt = $conn->prepare("INSERT INTO job(Category,Job_title, posted_date,deadline_date,no_of_vacancy ,estimated_salary,job_address,Job_Type,Job_description,companyID,CompanyName)VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-                      $stmt->bind_param("ssssissssis", $category, $title, $postdate, $deadline_datee, $no_of_vacancy, $salary, $location, $jobtype, $description, $companyID, $companyName);
+                      $stmt->bind_param("ssssissssis", $category, $title, $postdate, $deadline_datee, $no_of_vacancy, $salary, $location, $jobtype, $turnicatedescription , $companyID, $companyName);
                       $stmt->execute();
                       $stmt->close();
 

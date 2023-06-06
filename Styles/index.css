@@ -269,9 +269,12 @@
   text-decoration: none;
   display: block;
   color: #ffffff;
+  margin:7px;
+  font-size: 16px;
 }
-.footer h3 {
+.footer h2 {
   color: #ffffff;
+
 }
 
 .footer .copyright {
@@ -279,4 +282,11 @@
 }
 .footer .copyright p {
   font-size: 20px;
+  color: white;
+  word-spacing: 1;
 }
+.sociallinks .upper,
+  .sociallinks .lower{
+    display: grid;
+    grid-template-columns: auto auto;
+  }

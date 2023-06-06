@@ -9,7 +9,7 @@ $stmt->execute();
 
 $result = $stmt->get_result(); 
 
-$comapnyname = $contactperson = $companyaddress = $companywebsite = $companyphone = $companyemail = $companydesc = $a = '';
+$comapnyname = $contactperson = $companyaddress = $companywebsite = $companyphone = $companyemail = $companydesc =$turnicatecompanydesc= $a = '';
 $comapnynameErr = $contactpersonErr = $companyaddressErr = $companywebsiteErr = $companyphoneErr = $companyemailErr = $imageErr = $companydescErr = '';
 if (isset($session)) {
 
@@ -40,7 +40,7 @@ if (isset($session)) {
             $companyemailErr = "invalid email format";
         }
         $companydesc = test_input($_POST['details']);
-
+        $turnicatecompanydesc = substr($companydesc,0,255);
         // $imagefile ="";
         // $target_dir = "./images/uploaded_image";
         // $a = $_FILES["image"]["name"];
@@ -52,7 +52,7 @@ if (isset($session)) {
 
         if (empty($comapnynameErr) && empty($contactpersonErr) && empty($companyaddressErr) && empty($companywebsiteErr) && empty($companyphoneErr) && empty($companyemailErr) && empty($companydescErr) ) {
             $stmt = $conn->prepare("UPDATE company SET company_name =? ,conatact_personname =?,email=?,phone=?,location=?,website=?,description=? where email =?");
-            $stmt->bind_param("ssssssss", $companyname, $contactperson, $companyemail, $companyphone, $companyaddress, $companywebsite, $companydesc, $session);
+            $stmt->bind_param("ssssssss", $companyname, $contactperson, $companyemail, $companyphone, $companyaddress, $companywebsite, $turnicatecompanydesc, $session);
 
             $stmt->execute();
             $stmt->close();

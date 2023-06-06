@@ -10,14 +10,14 @@ include('./database/connection.php');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="./styles/indexx.css">
+    <link rel="stylesheet" href="./styles/index.css">
 </head>
 
 <body>
     <div class="navbarflow">
         <div class="logo">
             <a href="index.php">
-            <img src="./images/logo.svg" alt="company logo">
+                <img src="./images/logo.svg" alt="company logo">
             </a>
         </div>
 
@@ -29,27 +29,27 @@ include('./database/connection.php');
         </div>
 
         <div class="navbutton">
-            <?php if(!isset($_SESSION['email'])){?>
-            <div class="signin">
-                <a href="job_seekerlogin.php">
-                    <button type="submit"><img src="./images/sign in.png" height="13px" width="13px"
-                            style="align-items: center;"> Sign in</button>
-                </a>
-            </div>
-            <div class="signup">
-                <a href="company-registration.php">
-                    <button type="submit"><img src="./images/post.png" width="13px" height="13px" alt=""> Post
-                        Job</button>
-                </a>
-            </div>
-            <?php }else{?>
-            <div class="afterlogin">
-                <img src="./images/Account icon.svg" alt="#" class="test">
-                <div class="dropdown">
-                    <a href="companyprofile.php"><button>profile</button></a>
-                    <a href="sessiondestroy.php"><button>Log out</button></a>
+            <?php if (!isset($_SESSION['email'])) { ?>
+                <div class="signin">
+                    <a href="job_seekerlogin.php">
+                        <button type="submit"><img src="./images/sign in.png" height="13px" width="13px"
+                                style="align-items: center;"> Sign in</button>
+                    </a>
                 </div>
-            </div>
+                <div class="signup">
+                    <a href="company-registration.php">
+                        <button type="submit"><img src="./images/post.png" width="13px" height="13px" alt=""> Post
+                            Job</button>
+                    </a>
+                </div>
+            <?php } else { ?>
+                <div class="afterlogin">
+                    <img src="./images/Account icon.svg" alt="#" class="test">
+                    <div class="dropdown">
+                        <a href="companyprofile.php"><button>profile</button></a>
+                        <a href="sessiondestroy.php"><button>Log out</button></a>
+                    </div>
+                </div>
             <?php } ?>
         </div>
     </div>
@@ -93,48 +93,48 @@ include('./database/connection.php');
     <section id="trendingjob">
         <p class="trendingtext">Trending <span>Jobs</span></p>
         <!-- main div-->
-        <?php 
+        <?php
         $sql = "SELECT * from job";
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
-        ?>
-        <div class="trendingjob">
-            <div class="cards">
-                <a href="jobdescription.html">
-                    <!--contents -->
-                    <div class="cardscontent">
-                        <div class="imagearea">
-                            <div class="companyimg">
-                                <img src="./images/esewa.svg" alt="">
+            ?>
+            <div class="trendingjob">
+                <div class="cards">
+                    <?php echo'<a href="jobdescription.php?job_id='.$row['job_id'] . '">'?>
+                        <!--contents -->
+                        <div class="cardscontent">
+                            <div class="imagearea">
+                                <div class="companyimg">
+                                    <img src="./images/esewa.svg" alt="">
+                                </div>
+                                <div class="companyname">
+                                    <li>
+                                        <?php echo $row['job_title']; ?>
+                                    </li>
+                                    <li>
+                                        <?php echo $row['CompanyName']; ?>
+                                    </li>
+                                </div>
                             </div>
-                            <div class="companyname">
+                            <div class="info">
                                 <li>
-                                    <?php echo $row['job_title']; ?>
+                                    <?php echo "location:" . $row['job_address']; ?>
                                 </li>
                                 <li>
-                                    <?php echo $row['CompanyName']; ?>
+                                    <?php echo "Job-type:" . $row['job_type']; ?>
+                                </li>
+                                <li>
+                                    <?php echo "Deadline:" . $row['deadline_date']; ?>
                                 </li>
                             </div>
+                           <?php echo '<a href="jobdescription.php?jobid='.$row['job_id'].'">
+                                <button>Apply</button>
+                            </a>' ?>
                         </div>
-                        <div class="info">
-                            <li>
-                                <?php echo "location:".$row['job_address'];?>
-                            </li>
-                            <li>
-                                <?php echo "Job-type:".$row['job_type'];?>
-                            </li>
-                            <li>
-                                <?php echo "Deadline:".$row['deadline_date'];?>
-                            </li>
-                        </div>
-                        <a href="jobdescription.html">
-                            <button>Apply</button>
-                        </a>
-                    </div>
-                </a>
-            </div>
+                   <?php echo '</a>' ?>
+                </div>
 
-        </div>
+            </div>
         <?php } ?>
     </section>
 
@@ -143,7 +143,7 @@ include('./database/connection.php');
         <!-- main div-->
         <div class="featurejob">
             <div class="cards">
-                <a href="jobdescription.html">
+                <a href="jobdescription.php">
                     <!--contents -->
                     <div class="cardscontent">
                         <div class="imagearea">
@@ -195,7 +195,7 @@ include('./database/connection.php');
         <div class="footer">
             <div class="footercontent">
                 <div class="aboutus">
-                    <h3>About Us</h3>
+                    <h2>About Us</h2>
                     <a href="">About Insearch</a>
                     <a href="">Privacy Policy</a>
                     <a href="">About Insearch</a>
@@ -203,31 +203,35 @@ include('./database/connection.php');
                     <a href="">Blogs</a>
                 </div>
                 <div class="jobseeker">
-                    <h3>Job Seeker</h3>
+                    <h2>Job Seeker</h2>
                     <a href="job_seekerregistration.php">Register</a>
                     <a href="job_seekerlogin.php">Sign In</a>
                     <a href="index.php">Search Job</a>
                 </div>
                 <div class="company">
-                    <h3>Company</h3>
+                    <h2>Company</h2>
                     <a href="company-registration.php">Register Company</a>
                     <a href="company-login.php">Login as company</a>
                     <a href="index.php">Browse jobs</a>
                     <a href="company-login.php">Post Jobs</a>
                 </div>
                 <div class="sociallinks">
-                    <h3>Socail Links</h3>
+                    <h2>Socail Links</h2>
                     <div class="upper">
-                        <a href="https://facebook.com"><img src="./images/facebook.svg" width="30px" height="30px" alt=""></a>
-                        <a href="https://linkedin.com"><img src="./images/linkedin.svg" width="30px" height="30px" alt=""></a>
+                        <a href="https://facebook.com"><img src="./images/facebook.svg" width="30px" height="30px"
+                                alt=""></a>
+                        <a href="https://linkedin.com"><img src="./images/linkedin.svg" width="30px" height="30px"
+                                alt=""></a>
                     </div>
                     <div class="lower">
-                        <a href="https://instagram.com"><img src="./images/instagram.svg" width="30px" height="30px" alt=""></a>
-                        <a href="https://twitter.com"><img src="./images/twitter.svg" width="30px" height="30px" alt=""></a>
+                        <a href="https://instagram.com"><img src="./images/instagram.svg" width="30px" height="30px"
+                                alt=""></a>
+                        <a href="https://twitter.com"><img src="./images/twitter.svg" width="30px" height="30px"
+                                alt=""></a>
                     </div>
                 </div>
                 <div class="contactus">
-                    <h3>Contact us</h3>
+                    <h2>Contact us</h2>
                     <a href="">koteshwore Kthamndu Nepal</a>
                     <a href="">+977-011234567</a>
                     <a href="">insearch@gmail.com</a>
@@ -235,7 +239,7 @@ include('./database/connection.php');
             </div>
             <div class="copyright">
                 <p>&copy;
-                    <?php echo date('Y');?> All rights with insearch
+                    <?php echo date('Y'); ?> All rights with insearch
                 </p>
             </div>
         </div>

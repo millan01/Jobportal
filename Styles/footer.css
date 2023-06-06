@@ -1,129 +1,41 @@
-/* css for footer section */
-.footer_box{
-    background-color:#1A1818;
-    width: 100%;
-    /* padding-top: 30px; */
-    color:white;
-    
-
+body{
+    margin: 0px;
+    padding: 0px;
 }
-/* css for footer section first row box */
-.footer_1st_row_box{
+.footer {
+    background-color: #1a1818;
+  }
+.footer .footercontent {
     display: flex;
-    border: 1px transparent #000;
+    justify-content: space-between;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 15px;
+  }
+  
+  .footer a {
     text-decoration: none;
-}
-
-ul{
-    list-style-type: none;
-}
-
-a{
-    text-decoration: none;
+    display: block;
+    color: #ffffff;
+    margin: 7px;
+    font-size: 18px;
+  }
+  .footer h3 {
+    color: #ffffff;
+  }
+  .sociallinks{
+    display: block;
+  }
+  .sociallinks .upper,
+  .sociallinks .lower{
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+  .footer .copyright{
+    margin-left: 42%;
+  }
+  .copyright h3{
     color: white;
-}
-a:link {
-    color: red;
+    font-size: 15px;
+    word-spacing: 1px;
   }
- 
-  a:hover {
-    color: blue;
-    text-decoration: underline solid green;
-  }
-  a:active {
-    color: red;
-  }
-    
-
-/* css for about box section */
-.aboutus_box{
-    width: 20%;
-
-}
-.menu_title{
-    text-align: left;
-    padding-left: 20px;
-    font-size: 22px;
-
-}
-.menu_navigate{
-text-align: left;
-font-size: 22px;
-}
-/* css for jobseeker box section */
-
-.jobseeker_box{
-    width: 20%;
-}
-.jobseeker_menu_title{
-    font-size: 22px;
-
-}
-.jobseeker_navigate{
-    text-align: left;
-    font-size: 22px;
-    
-}
-/* css for employee box section */
-.company_box{
-    width: 20%;
-
-}
-
-.company_menu_title{
-text-align: left;
-padding-left: 30px;
-font-size: 26px;
-
-}
-.company_navigate{
-text-align: left;
-font-size: 22px;
-}
-/* css to social icon box */
-.social_link_box{
-    width: 15%;
-}
-.social_link_title{
-    font-size: 26px;
-
-}
-
-
-/* css to contact us section box */
-.contactus_box{
-    width: 13%;
-}
-.contactus_title{
-font-size: 26px;
-margin-left: 60px;
-}
-
-/* copy right section */
-.copyright_section{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    text-align: center;
-    color:white;
-    height: 30px;
-    padding-top: 1px;
-    padding-bottom: 20px;
-    border: none;
-    width: 100%;
-}
-
-.content_information ul li{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-.cont-sec li{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-}
