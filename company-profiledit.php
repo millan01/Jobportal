@@ -4,12 +4,12 @@ include('./database/connection.php');
 $session = $_SESSION['email'];
 
 $stmt = $conn->prepare("SELECT * from company where email = ?");
-$stmt->bind_param("s",$session);
+$stmt->bind_param("s", $session);
 $stmt->execute();
 
-$result = $stmt->get_result(); 
+$result = $stmt->get_result();
 
-$comapnyname = $contactperson = $companyaddress = $companywebsite = $companyphone = $companyemail = $companydesc =$turnicatecompanydesc= $a = '';
+$comapnyname = $contactperson = $companyaddress = $companywebsite = $companyphone = $companyemail = $companydesc = $a = '';
 $comapnynameErr = $contactpersonErr = $companyaddressErr = $companywebsiteErr = $companyphoneErr = $companyemailErr = $imageErr = $companydescErr = '';
 if (isset($session)) {
 
@@ -29,7 +29,7 @@ if (isset($session)) {
         $companywebsite = ($_POST['companywebsite']);
         if (!preg_match("~^(?:f|ht)tps?://~", $companywebsite)) {
             $companywebsite = 'https://' . $companywebsite;
-            $companywebsiteErr ="invalid website format";
+            $companywebsiteErr = "invalid website format";
         }
         $companyphone = test_input($_POST['companyphone']);
         if (!preg_match("/[0-9]{10}$/", $companyphone)) {
@@ -40,25 +40,48 @@ if (isset($session)) {
             $companyemailErr = "invalid email format";
         }
         $companydesc = test_input($_POST['details']);
-        $turnicatecompanydesc = substr($companydesc,0,255);
-        // $imagefile ="";
-        // $target_dir = "./images/uploaded_image";
-        // $a = $_FILES["image"]["name"];
-        // $target_file = $target_dir.$a;
-        // if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-		// }else{
-        //     $imageErr = "Error uploading file";
-        // }
 
-        if (empty($comapnynameErr) && empty($contactpersonErr) && empty($companyaddressErr) && empty($companywebsiteErr) && empty($companyphoneErr) && empty($companyemailErr) && empty($companydescErr) ) {
-            $stmt = $conn->prepare("UPDATE company SET company_name =? ,conatact_personname =?,email=?,phone=?,location=?,website=?,description=? where email =?");
-            $stmt->bind_param("ssssssss", $companyname, $contactperson, $companyemail, $companyphone, $companyaddress, $companywebsite, $turnicatecompanydesc, $session);
+
+        if (isset($_FILES["image"]) && $_FILES["image"]["error"] == UPLOAD_ERR_OK) {
+            $targetDir = "./images/uploaded_image/";
+            $targetFile = $targetDir . basename($_FILES["image"]["name"]);
+            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+            $validExtensions = ["jpg", "jpeg","png"];
+            if (in_array($imageFileType, $validExtensions)) {
+                
+                if ($_FILES["image"]["size"] <= 5 * 1024 * 1024) { 
+                   
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
+                        // Store the image name in the database
+                        $imageName = $_FILES["image"]["name"];
+
+                    }else{
+                        $imageErr = "Error uploading files";
+                    }
+                }else{
+                    $imageErr = "Files should be less than 5MB";
+                }
+            }else{
+                $imageErr = "Invalid image format";
+            }
+        }else{
+            $imageErr = "Error uploading files";
+        }
+
+
+
+
+
+        if (empty($comapnynameErr) && empty($contactpersonErr) && empty($companyaddressErr) && empty($companywebsiteErr) && empty($companyphoneErr) && empty($companyemailErr) && empty($companydescErr)) {
+            $stmt = $conn->prepare("UPDATE company SET company_name =? ,conatact_personname =?,email=?,phone=?,location=?,website=?,description=?,Image_name=? where email =?");
+            $stmt->bind_param("sssssssss", $companyname, $contactperson, $companyemail, $companyphone, $companyaddress, $companywebsite, $companydesc,  $imageName, $session);
 
             $stmt->execute();
             $stmt->close();
             header("location:companyprofile.php");
         }
-        
+
     }
 }
 function test_input($data)
@@ -96,53 +119,72 @@ function test_input($data)
         <div class="details">
             <div class="companyinfo">
                 <form action="" method="POST" enctype="multipart/form-data">
-                <div class="information-profile">
-                    <div class="profile-header">
-                        <div class="imagesection">
-                            <img src="./images/avatar.png" alt="#">
-                            <input type="file" name="image">
+                    <div class="information-profile">
+                        <div class="profile-header">
+                            <?php while ($row = mysqli_fetch_assoc($result)) { 
+                                $imagefile = $row['Image_name'];
+                                ?>
+                            <div class="imagesection">
+                               <?php echo '<img src="'.$imagefile.'" alt="#">' ?>
+                                <input type="file" name="image">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <?php while($row = mysqli_fetch_assoc($result)){?>
-                <div class="detail-info">
-                    <h2>Company Profile</h2>
+                        <div class="detail-info">
+                            <h2>Company Profile</h2>
 
-                        <label for="company name">Company Name</label>
-                        <input type="text" name="companyname" id="Companyname" value="<?php echo $row['company_name']; ?>" >
-                        <span><?php  echo $comapnynameErr; ?></span>
+                            <label for="company name">Company Name</label>
+                            <input type="text" name="companyname" id="Companyname"
+                                value="<?php echo $row['company_name']; ?>">
+                            <span>
+                                <?php echo $comapnynameErr; ?>
+                            </span>
 
-                        <label for="contact perosn name">Contact Person name</label>
-                        <input type="text" name="contactperson" id="contactperson" value="<?php echo $row['conatact_personname']; ?>" >
-                        <span><?php  echo $contactpersonErr; ?></span>
+                            <label for="contact perosn name">Contact Person name</label>
+                            <input type="text" name="contactperson" id="contactperson"
+                                value="<?php echo $row['conatact_personname']; ?>">
+                            <span>
+                                <?php echo $contactpersonErr; ?>
+                            </span>
 
 
-                        <label for="companyaddress">Company Address</label>
-                        <input type="text" name="companyaddress" id="companyaddress" value="<?php echo $row['location']; ?>">
-                        <span><?php  echo $companyaddressErr; ?></span>
+                            <label for="companyaddress">Company Address</label>
+                            <input type="text" name="companyaddress" id="companyaddress"
+                                value="<?php echo $row['location']; ?>">
+                            <span>
+                                <?php echo $companyaddressErr; ?>
+                            </span>
 
-                        <label for="comapnywebsite">Conpamy Website(optional)</label>
-                        <input type="text" name="companywebsite" id="comapanywebsite" value="<?php echo $row['website']; ?>">
-                        <span><?php  echo $companywebsiteErr; ?></span>
+                            <label for="comapnywebsite">Conpamy Website(optional)</label>
+                            <input type="text" name="companywebsite" id="comapanywebsite"
+                                value="<?php echo $row['website']; ?>">
+                            <span>
+                                <?php echo $companywebsiteErr; ?>
+                            </span>
 
-                        <label for="Phonenumber">Company Phone</label>
-                        <input type="text" name="companyphone" id="comapanyphone" value="<?php echo $row['phone']; ?>" >
-                        <span><?php  echo $companyphoneErr; ?></span>
+                            <label for="Phonenumber">Company Phone</label>
+                            <input type="text" name="companyphone" id="comapanyphone" value="<?php echo $row['phone']; ?>">
+                            <span>
+                                <?php echo $companyphoneErr; ?>
+                            </span>
 
-                        <label for="email">Company Email</label>
-                        <input type="text" name="companyemail" id="companyemail" value="<?php echo $row['email']; ?>" >
-                        <span><?php  echo $companyemailErr; ?></span>
+                            <label for="email">Company Email</label>
+                            <input type="text" name="companyemail" id="companyemail" value="<?php echo $row['email']; ?>">
+                            <span>
+                                <?php echo $companyemailErr; ?>
+                            </span>
 
-                        <label for="textarea">Description</label>
-                        <textarea name="details" id="details" cols="90" rows="20" ><?php echo $row['description'] ?></textarea> <br>
+                            <label for="textarea">Description</label>
+                            <textarea name="details" id="details" cols="90"
+                                rows="20"><?php echo $row['description'] ?></textarea> <br>
 
-                        <button class="button" type="submit" name="submit">Update</button>
+                            <button class="button" type="submit" name="submit">Update</button>
                     </form>
                 </div>
-                <?php }
-                $stmt->close(); ?>
-            </div>
+            <?php }
+                    $stmt->close(); ?>
         </div>
+    </div>
     </div>
     <script src="./js/company-profileedit.js"></script>
 </body>

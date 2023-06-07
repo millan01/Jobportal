@@ -24,3 +24,15 @@ function showcontent(event, contentindex) {
         window.location.href ="jobdelete.php?job_id=" + jobId;
     }
 }
+
+
+//trim image
+const image = document.querySelector(".imagesection img");
+    // input =document.querySelector("input");
+
+    input.addEventListener("change",() =>{
+      const imagename = input.files[0];
+      if(imagename){
+      image.src = URL.createObjectURL(imagename);
+      }
+    });

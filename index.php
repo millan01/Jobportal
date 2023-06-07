@@ -94,7 +94,7 @@ include('./database/connection.php');
         <p class="trendingtext">Trending <span>Jobs</span></p>
         <!-- main div-->
         <?php
-        $sql = "SELECT * from job";
+        $sql = "SELECT * from job where deadline_date >= CURDATE()";
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
@@ -124,7 +124,12 @@ include('./database/connection.php');
                                     <?php echo "Job-type:" . $row['job_type']; ?>
                                 </li>
                                 <li>
-                                    <?php echo "Deadline:" . $row['deadline_date']; ?>
+                                    <?php
+                                    $deaddate = $row['deadline_date'];
+                                    $deadstamp = strtotime($deaddate);
+                                    $dead = date('Y-m-d', $deadstamp);
+                                    echo "Deadlinedate:".$dead;
+                                    ?>
                                 </li>
                             </div>
                            <?php echo '<a href="jobdescription.php?jobid='.$row['job_id'].'">

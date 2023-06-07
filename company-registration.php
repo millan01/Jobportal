@@ -86,8 +86,7 @@ session_start();
   
       $stmt->execute();
       $stmt->close();
-
-      $_SESSION['success'] = "Registration successfully";
+      $_SESSION['success'] = "success";
       header("location: company-login.php");
     } 
   }

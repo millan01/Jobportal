@@ -53,7 +53,7 @@ $result = mysqli_query($conn, $sql);
 
                   <div class="imagesection">
                     <!-- company image -->
-                      <img src="./images/avatar.png">
+                      <img src="<?php $row['Image_name']; ?>"id="companyimage">
                       <!-- <input type="file" name="imagefile"> -->
                     </div>
                     <div class="details">
@@ -89,7 +89,7 @@ $result = mysqli_query($conn, $sql);
                       <?php echo $row['phone'] ?>
                     </p>
                     <p><img src="./images/Email.svg" height="18px" width="18px">&nbsp;&nbsp;
-                      <?php echo $row['email'] ?>
+                      <?php echo $row['contact_email'] ?>
                     </p>
                     <img src="./images/website.svg" height="18px" width="18px">&nbsp;&nbsp;<a
                       href="<?php echo $row['website'] ?>">
@@ -114,8 +114,8 @@ $result = mysqli_query($conn, $sql);
                 <h3>Post JOb</h3>
                 <div class="basicinfo">
                   <?php
-                  $category = $title = $deadline = $no_of_vacancy = $salary = $location = $jobtype = $decription =$turnicatedescription = '';
-                  $categoryErr = $titleErr = $deadlineErr = $no_of_vacancyErr = $salaryErr = $locationErr = $jobtypeErr = $descriptionErr = '';
+                  $category = $title = $deadline =$deadlinetime =$deadline_datee= $deadlinetime=  $deadlinedatetime =$no_of_vacancy = $salary = $location = $jobtype = $decription =$turnicatedescription = '';
+                  $categoryErr = $titleErr = $deadlineErr =$deadlinetimeErr= $no_of_vacancyErr = $salaryErr = $locationErr = $jobtypeErr = $descriptionErr = '';
 
                   if (isset($_POST['post'])) {
 
@@ -139,6 +139,12 @@ $result = mysqli_query($conn, $sql);
                       $deadline = $_POST['deadline_date'];
                       $deadline_datee = date('Y-m-d', strtotime($deadline));
                     }
+                    if(empty($_POST['deadline_time'])){
+                      $deadlinetimeErr = "Time not selected";
+                    }else{
+                      $deadlinetime = $_POST['deadline_time'];
+                    }
+                    $deadlinedatetime = $deadline_datee .' '.$deadlinetime;
 
                     if (empty($_POST['no_of_vacancy'])) {
                       $no_of_vacancyErr = "Mention the number of vacancy";
@@ -167,11 +173,12 @@ $result = mysqli_query($conn, $sql);
                       $decriptionErr = "Job description cannot be left empty";
                     } else {
                       $description = test_input($_POST['jobdescription']);
-                      $turnicatedescription = substr($description, 0,255);
                     }
 
                     if (empty($categoryErr) && empty($titleErr) && empty($deadlineErr) && empty($no_of_vacancyErr) && empty($salaryErr) && empty($locationErr) && empty($jobtypeErr) && empty($decriptionErr)) {
-                      $postdate = date('Y-m-d H:i:s');
+                      date_default_timezone_set('Asia/Kathmandu');
+                      $defaulttime = time();
+                      $postdate = date('Y-m-d H:i:s',$defaulttime);
 
                       
                       include('./database/connection.php');
@@ -187,7 +194,7 @@ $result = mysqli_query($conn, $sql);
                       
                       
                       $stmt = $conn->prepare("INSERT INTO job(Category,Job_title, posted_date,deadline_date,no_of_vacancy ,estimated_salary,job_address,Job_Type,Job_description,companyID,CompanyName)VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-                      $stmt->bind_param("ssssissssis", $category, $title, $postdate, $deadline_datee, $no_of_vacancy, $salary, $location, $jobtype, $turnicatedescription , $companyID, $companyName);
+                      $stmt->bind_param("ssssissssis", $category, $title, $postdate,  $deadlinedatetime, $no_of_vacancy, $salary, $location, $jobtype, $description , $companyID, $companyName);
                       $stmt->execute();
                       $stmt->close();
 
@@ -211,7 +218,7 @@ $result = mysqli_query($conn, $sql);
                   <form action="" method="post">
 
                     <label for="Category"></label>
-                    <select name="basciinfo" id="basicinfo" value="<?php ?>">
+                    <select name="basciinfo" id="basicinfo" value="<?php  ?>">
                       <option value="" id="Select company/industry category">Select company/industry category</option>
                       <option value="IT&Telecommunication" id="IT&Telecommunication">IT&Telecommunication</option>
                       <option value="Design/Graphics" id="Design/Graphics">Design/Graphics</option>
@@ -222,37 +229,43 @@ $result = mysqli_query($conn, $sql);
                       </option>
                       <option value="Tour/Travel" id="Tour/Travel">Tour/Travel</option>
                       <option value="E-comerce" id="E-comerce">E-comerce</option>
-                      <span style="color:red">
+                    </select>
+                    <span style="color:red">
                         <?php echo $categoryErr; ?>
                       </span>
-                    </select>
 
                     <label for="job title">Job title</label>
-                    <input type="text" name="jobtitle" id="jobtitle">
+                    <input type="text" name="jobtitle" id="jobtitle" value="<?php if(isset($_POST['jobtitle'])){echo $_POST['jobtitle'];} ?>">
                     <span style="color:red">
                       <?php echo $titleErr; ?>
                     </span>
 
                     <label for="deadline-date">Deadline Date</label>
-                    <input type="date" s name="deadline_date" id="deadline_date">
+                    <input type="date" name="deadline_date" id="deadline_date"value="<?php if(isset($_POST['deadline_date'])){echo $_POST['deadline_date'];} ?>">
                     <span style="color:red">
                       <?php echo $deadlineErr ?>
                     </span>
 
+                    <label for="deadline-time">Time</label>
+                    <input type="time" name="deadline_time" id="deadline_time"value="<?php if(isset($_POST['deadline_time'])){echo $_POST['deadline_time'];} ?>">
+                    <span style="color:red">
+                      <?php echo $deadlinetimeErr; ?>
+                    </span>
+
                     <label for="no-of-vacancy">No of Vacancy</label>
-                    <input type="number" name="no_of_vacancy" id="no_of_vacancy">
+                    <input type="number" name="no_of_vacancy" id="no_of_vacancy"value="<?php if(isset($_POST['no_of_vacancy'])){echo $_POST['no_of_vacancy'];} ?>">
                     <span style="color:red">
                       <?php echo $no_of_vacancyErr; ?>
                     </span>
 
                     <label for="estimatedsalary">Estimated Salary</label>
-                    <input type="text" name="estimatedsalary" id="estimatedsalary">
+                    <input type="text" name="estimatedsalary" id="estimatedsalary"value="<?php if(isset($_POST['estimatedsalary'])){echo $_POST['estimatedsalary'];} ?>">
                     <span style="color:red">
                       <?php echo $salaryErr; ?>
                     </span>
 
                     <label for="location">Job-Location</label>
-                    <input type="text" name="joblocation" id="joblocation">
+                    <input type="text" name="joblocation" id="joblocation"value="<?php if(isset($_POST['joblocation'])){echo $_POST['joblocation'];} ?>">
                     <span style="color:red">
                       <?php echo $locationErr; ?>
                     </span>
@@ -265,7 +278,7 @@ $result = mysqli_query($conn, $sql);
                       <option value="Remote">Remote</option>
                     </select>
                     <span style="color:red">
-                      <?php $jobtypeErr; ?>
+                      <?php echo  $jobtypeErr; ?>
                     </span>
 
                     <!-- <input type="text" name="jobtype" id="jobtype"> -->
@@ -301,27 +314,16 @@ $result = mysqli_query($conn, $sql);
               $row = $result->fetch_assoc();
               $companyID = $row['company_id'];
             }
-            $query = "SELECT * FROM job where companyID =$companyID ";
+            $query = "SELECT * FROM job where companyID =$companyID ORDER BY job_id DESC";
             $result = mysqli_query($conn, $query);
             ?>
 
-            <!-- function for deleing job from mangae job section -->
-            <?php
-            // function deletejob()
-            // {
-            //   include './database/connection.php';
-            //   $id = isset($_POST['job_id']);
-            //   $sql = $conn->prepare("DELETE * from job where job_id =?");
-            //   $sql->bind_param("i", $id);
-            //   $sql->execute();
-            //   $sql->close();
-            
-            // }
-            ?>
+
             <h2>Manage job </h2>
             <table>
               <tr>
-                <th>ID</th>
+                <th>S.N</th>
+                <!-- <th>Job ID</th> -->
                 <th>Job Title</th>
                 <th>Posted_date</th>
                 <th>Deadline</th>
@@ -367,7 +369,13 @@ $result = mysqli_query($conn, $sql);
         <!----------application------------->
         <div id="application" class="container">
           <div class="application">
-            <h1>application</h1>
+            <table>
+              <th>SN</th>
+              <th>Job ID</th>
+              <th>Title</th>
+              <th>no of vacancy</th>
+              <th>Deadline date</th>
+            </table>
           </div>
         </div>
 

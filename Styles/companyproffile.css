@@ -67,7 +67,7 @@ body{
     width: 150px;
     border-radius: 50%;
     object-fit: cover;
-    background: #dfdfdf;
+    /* background: #dfdfdf; */
 }
 .profile-header .editoption{
     margin-top: 14px;

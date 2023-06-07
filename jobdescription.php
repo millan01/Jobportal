@@ -253,10 +253,19 @@ include('./database/connection.php');
                         // $stmt->execute();
                         // $result = $stmt->get_result();
                         // while ($row = mysqli_fetch_assoc($result)) {
+                            $sql = "SELECT CompanyName from job where job_id = $id";
+                            $result = $conn->query($sql);
+                            if($result->num_rows>0){
+                                while($row = $result->fetch_assoc()){
+                                    $companyname = $row['CompanyName'];
+                                }
+                            }?>
+                        
+                        <?php
                         $sql = "SELECT c.company_name , j.job_title from company c INNER JOIN job j 
-                        ON c.company_id = j.companyID ORDER BY RAND() LIMIT 4";
-                        $result = mysqli_query($conn,$sql);
-                        while($row = mysqli_fetch_assoc($result)){
+                        ON c.company_id = j.companyID  ORDER BY RAND() LIMIT 4";
+                        $result = $conn->query($sql);
+                        while($row = $result->fetch_assoc()){
                             ?>
                             <div class="relatedjob-upper">
                                 <div class="asideimg">
