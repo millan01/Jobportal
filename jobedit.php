@@ -5,12 +5,12 @@ include("./database/connection.php");
 if (!isset($companyemail)) {
   header("location:index.php");
 }
-$category = $title = $deadline = $no_of_vacancy = $salary = $location = $jobtype = $decription = '';
-$categoryErr = $titleErr = $deadlineErr = $no_of_vacancyErr = $salaryErr = $locationErr = $jobtypeErr = $descriptionErr = '';
+$category = $title = $deadline = $deadlinedatetime= $no_of_vacancy = $salary = $location = $jobtype = $decription = '';
+$categoryErr = $titleErr = $deadlineErr = $no_of_vacancyErr =$deadlinetimeErr= $salaryErr = $locationErr = $jobtypeErr = $descriptionErr = '';
 $select = $jobtitle = $deadlinedate = $noofvacancy = $estimatedsalary = $jobaddress = $type = $jobdescription = '';
+$id = isset($_GET['job_id']);
 if (isset($_POST[""]) && !empty($_POST['replace'])) {
 
-  $id = $_POST['job_id'];
 
   if (empty($_POST['basciinfo'])) {
     $categoryErr = "Category type not selected";
@@ -28,8 +28,15 @@ if (isset($_POST[""]) && !empty($_POST['replace'])) {
     $deadlineErr = "Deadline date not selected";
   } else {
     $deadline = $_POST['deadline_date'];
-    $deadline_datee = date('Y-m-d', strtotime($deadline));
+    $deadline_datee = date('Y-m-d', strtotime($deadline)); 
   }
+  if(empty($_POST['deadline_time'])){
+    $deadlinetimeErr = "Time not selected";
+  }else{
+    $deadlinetime = $_POST['deadline_time'];
+  }
+  $deadlinedatetime = $deadline_datee .' '.$deadlinetime;
+  
 
   if (empty($_POST['no_of_vacancy'])) {
     $no_of_vacancyErr = "Mention the number of vacancy";
@@ -63,12 +70,12 @@ if (isset($_POST[""]) && !empty($_POST['replace'])) {
   if (empty($categoryErr) && empty($titleErr) && empty($deadlineErr) && empty($no_of_vacancyErr) && empty($salaryErr) && empty($locationErr) && empty($jobtypeErr) && empty($decriptionErr)) {
 
     $stmt = $conn->prepare("UPDATE job SET Category =?,Job_title=?,deadline_date=?,no_of_vacancy=?,estimated_salary=?,job_address=?,Job_Type=?,Job_description=? where 	job_id = ? ");
-    $stmt->bind_param("sssissssi", $category, $title, $deadline_datee, $no_of_vacancy, $salary, $location, $jobtype, $description, $id);
+    $stmt->bind_param("sssissssi", $category, $title, $deadlinedatetime, $no_of_vacancy, $salary, $location, $jobtype, $description, $id );
     $stmt->execute();
     $stmt->close();
     header("location:companyprofile.php");
   }
-} else {
+} 
   //check id before processiong further
   if (isset($_GET['job_id'])) {
     $id = trim($_GET['job_id']);
@@ -85,6 +92,8 @@ if (isset($_POST[""]) && !empty($_POST['replace'])) {
       $select = $row['category'];
       $jobtitle = $row['job_title'];
       $deadlinedate = $row['deadline_date'];
+      $date = date('Y-m-d',strtotime($deadlinedate));
+      $time = date('H:i:s',strtotime($deadlinedate));
       $noofvacancy = $row['no_of_vacancy'];
       $estimatedsalary = $row['estimated_salary'];
       $jobaddress = $row['job_address'];
@@ -99,7 +108,7 @@ if (isset($_POST[""]) && !empty($_POST['replace'])) {
   } else {
     echo header('location:index.php');
   }
-}
+// }
 // }else {
 //   header("location:index.php");
 //   exit();
@@ -181,10 +190,16 @@ function test_input($data)
                       </span>
 
                       <label for="deadline-date">Deadline Date</label>
-                      <input type="date" s name="deadline_date" id="deadline_date" value="<?php echo $deadlinedate; ?>">
+                      <input type="date" s name="deadline_date" id="deadline_date" value="<?php echo $date; ?>">
                       <span style="color:red">
                         <?php echo $deadlineErr ?>
                       </span>
+
+                      <label for="deadline-time">Time</label>
+                    <input type="time" name="deadline_time" id="deadline_time" value ="<?php echo $time; ?>">
+                    <span style="color:red">
+                     <?php  echo $deadlinetimeErr ?> 
+                    </span>
 
                       <label for="no-of-vacancy">No of Vacancy</label>
                       <input type="number" name="no_of_vacancy" id="no_of_vacancy" value="<?Php echo $noofvacancy; ?>">

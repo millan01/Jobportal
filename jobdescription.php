@@ -289,7 +289,7 @@ include('./database/connection.php');
 
 
 
-                <?php $sql = "SELECT * from job";
+                <?php $sql = "SELECT * from job where deadline_date >= CURDATE()";
                 $result = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
                     ?>

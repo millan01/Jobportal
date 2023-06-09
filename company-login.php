@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ?>
 <?php
 
@@ -48,12 +49,10 @@ if (isset($_POST['signin'])) {
       <div class="login">
         <div class="innersection">
 
-
-          <div class="notification">
-            <div class="notification_body">
-              your account has been created !
-            </div>
-          </div>
+          <?php if(isset($_SESSION['success'])){
+            echo $_SESSION['success'];
+          }
+           ?>
 
           <h2>Welcome Back</h2>
           <h4>Login with email and password</h4>
