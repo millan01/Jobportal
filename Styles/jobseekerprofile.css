@@ -1,0 +1,27 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+.main{
+    border: 1px solid;
+    margin-left: 115px;
+    margin-right: 118px;
+}
+.mainone{
+    display: flex;
+}
+.imagearea{
+    border: 1px solid;
+    width: 20%;
+    margin: 20px;
+    background-color: aqua;
+}
+.imagetop img{
+    height: 100px;
+    width: 100px;
+    border-radius: none;
+    object-fit: cover;
+}
+.imagetop{
+    margin:6px 0px 0px 70px;
+}

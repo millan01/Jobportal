@@ -27,12 +27,12 @@ function showcontent(event, contentindex) {
 
 
 //trim image
-const image = document.querySelector(".imagesection img");
+// const image = document.querySelector(".imagesection img");
     // input =document.querySelector("input");
 
-    input.addEventListener("change",() =>{
-      const imagename = input.files[0];
-      if(imagename){
-      image.src = URL.createObjectURL(imagename);
-      }
-    });
+    // input.addEventListener("change",() =>{
+    //   const imagename = input.files[0];
+    //   if(imagename){
+    //   image.src = URL.createObjectURL(imagename);
+    //   }
+    // });

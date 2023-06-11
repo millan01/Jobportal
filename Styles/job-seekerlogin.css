@@ -5,6 +5,36 @@
 body{
     background-color: #f5e3d6;
 }
+.notification{
+    position:relative;
+    top: 0px;
+    right: 25px;
+    width: max-content;
+    border-radius: 6px;
+    background-color: #313e2c;
+    color: #d0ebc3;
+    box-shadow: 0 1px 10px rgb(0, 0, 0,0.1);
+    transform: translateY(30px);
+    visibility: hidden;
+    animation: fade-in 2s ease-in-out;
+}
+.notification_body{
+    /* display: flex;
+    flex-direction: row; */
+    align-items: center;
+    padding: 5px 10px;
+}
+@keyframes fade-in{
+    10%{
+        opacity: 3;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    90%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 .navbar_flow{
     display: flex;
     justify-content: space-between;

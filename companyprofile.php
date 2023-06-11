@@ -53,7 +53,11 @@ $result = mysqli_query($conn, $sql);
 
                   <div class="imagesection">
                     <!-- company image -->
-                      <img src="<?php $row['Image_name']; ?>"id="companyimage">
+                    <?php if($row['Image_name'] == ''){
+                      echo '<img src = ./images/avatar.png>';
+                    }else{
+                     echo '<img src="./images/uploaded_image/'.$row['Image_name'].'">';
+                    } ?>
                       <!-- <input type="file" name="imagefile"> -->
                     </div>
                     <div class="details">

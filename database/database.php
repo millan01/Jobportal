@@ -26,7 +26,7 @@ $sql = "CREATE TABLE Job_seeker(
     Email varchar(200) unique,
     Password varchar(200) not null,
     Address varchar(200) NOT NULL,
-    Phone int(20) UNIQUE,
+    Phone varchar(100),
     Resume_file varchar(100) not null
 )";
 // $sql = "CREATE TABLE Job_seeker(

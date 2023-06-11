@@ -94,7 +94,9 @@ include('./database/connection.php');
         <p class="trendingtext">Trending <span>Jobs</span></p>
         <!-- main div-->
         <?php
-        $sql = "SELECT * from job where deadline_date >= CURDATE()";
+        $sql = "SELECT j.job_title,j.job_address,j.job_type,j.deadline_date,j.job_id,c.company_name,c.Image_name from company c 
+        Inner JOIN job j ON c.company_id = j.companyID 
+         where deadline_date >= CURDATE() ORDER BY RAND()";
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
@@ -105,14 +107,14 @@ include('./database/connection.php');
                         <div class="cardscontent">
                             <div class="imagearea">
                                 <div class="companyimg">
-                                    <img src="./images/esewa.svg" alt="">
+                                   <?php echo '<img src="./images/uploaded_image/'.$row['Image_name'].'"alt="">'?>
                                 </div>
                                 <div class="companyname">
                                     <li>
                                         <?php echo $row['job_title']; ?>
                                     </li>
                                     <li>
-                                        <?php echo $row['CompanyName']; ?>
+                                        <?php echo $row['company_name']; ?>
                                     </li>
                                 </div>
                             </div>

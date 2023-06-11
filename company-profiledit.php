@@ -43,29 +43,30 @@ if (isset($session)) {
 
 
         if (isset($_FILES["image"]) && $_FILES["image"]["error"] == UPLOAD_ERR_OK) {
+            $imageName = $_FILES["image"]["name"];
             $targetDir = "./images/uploaded_image/";
             $targetFile = $targetDir . basename($_FILES["image"]["name"]);
             $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-            $validExtensions = ["jpg", "jpeg","png"];
+            $validExtensions = ["jpg", "jpeg", "png"];
             if (in_array($imageFileType, $validExtensions)) {
-                
-                if ($_FILES["image"]["size"] <= 5 * 1024 * 1024) { 
-                   
+
+                if ($_FILES["image"]["size"] <= 5 * 1024 * 1024) {
+
                     if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
                         // Store the image name in the database
                         $imageName = $_FILES["image"]["name"];
 
-                    }else{
+                    } else {
                         $imageErr = "Error uploading files";
                     }
-                }else{
+                } else {
                     $imageErr = "Files should be less than 5MB";
                 }
-            }else{
+            } else {
                 $imageErr = "Invalid image format";
             }
-        }else{
+        } else {
             $imageErr = "Error uploading files";
         }
 
@@ -75,7 +76,7 @@ if (isset($session)) {
 
         if (empty($comapnynameErr) && empty($contactpersonErr) && empty($companyaddressErr) && empty($companywebsiteErr) && empty($companyphoneErr) && empty($companyemailErr) && empty($companydescErr)) {
             $stmt = $conn->prepare("UPDATE company SET company_name =? ,conatact_personname =?,email=?,phone=?,location=?,website=?,description=?,Image_name=? where email =?");
-            $stmt->bind_param("sssssssss", $companyname, $contactperson, $companyemail, $companyphone, $companyaddress, $companywebsite, $companydesc,  $imageName, $session);
+            $stmt->bind_param("sssssssss", $companyname, $contactperson, $companyemail, $companyphone, $companyaddress, $companywebsite, $companydesc, $imageName, $session);
 
             $stmt->execute();
             $stmt->close();
@@ -100,7 +101,7 @@ function test_input($data)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./Styles/company-profiledit.css">
+    <link rel="stylesheet" href="./Styles/companyprofiledit.css">
 </head>
 
 <body>
@@ -109,7 +110,7 @@ function test_input($data)
         <div class="dashboard-nav">
             <div class="dashboard-vertical-nav">
                 <a href="index.php">Home</a>
-                <a href="#">Profile</a>
+                <a href="companyprofile.php">Profile</a>
                 <!-- <a href="#">Post Job</a>
                 <a href="#">Manage job</a>
                 <a href="#">Change Password</a> -->
@@ -121,15 +122,19 @@ function test_input($data)
                 <form action="" method="POST" enctype="multipart/form-data">
                     <div class="information-profile">
                         <div class="profile-header">
-                            <?php while ($row = mysqli_fetch_assoc($result)) { 
+                            <?php while ($row = mysqli_fetch_assoc($result)) {
                                 $imagefile = $row['Image_name'];
                                 ?>
-                            <div class="imagesection">
-                               <?php echo '<img src="'.$imagefile.'" alt="#">' ?>
-                                <input type="file" name="image">
+                                <div class="imagesection">
+                                    <?php if ($row['Image_name'] == '') {
+                                        echo '<img src = ./images/avatar.png>';
+                                    } else {
+                                        echo '<img src="./images/uploaded_image/'. $row['Image_name'].'">';
+                                    } ?>
+                                    <input type="file" name="image">
+                                </div>
                             </div>
                         </div>
-                    </div>
                         <div class="detail-info">
                             <h2>Company Profile</h2>
 
@@ -182,11 +187,11 @@ function test_input($data)
                     </form>
                 </div>
             <?php }
-                    $stmt->close(); ?>
+                            $stmt->close(); ?>
         </div>
     </div>
     </div>
-    <script src="./js/company-profileedit.js"></script>
+    <!-- <script src="./js/company-profileedit.js"></script> -->
 </body>
 
 </html>

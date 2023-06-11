@@ -47,7 +47,7 @@ if (isset($_POST['signin'])) {
 
     <div class="formlogin">
       <div class="login">
-        <div class="innersection">
+        <div class="innersection"> 
 
           <?php if(isset($_SESSION['success'])){
             echo $_SESSION['success'];

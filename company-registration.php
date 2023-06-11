@@ -89,7 +89,7 @@ session_start();
       $_SESSION['success'] = '<div class="notification">
       <div class="notification_body">
         your account has been created !
-      </div>
+      </div>  
     </div>';
 
       header("location: company-login.php");
