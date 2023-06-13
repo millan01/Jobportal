@@ -3,11 +3,17 @@ body{
     padding: 0px;
 }
 .details-form{
-    max-width:55%;
-    border: 1px solid;
+    max-width:fit-content;
+    border: 0.5px solid;
+    margin-left: 10px;
+    height:fit-content;
+}
+label{
+    margin-left:12px;
+}
+input{
     margin-left: 10px;
 }
-
 .content{
     margin: 10px;
 }
@@ -23,32 +29,79 @@ body{
     display: flex;
     flex-direction: column;
     gap: 6px;
+    margin: 10px;
 }
 .col1 input{
-    padding:6px;
-    width: 80%;
+    padding:4px;
+    width: 95%;
 }
 
 .col2{
     display: flex;
-    gap: 30%;
+    /* gap: 14%; */
+    justify-content: space-between;
     margin: 10px;
 }
-.formdetails{
+.col2 .gender{
     display: flex;
-    gap: 20px;
+    flex-direction: column;
+    gap: 6px;
+}
+.col2 select{
+    padding:6px;
+}
+.col2 .dob{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.col2 .dob input{
+    padding: 4px;
+}
+.col2 .address{
+    display: flex;
+    flex-direction: column;
+    /* gap: 6px; */
+    justify-content: space-between;
+}
+.address input{
+    padding: 6px;
+}
+.col3{
+    display: flex;
+    /* gap: 20px; */
+    justify-content: space-between;
+}
+
+.col3 .phone{
+    display: flex;
+    flex-direction: column;
+    gap: 9%;
+}
+.col3 .mobile{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.col3 input{
+    padding: 6px;
+}
+
+.col3 .website{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.col4{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     margin: 10px;
 }
-.details label span{
+.website span{
     opacity: 0.6;
 }
-.details input{
-    /* width: 60%; */
-    padding: 5px 6px;
-    margin-right:18%;
-}
 textarea{
-    margin-right: 18%;
     padding: 10px;
     max-width: 100%;
     line-height: 1;
@@ -58,13 +111,12 @@ textarea{
     font-family: 'Times New Roman', Times, serif;
 }
 .buttons{
-    margin-left: 22%;
+    margin-left: 81%;
 }
 .buttons a{
     text-decoration: none;
 }
 .buttons button{
-    display:inline;
    margin: 8px;
    padding: 9px 19px;
     font-size: 15px;

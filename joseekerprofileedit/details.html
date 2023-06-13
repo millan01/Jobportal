@@ -13,6 +13,7 @@
 </head>
 
 <body>
+
     <form action="" method="post">
         <div class="details-form">
             <h2>Update Basic information</h2>
@@ -45,29 +46,32 @@
                         <label for="dob">Date of birth:</label>
                         <input type="date" name="dob">
                     </div>
+
+                    <div class="address">
+                        <label for="address">Address:</label>
+                        <input type="text" name="address" id="address" value="">
+                    </div>
                 </div>
 
-                <div class="formdetails">
-                    <label for="location"> Address:</label>
-                    <input type="text" name="location" id="location" value="">
-                </div>
 
-                <div class="col">
-                    <div class="formdetails">
+                <div class="col3">
+                    <div class="phone">
+                        <label for="phone">Phone:</label>
+                        <input type="text" name="phone" id="phone" value="">
+                    </div>
+                    <div class="mobile">
+                        <label for="mobile">Mobile</label>
+                        <input type="text" name="mobile" id="mobile" value="">
+                    </div>
+                    <div class="website">
                         <label for="website">Website<span>(if any):</span></label>
                         <input type="text" name="website" id="website" value="">
 
                     </div>
-
-                    <div class="formdetails">
-                        <label for="phone">phone:</label>
-                        <input type="text" name="phone" id="phone" value="">
-                    </div>
                 </div>
 
 
-
-                <div class="formdetails">
+                <div class="col4">
                     <label for="description">Who am I?</label>
                     <textarea name="description" id="description" cols="48" rows="15"></textarea>
 
@@ -76,8 +80,8 @@
                 <div class="buttons">
                     <a href=""><button type="submit">Update</button></a>
                 </div>
-            </div>
 
+            </div>
         </div>
     </form>
 </body>
