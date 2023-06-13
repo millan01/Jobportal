@@ -146,7 +146,7 @@ $result = mysqli_query($conn, $sql);
                     if(empty($_POST['deadline_time'])){
                       $deadlinetimeErr = "Time not selected";
                     }else{
-                      $deadlinetime = $_POST['deadline_time'];
+                      $deadlinetime =test_input($_POST['deadline_time']);
                     }
                     $deadlinedatetime = $deadline_datee .' '.$deadlinetime;
 

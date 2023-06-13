@@ -49,7 +49,7 @@ include('./database/connection.php');
                         <a href="companyprofile.php"><button>profile</button></a>
                         <a href="sessiondestroy.php"><button>Log out</button></a>
                     </div>
-                </div>
+                </div>  
             <?php } ?>
         </div>
     </div>
