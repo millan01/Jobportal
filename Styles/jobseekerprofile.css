@@ -71,7 +71,7 @@ body{
 .whoami{
     margin-top: 25px;
     width: 93%;
-    height: 30vh;
+    height: 35vh;
     box-shadow: 0px 3px 10px rgb(100, 100, 100.5)
 
 }
@@ -85,15 +85,23 @@ body{
 
 .mainsub{
     width: 93%;
+    height: auto;
     font-size: 15px;
     margin-top: 50px;
     box-shadow: 0px 3px 10px rgb(100, 100, 100.5)
 }
 .edu{
     display: flex;
-    gap: 60%;
+    gap: 50%;
     align-items: center;
     font-weight: bold;
+}
+.edu button{
+    color: black;
+    font-weight:600;
+}
+.edu button:hover{
+    background-color: darkgrey;
 }
 .edu h2{
     margin-left: 20px;
@@ -108,11 +116,12 @@ body{
 }
 .eduschool{
     display: flex;
-    gap: 45%;
+    gap: 30%;
     align-content: center;
 }
 .eduschool .col2{
     margin-top: 10px;
+    margin-left: 10px;
 }
 .col1 > P{
     margin-left: 20px;
@@ -123,7 +132,7 @@ body{
 
 .educollege{
     display: flex;
-    gap: 57%;
+    gap: 45%;
     align-content: center;
 }
 .educollege .col2{
@@ -131,38 +140,40 @@ body{
 }
 .edugraduation {
     display: flex;
-    gap: 56%;
+    gap: 45%;
 }
 .edugraduation .col2{
     margin-top: 10px;
+    margin-right: 20px;
 }
 
 .mainsubtwo{
     margin-top: 50px;
     width: 93%;
+    height: auto;
     box-shadow: 0px 3px 10px rgb(100, 100, 100.5);
 }
 .skill{
     display: flex;
-    gap: 66%;
+    gap: 55%;
     align-items: center;
     font-weight: bold;
 }
 .skill h2{
     margin-left: 20px;
 }
-.skill a{
+.skill button{
     text-decoration: none;
     color: black;
-    font-weight: 1000;
+    font-weight:600;
 }
-.skill a:hover{
+.skill button:hover{
     background-color: darkgray;
 }
 
 .skillcontent{
     display: flex;
-    justify-content: space-between;
+    gap: 22%;
     margin-left: 10px;
     margin-right: 48px;
     margin-top: 15px;
@@ -176,22 +187,23 @@ progress{
 
 .mainthree{
     width: 93%;
+    height: auto;
     font-size: 15px;
     margin-top: 50px;
     box-shadow: 0px 3px 10px rgb(100, 100, 100.5);
 }
 .Certificates{
     display: flex;
-    gap: 60%;
+    gap: 50%;
     align-items: center;
     font-weight: bold;
 }
-.Certificates a{
+.Certificates button{
     text-decoration: none;
     color: black;
-    font-weight: 1000;
+    font-weight: 600;
 }
-.Certificates a:hover{
+.Certificates button:hover{
     background-color: darkgrey ;
 }
 .Certificates h2{
@@ -212,6 +224,7 @@ progress{
 
 .mainfour{
     width: 93%;
+    height: auto;
     font-size: 15px;
     margin-top: 50px;
     box-shadow: 0px 3px 10px rgb(100, 100, 100.5);
@@ -219,18 +232,19 @@ progress{
 }
 .Experience{
     display: flex;
-    gap: 60%;
+    gap: 50%;
     align-items: center;
     font-weight: bold;
 }
 .Experience h2{
     margin-left: 20px;
 }
-.Experience a{
+.Experience button{
     text-decoration: none;
     color: black;
+    font-weight: 600;
 }
-.Experience a:hover{
+.Experience button:hover{
     background-color: darkgrey;
 }
 
