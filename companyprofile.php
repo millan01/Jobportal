@@ -138,8 +138,6 @@ $result = mysqli_query($conn, $sql);
                     if (empty($_POST['deadline_date'])) {
                       $deadlineErr = "Deadline date not selected";
                     } else {
-                      // $deadline = test_input(date('Y-m-d', strtotime($_POST['deadline_date'])));
-                      // $deadline = test_input($_POST['deadline_date']);
                       $deadline = $_POST['deadline_date'];
                       $deadline_datee = date('Y-m-d', strtotime($deadline));
                     }
