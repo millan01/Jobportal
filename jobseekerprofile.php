@@ -16,7 +16,7 @@ $result = $stmt->get_result();
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <link rel="stylesheet" href="./styles/jobseekerprofilee.css">
+        <link rel="stylesheet" href="./styles/jobseekerprofile.css">
         <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
         <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
         <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
@@ -93,7 +93,10 @@ $result = $stmt->get_result();
                 </div>
                 <div class="age">
                     <li style="font-weight: bold;">Age</li>
-                    <li><?php echo $row['Age']; ?></li>
+                    <?php $date = $row['Age'];
+                        $age = date_diff(date_create($date), date_create('today'))->y;
+                        ?>
+                    <li><?php echo $age; ?></li>
                 </div>
                 <div class="sex">
                     <li style="font-weight: bold;">Gender:</li>

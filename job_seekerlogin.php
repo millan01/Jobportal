@@ -7,21 +7,25 @@ if (isset($_POST['signin'])) {
   $email = $_POST['email'];
   $password = $_POST['password'];
 
-  $sql = "SELECT Password from job_seeker where Email = ?";
-  $stmt = $conn->prepare($sql); 
+  $stmt =  $conn->prepare("SELECT Password from job_seeker where Email = ?");
   $stmt->bind_param("s", $email);
   $stmt->execute();
-  // $result = $stmt->get_result();
-  $isPasswordCorrect = FALSE;
-  $stmt->bind_result($password);
-  if ($stmt->fetch() == TRUE) {
-    $isPasswordCorrect = password_verify($password, $password);
-    $_SESSION['email'] = $email;
-    header("Location:jobseekerprofile.php");
+  $result = $stmt->get_result();
+  if ($result->num_rows == 1) {
+    $row = $result->fetch_assoc();
+    $storedpassword = $row['Password'];
+    if (password_verify($password, $storedpassword)) {
+      $_SESSION['email'] = $email;
+      header("Location:jobseekerprofile.php");
+      exit();
+    } else {
+      $error = "Incorrect password";
+    }
   } else {
-    $error = "user doesn't exist";
+    $error = "User doesn't exit";
   }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +35,7 @@ if (isset($_POST['signin'])) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <link rel="stylesheet" href="./styles/job-seekerlogin.css" />
+  <link rel="stylesheet" href="./styles/jobseekerlogin.css" />
 </head>
 
 <body>
@@ -54,24 +58,21 @@ if (isset($_POST['signin'])) {
             echo $_SESSION['registered'];
           }
           ?>
-          <!-- <div class="notification">
-            <div class="notification_body">
-              your account has been created !
-            </div>
-          </div> -->
           <h2>Welcome Back</h2>
           <h4>Login with email and password</h4>
           <div class="inputfields">
             <form action="" method="POST">
               <div class="input-field">
                 <label for="email"></label>
-                <input type="email" name="email" id="email" placeholder="Email" required />
+                <input type="email" name="email" id="email" placeholder="Email" value="<?php if( isset($_POST['email'])){echo $_POST['email'];} ?>" required/>
               </div>
 
               <div class="input-field">
                 <label for="password"></label>
-                <input type="password" name="password" id="password" placeholder="Password" required />
-                <div class="image-icon"></div>
+                <input type="password" name="password" id="password" placeholder="Password" required /> <br>
+                <span style="color:red;">
+                  <?php echo $error ?>
+                </span>
               </div>
 
               <div class="rememberme">

@@ -168,16 +168,16 @@ function test_input($data)
 
                         <option value="" id="Select company/industry category" value="">Select
                           company/industry category</option>
-                        <option value="IT&Telecommunication" id="IT&Telecommunication" <?php echo ($select == 'IT&Telecommunication') ? 'selected' : ''; ?>>IT&Telecommunication</option>
-                        <option value="Design/Graphics" id="Design/Graphics" <?php echo ($select == 'Design/Graphics') ? 'selected' : ''; ?>>Design/Graphics</option>
-                        <option value="Account/Finance" id="Account/Finance" <?php echo ($select == 'Account/Finance') ? 'selected' : ''; ?>>Account/Finance</option>
-                        <option value="Medical" id="Medical" value="Medical" <?php echo ($select == 'Medical') ? 'selected' : ''; ?>>Medical</option>
-                        <option value="NGO/INGO" id="NGO/ING" <?php echo ($select == 'NGO/INGO') ? 'selected' : ''; ?>>
+                        <option value="IT&Telecommunication" id="IT&Telecommunication" <?php echo ($select === 'IT&Telecommunication') ? 'selected' : ''; ?>>IT&Telecommunication</option>
+                        <option value="Design/Graphics" id="Design/Graphics" <?php echo ($select === 'Design/Graphics') ? 'selected' : ''; ?>>Design/Graphics</option>
+                        <option value="Account/Finance" id="Account/Finance" <?php echo ($select === 'Account/Finance') ? 'selected' : ''; ?>>Account/Finance</option>
+                        <option value="Medical" id="Medical" value="Medical" <?php echo ($select === 'Medical') ? 'selected' : ''; ?>>Medical</option>
+                        <option value="NGO/INGO" id="NGO/ING" <?php echo ($select === 'NGO/INGO') ? 'selected' : ''; ?>>
                           NGO/INGO</option>
-                        <option value=" Engineering/Architectures" id="Engineering/Architecture" <?php echo ($select == 'Engineering/Architectures') ? 'selected' : ''; ?>>Engineering/Architectures
+                        <option value=" Engineering/Architectures" id="Engineering/Architecture" <?php echo ($select === 'Engineering/Architectures') ? 'selected' : ''; ?>>Engineering/Architectures
                         </option>
-                        <option id="Tour/Travel" value="Tour/Travel" <?php echo ($select == 'Tour/Travel') ? 'selected' : ''; ?>>Tour/Travel</option>
-                        <option id="E-comerce" value="E-comerce" <?php echo ($select == 'E-comerce') ? 'selected' : ''; ?>>E-comerce</option>
+                        <option id="Tour/Travel" value="Tour/Travel" <?php echo ($select === 'Tour/Travel') ? 'selected' : ''; ?>>Tour/Travel</option>
+                        <option id="E-comerce" value="E-comerce" <?php echo ($select === 'E-comerce') ? 'selected' : ''; ?>>E-comerce</option>
                         <span style="color:red">
                           <?php echo $categoryErr; ?>
                         </span>
@@ -223,11 +223,11 @@ function test_input($data)
                       <label for="jobtype">Job-Type</label>
                       <select name="jobtype" id="jobtype">
                         <option value="">Select Job-type</option>
-                        <option value="Full time" <?php echo ($type = 'Full time') ? 'selected' : ''; ?>>Full time
+                        <option value="Full time" <?php echo ($type === 'Full time') ? 'selected' : ''; ?>>Full time
                         </option>
-                        <option value="Part time" <?php echo ($type = 'Part time') ? 'selected' : ''; ?>>Part time
+                        <option value="Part time" <?php echo ($type === 'Part time') ? 'selected' : ''; ?>>Part time
                         </option>
-                        <option value="Remote" <?php echo ($type = 'Remote') ? 'selected' : ''; ?>>Remote</option>
+                        <option value="Remote" <?php echo ($type === 'Remote') ? 'selected' : ''; ?>>Remote</option>
                       </select>
                       <span style="color:red">
                         <?php $jobtypeErr; ?>

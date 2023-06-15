@@ -26,7 +26,7 @@ body{
 }
 @keyframes fade-in{
     10%{
-        opacity: 3;
+        opacity: 3; 
         visibility: visible;
         transform: translateY(0);
     }

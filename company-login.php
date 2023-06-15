@@ -11,19 +11,22 @@ if (isset($_POST['signin'])) {
   $email = $_POST['email'];
   $password = $_POST['password'];
 
-  $sql = "SELECT password from company where email = ?";
-  $stmt = $conn->prepare($sql);
+  $stmt = $conn->prepare("SELECT password from company where email = ?");
   $stmt->bind_param("s", $email);
   $stmt->execute();
-  // $result = $stmt->get_result();
-  $isPasswordCorrect = FALSE;
-  $stmt->bind_result($company_password);
-  if ($stmt->fetch() == TRUE) {
-    $isPasswordCorrect = password_verify($password, $company_password);
-    $_SESSION['email'] = $email;
-    header("Location:companyprofile.php");
+  $result = $stmt->get_result();
+  if ($result->num_rows == 1) {
+    $row = $result->fetch_assoc();
+    $storedpassword = $row['password'];
+    if (password_verify($password, $storedpassword)) {
+      $_SESSION['email'] = $email;
+      header("Location:companyprofile.php");
+      exit();
+    } else {
+      $error = "Incorrect Password";
+    }
   } else {
-    $error = "user doesn't exist";
+    $error = "User doesn't exit";
   }
 }
 ?>
@@ -47,30 +50,26 @@ if (isset($_POST['signin'])) {
 
     <div class="formlogin">
       <div class="login">
-        <div class="innersection"> 
+        <div class="innersection">
 
-          <?php if(isset($_SESSION['success'])){
+          <?php if (isset($_SESSION['success'])) {
             echo $_SESSION['success'];
           }
-           ?>
+          ?>
 
           <h2>Welcome Back</h2>
           <h4>Login with email and password</h4>
-          <?php if (isset($error)) { ?>
-            <p>
-              <?php echo $error; ?>
-            </p>
-          <?php } ?>
           <div class="inputfields">
             <form action="" method="POST">
               <div class="input-field">
                 <label for="email"></label>
-                <input type="text" name="email" id="email" placeholder="Email" required />
+                <input type="text" name="email" id="email" placeholder="Email" value="<?php if(isset($_POST['email'])){echo $_POST['email'];} ?>" required />
               </div>
 
               <div class="input-field">
                 <label for="password"></label>
-                <input type="password" name="password" id="password" placeholder="Password" required />
+                <input type="password" name="password" id="password" placeholder="Password" required /> <br>
+                <span><?php echo $error; ?></span>
               </div>
               <div class="rememberme">
                 <input type="checkbox" name="checkbox" id="checkbox" />

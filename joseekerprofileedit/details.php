@@ -80,7 +80,6 @@ if (isset($_POST['update'])) {
       } else {
         $dob = $_POST['dob'];
         $dateofbirth = date('Y-m-d', strtotime($dob));
-        $age = date_diff(date_create($dateofbirth), date_create('today'))->y;
       }
 
     $website = ($_POST['website']);
@@ -99,9 +98,8 @@ if (isset($_POST['update'])) {
 
     if (empty($nameErr) && empty($genderErr) && empty($dobErr) && empty($addressErr) && empty($phoneErr) && empty($mobileErr) && empty($websitErr) && empty($whoamiErr) && empty($imageErr)) {
         include('../database/connection.php');
-        $
         $stmt = $conn->prepare("UPDATE job_seeker SET Full_name =?, gender=?,Age=?,Address=?,Phone=?,mobile=?,contact_email=?,website=?,Description=?,Image_name=? where Email=?");
-        $stmt->bind_param("ssississsss", $name, $gender, $age, $address, $phone, $mobile,$contactemail, $website, $whoami, $imagename, $session);
+        $stmt->bind_param("ssississsss", $name, $gender, $dateofbirth, $address, $phone, $mobile,$contactemail, $website, $whoami, $imagename, $session);
         $stmt->execute();
         $stmt->close();
         header('location:jobseekerprofile.php');
@@ -124,7 +122,7 @@ function test_input($data)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profileedit</title>
-    <link rel="stylesheet" href="details.css">
+    <link rel="stylesheet" href="detailss.css">
 </head>
 
 <body>
@@ -135,7 +133,7 @@ function test_input($data)
         <div class="details-form">
             <h2>Update Basic information</h2>
             <?php echo $session;
-            echo $age; ?>
+             ?>
             <hr color="black" size="0.5px">
 
             <div class="content">
@@ -152,16 +150,18 @@ function test_input($data)
                     </span>
                 </div>
 
-
+                <?php 
+                $genderselect = $row['gender'];
+                ?>
                 <div class="col2">
 
                     <div class="gender">
                         <label for="gender">Gender:</label>
                         <select name="gender" id="Gender" required>
                             <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
+                            <option value="Male" <?php echo ($genderselect==='Male') ? 'selected':''; ?>>Male</option>
+                            <option value="Female" <?php echo ($genderselect==='Female') ? 'selected':''; ?>>Female</option>
+                            <option value="Other"<?php echo ($genderselect==='Other') ? 'selected':''; ?>>Other</option>
                         </select>
                         <span style="color:red;">
                             <?php echo $genderErr; ?>

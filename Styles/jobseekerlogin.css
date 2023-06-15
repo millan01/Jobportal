@@ -8,7 +8,7 @@ body{
 .notification{
     position:relative;
     top: 0px;
-    right: 25px;
+    left: 20px;
     width: max-content;
     border-radius: 6px;
     background-color: #313e2c;

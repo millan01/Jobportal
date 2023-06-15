@@ -135,7 +135,7 @@ function test_input($data)
           </span>
 
           <label for="password"></label>
-          <input type="password" name="password" id="password" value="<?php if(isset($_POST['password'])){ echo $_POST['password'];} ?>"placeholder="password">
+          <input type="password" name="password" id="password"placeholder="password">
           <span style="color:red" ;>
             <?php echo "$passwordErr"; ?>
           </span>
