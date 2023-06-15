@@ -11,7 +11,7 @@ include('./database/connection.php');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./styles/jobdescription.css">
+    <link rel="stylesheet" href="./styles/jobdescriptionn.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
@@ -66,7 +66,7 @@ include('./database/connection.php');
     if ($_GET['job_id']) {
         $id = $_GET['job_id'];
     }
-    $stmt = $conn->prepare("SELECT c.company_name,c.location,c.description,c.phone,c.website,c.contact_email,
+    $stmt = $conn->prepare("SELECT c.company_name,c.location,c.description,c.phone,c.website,c.contact_email, c.Image_name,
     j.job_title,j.job_address,j.no_of_vacancy,j.estimated_salary,j.category,j.job_type,j.posted_date,j.deadline_date,
     j.job_description,j.experience
      from company c INNER JOIN job j 
@@ -83,7 +83,7 @@ include('./database/connection.php');
                     <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                         <div class="companyname">
                             <div class="companyname1">
-                                <img src="./images/Account icon.svg" alt="company logo">
+                              <?php echo '<img src="./images/uploaded_image/'.$row['Image_name'].'" alt="company logo" style="object-fit:cover;">' ?>
                             </div>
                             <?php echo $id; ?>
                             <div class="companyname2">
@@ -182,7 +182,7 @@ include('./database/connection.php');
                                     </div>
                                 </div>
                                 <div class="job-specgrid-grid">
-                                    <div> <i class="	fas fa-hourglass-half fa-2x" style="color:green;"></i></div>
+                                    <div> <i class="fas fa-hourglass-half fa-2x" style="color:green;"></i></div>
                                     <div>
                                         <p>Deadline</p>
                                         <p>
@@ -190,8 +190,8 @@ include('./database/connection.php');
                                             $deaddate = $row['deadline_date'];
                                             $deadstamp = strtotime($deaddate);
                                             $dead = date('Y-m-d', $deadstamp);
-                                            echo $post
-                                                ?>
+                                            echo $dead;
+                                            ?>
                                         </p>
                                     </div>
                                 </div>
@@ -232,95 +232,67 @@ include('./database/connection.php');
                     <?php $stmt->close();
                     } ?>
 
-
-                <?php
-                $sql = "SELECT * from job";
-                $result = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_assoc($result)) {
-                    ?>
-
-                    <div class="relatedjob">
-                        <div class="relatedjobtitle">
-                            <h3>Jobs from related company</h3>
-                        </div>
-                        
+                <div class="relatedjob">
+                    <div class="relatedjobtitle">
+                        <h3>Jobs from related company</h3>
+                    </div>
+                    <?php
+                    $sql = "SELECT c.company_name, c.Image_name ,j.job_id, j.job_title from company c INNER JOIN job j 
+                        ON c.company_id = j.companyID where j.deadline_date >= CURDATE() ORDER BY RAND() LIMIT 4";
+                    $result = $conn->query($sql);
+                    while ($row = $result->fetch_assoc()) {
+                        ?>
                         <?php echo '<a style="text-decoration: none; color:black;" href="jobdescription.php?job_id=' . $row['job_id'] . '">' ?>
-                        <?php
-                        $id = $_GET['job_id'];
-                        // $stmt = $conn->prepare("SELECT c.company_name , j.job_title from company c INNER JOIN job j 
-                        // ON c.company_id = j.companyID where job_id = ? ORDER BY RAND()");
-                        // $stmt->bind_param("i", $id );
-                        // $stmt->execute();
-                        // $result = $stmt->get_result();
-                        // while ($row = mysqli_fetch_assoc($result)) {
-                            $sql = "SELECT CompanyName from job where job_id = $id";
-                            $result = $conn->query($sql);
-                            if($result->num_rows>0){
-                                while($row = $result->fetch_assoc()){
-                                    $companyname = $row['CompanyName'];
-                                }
-                            }?>
-                        
-                        <?php
-                        $sql = "SELECT c.company_name , j.job_title from company c INNER JOIN job j 
-                        ON c.company_id = j.companyID  ORDER BY RAND() LIMIT 4";
-                        $result = $conn->query($sql);
-                        while($row = $result->fetch_assoc()){
-                            ?>
-                            <div class="relatedjob-upper">
-                                <div class="asideimg">
-                                    <img src="./images/Account icon.svg" height="40px" width="40px" alt="">
-                                </div>
-                                <div class="iconside">
-                                    <h4>
-                                        <?php echo $row['job_title'] ?>
-                                    </h4>
-                                    <p>
-                                        <?php echo $row['company_name'] ?>
-                                    </p>
-                                </div>
+                        <div class="relatedjob-upper">
+                            <div class="asideimg">
+                              <?php echo '<img src="./images/uploaded_image/'.$row['Image_name'].'" height="40px" width="40px"  alt="" style="object-fit:cover;">'?>
                             </div>
-                            <?php
-                            echo '</a>';?>
-                        <?php } ?>
-                    </div>
-                <?php } ?>
-
-
-
-
-                <?php $sql = "SELECT * from job where deadline_date >= CURDATE()";
-                $result = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_assoc($result)) {
-                    ?>
-                    <div class="otherjob">
-                        <div class="otherjobtitle">
-                            <h3>Other jobs</h3>
+                            <div class="iconside">
+                                <h4>
+                                    <?php echo $row['job_title'] ?>
+                                </h4>
+                                <p>
+                                    <?php echo $row['company_name'] ?>
+                                </p>
+                            </div>
                         </div>
-                        <?php echo '<a style="text-decoration:none; color: black;" href="jobdescription.php?job_id='. $row['job_id'].'">' ?>
                         <?php
-                        $sql = "SELECT c.company_name, j.job_title from company c INNER JOIN job j ON 
-                            c.company_id = j.companyID ORDER BY RAND() LIMIT 4";
-                        $result = mysqli_query($conn, $sql);
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            ?>
-                            <div class="otherjob-upper">
-                                <div class="asideimg">
-                                    <img src="./images/Account icon.svg" height="40px" width="40px" alt="">
-                                </div>
-                                <div class="iconside">
-                                    <h4>
-                                        <?php echo $row['job_title']; ?>
-                                    </h4>
-                                    <p>
-                                        <?php echo $row['company_name']; ?>
-                                    </p>
-                                </div>
-                            </div>
-                            <?php echo '</a>' ?>
-                        <?php } ?>
+                        echo '</a>'; ?>
+                    <?php } ?>
+                </div>
+
+
+                <div class="otherjob">
+                    <div class="otherjobtitle">
+                        <h3>Other jobs</h3>
                     </div>
-                <?php } ?>
+                    <?php
+                    $sql = "SELECT c.company_name,c.Image_name, j.job_id,j.job_title from company c INNER JOIN job j ON 
+                            c.company_id = j.companyID where j.deadline_date >= CURDATE() ORDER BY RAND() LIMIT 4";
+                    $result = mysqli_query($conn, $sql);
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                        <?php echo '<a style="text-decoration:none; color: black;" href="jobdescription.php?job_id=' . $row['job_id'] . '">' ?>
+
+                        <div class="otherjob-upper">
+                            <div class="asideimg">
+                              <?php echo'<img src="./images/uploaded_image/'.$row['Image_name'].'" height="40px" width="40px" alt="" style ="object-fit:cover;">'?>
+                            </div>
+                            <div class="iconside">
+                                <h4>
+                                    <?php echo $row['job_title']; ?>
+                                </h4>
+                                <p>
+                                    <?php echo $row['company_name']; ?>
+                                </p>
+                            </div>
+                        </div>
+                        <?php echo '</a>' ?>
+                    <?php } ?>
+                </div>
+                <?php
+                //  } 
+                ?>
 
             </div>
         </div>

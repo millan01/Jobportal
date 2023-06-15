@@ -1,5 +1,4 @@
 <?Php
-session_start();
 $name = $email = $phone = $password = $confirm_password = "";
 $nameErr = $emailErr = $phoneErr = $passwordErr = $confirm_passwordErr = "";
 

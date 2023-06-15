@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include('./database/connection.php');
 $error = '';
 if (isset($_POST['signin'])) {
@@ -8,7 +8,7 @@ if (isset($_POST['signin'])) {
   $password = $_POST['password'];
 
   $sql = "SELECT Password from job_seeker where Email = ?";
-  $stmt = $conn->prepare($sql);
+  $stmt = $conn->prepare($sql); 
   $stmt->bind_param("s", $email);
   $stmt->execute();
   // $result = $stmt->get_result();
@@ -17,7 +17,7 @@ if (isset($_POST['signin'])) {
   if ($stmt->fetch() == TRUE) {
     $isPasswordCorrect = password_verify($password, $password);
     $_SESSION['email'] = $email;
-    header("Location:index.php");
+    header("Location:jobseekerprofile.php");
   } else {
     $error = "user doesn't exist";
   }

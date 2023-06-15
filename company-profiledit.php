@@ -11,7 +11,7 @@ $result = $stmt->get_result();
 
 $comapnyname = $contactperson = $companyaddress = $companywebsite = $companyphone = $companyemail = $companydesc = $a = '';
 $comapnynameErr = $contactpersonErr = $companyaddressErr = $companywebsiteErr = $companyphoneErr = $companyemailErr = $imageErr = $companydescErr = '';
-if (isset($session)) {
+if (isset($session)) { 
 
     if (isset($_POST['submit'])) {
         $companyname = test_input($_POST['companyname']);

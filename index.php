@@ -54,7 +54,6 @@ include('./database/connection.php');
         </div>
     </div>
 
-
     <div class="mainimage">
         <div class="image"><img src="./images/man2.jpg" width="100%" height="550px" alt=""></div>
         <div class="text">

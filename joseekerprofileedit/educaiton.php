@@ -68,7 +68,7 @@ function test_input($data){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="education.css">
+    <link rel="stylesheet" href="educationn.css">
 </head>
 
 <body>

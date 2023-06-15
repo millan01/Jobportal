@@ -139,7 +139,7 @@ body {
 
 #modal {
   background-color: #fff;
-  padding: 20px;
+  /* padding: 10px; */
   width: 80%;
   height: 80%;
   display: flex;
@@ -152,8 +152,8 @@ body {
 }
 
 #iframe {
-  width: 80% ;
-  height:80%;
+  width: 100%;
+  height:100%;
 }
 
 #closeOverlayBtn {
@@ -175,6 +175,11 @@ body {
   justify-content: space-between;
 }
 .sex {
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+.address{
   margin-top: 5px;
   display: flex;
   justify-content: space-between;

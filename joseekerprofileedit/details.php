@@ -1,7 +1,16 @@
 <?php
+session_start();
+include('../database/connection.php');
+$session = $_SESSION['email'];
 
-$name = $gender = $dob = $address = $phone = $mobile = $website = $whoami = $imagename="";
-$nameErr = $genderErr = $dobErr = $addressErr = $phoneErr = $mobileErr = $websiteErr = $whoamiErr =$imageErr= "";
+$stmt = $conn->prepare("SELECT * from job_seeker where email = ?");
+$stmt->bind_param("s", $session);
+$stmt->execute();
+
+$result = $stmt->get_result();
+
+$name = $gender = $dob =$dateofbirth = $address = $phone = $mobile = $website =$contactemail= $whoami = $imagename = "";
+$nameErr = $genderErr = $dobErr = $addressErr = $phoneErr = $mobileErr = $websiteErr = $whoamiErr = $contactErr = $imageErr = "";
 
 if (isset($_POST['update'])) {
 
@@ -66,29 +75,44 @@ if (isset($_POST['update'])) {
         $mobileErr = "invalid phone number";
     }
 
+    if (empty($_POST['dob'])) {
+        $dobErr = "select date of birth";
+      } else {
+        $dob = $_POST['dob'];
+        $dateofbirth = date('Y-m-d', strtotime($dob));
+        $age = date_diff(date_create($dateofbirth), date_create('today'))->y;
+      }
+
     $website = ($_POST['website']);
     if (!preg_match("~^(?:f|ht)tps?://~", $website)) {
         $website = 'https://' . $website;
         $websiteErr = "invalid website format";
     }
+        $contactemail = test_input($_POST["cemail"]);
+        // check if email address is well-formed
+        if (!filter_var($contactemail, FILTER_VALIDATE_EMAIL)) {
+          $contactErr = "Invalid email format";
+        }
+    
 
     $whoami = test_input($_POST['description']);
 
-    if(empty($nameErr) && empty($genderErr) && empty($dobErr) && empty($addressErr) &&empty($phoneErr) && empty($mobileErr) && empty($websitErr) && empty($whoamiErr) && empty($imageErr)){
-        include ('./database/connection.php');
-
-        $stmt = $conn->prepare("INSERT INTO table_name(name, gender,dateofbirth,address,phone,mobile,website,whoami,imagename) VALUES (?,?,?,?,?,?,?,?,?)");
-        $stmt->bind_param("sssssssss", $name, $gender, $dob,$address,$phone,$mobile,$website,$whoami,$imagename);
+    if (empty($nameErr) && empty($genderErr) && empty($dobErr) && empty($addressErr) && empty($phoneErr) && empty($mobileErr) && empty($websitErr) && empty($whoamiErr) && empty($imageErr)) {
+        include('../database/connection.php');
+        $
+        $stmt = $conn->prepare("UPDATE job_seeker SET Full_name =?, gender=?,Age=?,Address=?,Phone=?,mobile=?,contact_email=?,website=?,Description=?,Image_name=? where Email=?");
+        $stmt->bind_param("ssississsss", $name, $gender, $age, $address, $phone, $mobile,$contactemail, $website, $whoami, $imagename, $session);
         $stmt->execute();
         $stmt->close();
         header('location:jobseekerprofile.php');
     }
 
 }
-function test_input($data){
+function test_input($data)
+{
     $data = trim($data);
     $data = stripslashes($data);
-    $data  = htmlspecialchars($data);
+    $data = htmlspecialchars($data);
     return $data;
 }
 ?>
@@ -104,10 +128,14 @@ function test_input($data){
 </head>
 
 <body>
+   
+    <?php while($row = mysqli_fetch_assoc($result)){ ?>
 
     <form action="" method="post">
         <div class="details-form">
             <h2>Update Basic information</h2>
+            <?php echo $session;
+            echo $age; ?>
             <hr color="black" size="0.5px">
 
             <div class="content">
@@ -118,8 +146,10 @@ function test_input($data){
 
                 <div class="col1">
                     <label for="Name">Name:</label>
-                    <input type="text" name="name" id="name" value="">
-                    <span style ="color:red;"><?php echo $nameErr; ?></span>
+                    <input type="text" name="name" id="name" value="<?php echo $row['Full_name'] ?>">
+                    <span style="color:red;">
+                        <?php echo $nameErr; ?>
+                    </span>
                 </div>
 
 
@@ -133,20 +163,26 @@ function test_input($data){
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
                         </select>
-                        <span style ="color:red;"><?php echo $genderErr; ?></span>
+                        <span style="color:red;">
+                            <?php echo $genderErr; ?>
+                        </span>
 
                     </div>
                     <div class="dob">
                         <label for="dob">Date of birth:</label>
-                        <input type="date" name="dob" required>
-                        <span style ="color:red;"><?php echo $dobErr; ?></span>
+                        <input type="date" name="dob" value="<?php echo $row['Age'] ?>" required>
+                        <span style="color:red;">
+                            <?php echo $dobErr; ?>
+                        </span>
 
                     </div>
 
                     <div class="address">
                         <label for="address">Address:</label>
-                        <input type="text" name="address" id="address" value="" required>
-                        <span style ="color:red;"><?php echo $addressErr; ?></span>
+                        <input type="text" name="address" id="address" value="<?php echo $row['Address'] ?>" required>
+                        <span style="color:red;">
+                            <?php echo $addressErr; ?>
+                        </span>
 
                     </div>
                 </div>
@@ -155,33 +191,47 @@ function test_input($data){
                 <div class="col3">
                     <div class="phone">
                         <label for="phone">Phone:</label>
-                        <input type="text" name="phone" id="phone" value="" required>
-                        <span style ="color:red;"><?php echo $phoneErr; ?></span>
+                        <input type="text" name="phone" id="phone" value="<?php echo $row['Phone']; ?>" required>
+                        <span style="color:red;">
+                            <?php echo $phoneErr; ?>
+                        </span>
 
                     </div>
                     <div class="mobile">
                         <label for="mobile">Mobile</label>
-                        <input type="text" name="mobile" id="mobile" value="" required>
-                        <span style ="color:red;"><?php echo $mobileErr; ?></span>
+                        <input type="text" name="mobile" id="mobile" value="<?php echo $row['Mobile'] ?>">
+                        <span style="color:red;">
+                            <?php echo $mobileErr; ?>
+                        </span>
 
                     </div>
                     <div class="website">
                         <label for="website">Website<span>(if any):</span></label>
-                        <input type="text" name="website" id="website" value="" required>
-                        <span style ="color:red;"><?php echo $websiteErr; ?></span>
+                        <input type="text" name="website" id="website" value="<?php echo $row['website'] ?>" required>
+                        <span style="color:red;">
+                            <?php echo $websiteErr; ?>
+                        </span>
 
 
                     </div>
+                </div>
+                <div class="col5">
+                    <label for="contactemail">Contact_email</label>
+                    <input type="text" name="cemail" id="cemail" value="<?php echo $row['contact_email'] ?>">
+                    <span><?php echo $contactErr; ?></span>
                 </div>
 
 
                 <div class="col4">
                     <label for="description">Who am I?</label>
-                    <textarea name="description" id="description" cols="48" rows="15" required></textarea>
-                    <span style ="color:red;"><?php echo $whoamiErr; ?></span>
+                    <textarea name="description" id="description" cols="48" rows="15" required><?php echo $row['Description'] ?></textarea>
+                    <span style="color:red;">
+                        <?php echo $whoamiErr; ?>
+                    </span>
 
 
                 </div>
+                <?php } ?>
 
                 <div class="buttons">
                     <a href=""><button type="submit" name="update">Update</button></a>

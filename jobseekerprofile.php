@@ -1,61 +1,72 @@
+<?php 
+session_start();
+include('./database/connection.php');
+$jobseeker_email = $_SESSION['email'];
+$stmt = $conn->prepare("SELECT * from job_seeker where email = ?");
+$stmt->bind_param("s", $jobseeker_email);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./styles/jobseekerprofile.css">
-    <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
-    <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
-    <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
-</head>
-
-<body>
-    <div class="navbarflow">
-        <div class="logo">
-            <a href="index.php">
-                <img src="./images/logo.svg" alt="company logo">
-            </a>
-        </div>
-
-        <div class="links">
-            <a href="index.php">Home</a>
-            <a href="">Blog</a>
-            <a href="">Contact</a>
-            <a href="">About us</a>
-        </div>
-
-                <div class="afterlogin">
-                    <img src="./images/Account icon.svg" alt="#" class="test">
-                    <div class="dropdown">
-                        <a href="sessiondestroy.php"><button>Log out</button></a>
-                    </div>
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="./styles/jobseekerprofilee.css">
+        <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
+        <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
+        <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
+    </head>
+    
+    <body>
+        <div class="navbarflow">
+            <div class="logo">
+                <a href="index.php">
+                    <img src="./images/logo.svg" alt="company logo">
+                </a>
+            </div>
+            
+            <div class="links">
+                <a href="index.php">Home</a>
+                <a href="">Blog</a>
+                <a href="">Contact</a>
+                <a href="">About us</a>
+            </div>
+            
+            <div class="afterlogin">
+                <img src="./images/Account icon.svg" alt="#" class="test">
+                <div class="dropdown">
+                    <a href="sessiondestroy.php"><button>Log out</button></a>
                 </div>
-    </div>
-
-
-
-
-    <div class="notification">
-        <p>Update your profile before applying for jobs !!</p>
-    </div>
-    <div class="content">
-
-        <div class="sidebar">
-
-
-            <div class="imagearea">
-                <div class="imagetop">
+                </div>
+            </div>
+            
+            
+            
+            
+            <div class="notification">
+                <p>Update your profile before applying for jobs !!</p>
+                <?php echo $jobseeker_email; ?>
+            </div>
+            <div class="content">
+                
+                <div class="sidebar">
+                    
+                    <div class="imagearea">
+                        <div class="imagetop">
+                    <?php while($row = mysqli_fetch_assoc($result)){ ?>
                     <img src="./images/esewa.png" alt="">
-                    <p>Esewa pvt ltd</p>
+                    <p><?php echo $row['Full_name']; ?></p>
                 </div>
                 <hr color="black">
                 <div class="imagebutton">
-                    <p><i class="fa fa-phone  fa-1x"></i>&nbsp;&nbsp; 876543290</p>
-                    <p><i class="fa-regular fa-globe fa-1x"></i>&nbsp;&nbsp; <a
-                            href="https://esewa.com">https://esewa.com</a></p>
-                    <p><i class="fa fa-location-dot fa-1x"></i>&nbsp;&nbsp; kathmandu</p>
+                    <p><i class="fa fa-phone  fa-1x"></i>&nbsp;&nbsp; <?php echo $row['Phone']; ?></p>
+                    <p><i class="fa-regular fa-globe fa-1x"></i>&nbsp;&nbsp; <a href="<?php echo $row['website']; ?>"><?php echo $row['website']; ?></a></p>
+                    <p><i class="fa-solid fa-envelope"></i>&nbsp;&nbsp; <?php echo $row['contact_email']; ?></p>
                 </div>
             </div>
             <div class="Details">
@@ -73,7 +84,7 @@
                 </div>
                 <div class="lookingfor">
                     <li style="font-weight: bold;">Looking for:</li>
-                    <li>Software Enginner</li>
+                    <li><?php echo $row['Position'] ?></li>
                 </div>
 
                 <div class="years">
@@ -82,11 +93,15 @@
                 </div>
                 <div class="age">
                     <li style="font-weight: bold;">Age</li>
-                    <li>23 Years</li>
+                    <li><?php echo $row['Age']; ?></li>
                 </div>
                 <div class="sex">
-                    <li style="font-weight: bold;">Sex:</li>
-                    <li>Male</li>
+                    <li style="font-weight: bold;">Gender:</li>
+                    <li><?php echo $row['gender']; ?></li>
+                </div>
+                <div class = "address">
+                    <li style ="font-weight: bold">Address:</li>
+                    <li><?php echo $row['Address']; ?></li>
                 </div>
             </div>
 
@@ -122,21 +137,14 @@
             <div class="whoami">
                 <h2>Who am i?</h2>
                 <hr color="black" size="0.5px" style="margin-top: -8px;">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed dolorem quibusdam delectus architecto
-                    illo eius suscipit, magnam nostrum quo sint nisi velit molestiae exercitationem eos ipsa accusantium
-                    repudiandae nemo ducimus, sequi debitis maxime neque rerum placeat. Officiis unde mollitia totam
-                    est. Nemo eos inventore eum quia, odit est illum laudantium veritatis fuga, consectetur harum cum
-                    veniam eaque neque dolorem. Veritatis dolorum ullam illo necessitatibus ea a sapiente maiores amet
-                    deserunt fugit commodi neque, magnam eveniet odio aperiam consequatur eaque voluptatum quae sit
-                    recusandae nostrum assumenda! Excepturi debitis voluptatem consequuntur iure, commodi tenetur
-                    repellendus nam nisi minima, recusandae, dolore numquam odio.</p>
+                <p><?php echo $row['Description']; ?></p>
             </div>
-
+            <?php }?>
 
             <div class="mainsub">
                 <div class="edu">
                     <h2>Education</h2>
-                    <a href="./joseekerprofileedit/educaiton.html" class="openOverlay"><button><i class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
+                    <a href="./joseekerprofileedit/educaiton.php" class="openOverlay"><button><i class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
                 </div>
                 <hr color="black" size="0.5px">
                 <div class="educontent">
@@ -183,7 +191,7 @@
             <div class="mainsubtwo">
                 <div class="skill">
                     <h2>Skills</h2>
-                    <a href="./joseekerprofileedit/skills.html" class="openOverlay"><button><i class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
+                    <a href="./joseekerprofileedit/skills.php" class="openOverlay"><button><i class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
                 </div>
                 <hr color="black" size="0.5px">
 
@@ -239,7 +247,7 @@
             <div class="mainfour">
                 <div class="Experience">
                     <h2>Experience</h2>
-                    <a href="./joseekerprofileedit/experience.html" class="openOverlay"><button><i class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
+                    <a href="./joseekerprofileedit/experience.php" class="openOverlay"><button><i class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
                 </div>
                 <hr color="black" size="0.5px">
                 <div class="expcontents">

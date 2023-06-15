@@ -5,7 +5,7 @@ if (!isset($companyemail)) {
   header("location:index.php");
 }
 include('./database/connection.php');
-$sql = "SELECT * FROM company WHERE email = '$companyemail'";
+$sql = "SELECT * FROM company WHERE email = '$companyemail'";  
 $result = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
@@ -39,7 +39,6 @@ $result = mysqli_query($conn, $sql);
           <button class="tablinks" onclick="showcontent(event,'changepassword')">Change Password</button>
         </div>
       </div>
-
       <!-- ----------------------------profile information------------------->
       <div class="dashboard-content">
         <div id="profile" class="container">
