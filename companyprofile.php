@@ -65,7 +65,7 @@ $result = mysqli_query($conn, $sql);
                         <?php echo $row['company_name'] ?>
                       </h3>
                       <!-- company location -->
-                      <p>
+                      <p> 
                         <?php echo $row['location'] ?>
                       </p>
                     </div>

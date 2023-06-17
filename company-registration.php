@@ -86,7 +86,7 @@ session_start();
   
       $stmt->execute();
       $stmt->close();
-      $_SESSION['success'] = '<div class="notification">
+      $_SESSION['success'] = '<div class="notification"> 
       <div class="notification_body">
         your account has been created !
       </div>  

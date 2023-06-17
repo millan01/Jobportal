@@ -6,10 +6,11 @@ session_start();
 
 include('./database/connection.php');
 $error = '';
+$email = $pass = $storedpassword = '';
 if (isset($_POST['signin'])) {
 
   $email = $_POST['email'];
-  $password = $_POST['password'];
+  $pass= $_POST['password'];
 
   $stmt = $conn->prepare("SELECT password from company where email = ?");
   $stmt->bind_param("s", $email);
@@ -18,7 +19,7 @@ if (isset($_POST['signin'])) {
   if ($result->num_rows == 1) {
     $row = $result->fetch_assoc();
     $storedpassword = $row['password'];
-    if (password_verify($password, $storedpassword)) {
+    if(password_verify($pass, $storedpassword)){
       $_SESSION['email'] = $email;
       header("Location:companyprofile.php");
       exit();

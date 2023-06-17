@@ -7,14 +7,17 @@ if (isset($_POST['signin'])) {
   $email = $_POST['email'];
   $password = $_POST['password'];
 
-  $stmt =  $conn->prepare("SELECT Password from job_seeker where Email = ?");
+  $sql = "SELECT Password from job_seeker where Email = ?";
+  $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $email);
   $stmt->execute();
-  $result = $stmt->get_result();
-  if ($result->num_rows == 1) {
-    $row = $result->fetch_assoc();
-    $storedpassword = $row['Password'];
-    if (password_verify($password, $storedpassword)) {
+  $stmt->store_result();
+
+  if ($stmt->num_rows == 1) {
+    $stmt->bind_result($storedPassword);
+    $stmt->fetch();
+
+    if (password_verify($password, $storedPassword)) {
       $_SESSION['email'] = $email;
       header("Location:jobseekerprofile.php");
       exit();
@@ -64,7 +67,10 @@ if (isset($_POST['signin'])) {
             <form action="" method="POST">
               <div class="input-field">
                 <label for="email"></label>
-                <input type="email" name="email" id="email" placeholder="Email" value="<?php if( isset($_POST['email'])){echo $_POST['email'];} ?>" required/>
+                <input type="email" name="email" id="email" placeholder="Email"
+                  value="<?php if (isset($_POST['email'])) {
+                    echo $_POST['email'];
+                  } ?>" required />
               </div>
 
               <div class="input-field">
