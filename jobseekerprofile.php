@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include('./database/connection.php');
 $jobseeker_email = $_SESSION['email'];
@@ -10,144 +10,164 @@ $result = $stmt->get_result();
 
 
 <!DOCTYPE html>
-<html lang="en"> 
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="./styles/jobseekerprofile.css">
-        <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
-        <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
-        <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
-    </head>
-    
-    <body>
-        <div class="navbarflow">
-            <div class="logo">
-                <a href="index.php">
-                    <img src="./images/logo.svg" alt="company logo">
-                </a>
-            </div>
-            
-            <div class="links">
-                <a href="index.php">Home</a>
-                <a href="">Blog</a>
-                <a href="">Contact</a>
-                <a href="">About us</a>
-            </div>
-            
-            <div class="afterlogin">
-                <img src="./images/Account icon.svg" alt="#" class="test">
-                <div class="dropdown">
-                    <a href="sessiondestroy.php"><button>Log out</button></a>
-                </div>
-                </div>
-            </div>
-            
-            
-            
-            
-            <div class="notification">
-                <p>Update your profile before applying for jobs !!</p>
-                <?php echo $jobseeker_email; ?>
-            </div>
-            <div class="content">
-                
-                <div class="sidebar">
-                    
-                    <div class="imagearea">
-                        <div class="imagetop">
-                    <?php while($row = mysqli_fetch_assoc($result)){ ?>
-                    <img src="./images/esewa.png" alt="">
-                    <p><?php echo $row['Full_name']; ?></p>
-                </div>
-                <hr color="black">
-                <div class="imagebutton">
-                    <p><i class="fa fa-phone  fa-1x"></i>&nbsp;&nbsp; <?php echo $row['Phone']; ?></p>
-                    <p><i class="fa-regular fa-globe fa-1x"></i>&nbsp;&nbsp; <a href="<?php echo $row['website']; ?>"><?php echo $row['website']; ?></a></p>
-                    <p><i class="fa-solid fa-envelope"></i>&nbsp;&nbsp; <?php echo $row['contact_email']; ?></p>
-                </div>
-            </div>
-            <div class="Details">
-                <div class="header">
-                    <h2>Job-Seeker Details</h2>
-                    <a href="./joseekerprofileedit/details.php" class="openOverlay"><i class="fa-solid fa-edit " style="color: black;"></i> Edit</a>
-                    
-                    <div id="overlay">
-                        <div id="modal">
-                            <button id="closeOverlayBtn"><i class="fa fa-multiply"></i>Close</button>
-                          <iframe id="iframe" src="" frameborder="0"></iframe>
-                        </div>
-                      </div>
+<html lang="en">
 
-                </div>
-                <div class="lookingfor">
-                    <li style="font-weight: bold;">Looking for:</li>
-                    <li><?php echo $row['Position'] ?></li>
-                </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/jobseekerprofile.css">
+    <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
+    <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
+    <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
+</head>
 
-                <div class="years">
-                    <li style="font-weight: bold;">Experience</li>
-                    <li>4 Years</li>
-                </div>
-                <div class="age">
-                    <li style="font-weight: bold;">Age</li>
-                    <?php $date = $row['Age'];
-                        $age = date_diff(date_create($date), date_create('today'))->y;
-                        ?>
-                    <li><?php echo $age; ?></li>
-                </div>
-                <div class="sex">
-                    <li style="font-weight: bold;">Gender:</li>
-                    <li><?php echo $row['gender']; ?></li>
-                </div>
-                <div class = "address">
-                    <li style ="font-weight: bold">Address:</li>
-                    <li><?php echo $row['Address']; ?></li>
-                </div>
-            </div>
-
-            <div class="jobcount">
-                <h2>Jobs Count</h2>
-                <div class="totaljobs">
-                    <div class="total">
-                        <li style="font-weight: bold;">Total jobs</li>
-                        <li>4</li>
-                    </div>
-                    <div class="pending">
-                        <li style="font-weight: bold;">Pending jobs</li>
-                        <li>1</li>
-                    </div>
-                    <div class="Rejected">
-                        <li style="font-weight: bold;">Rejected jobs</li>
-                        <li>3</li>
-                    </div>
-                </div>
-            </div>
-
-
+<body>
+    <div class="navbarflow">
+        <div class="logo">
+            <a href="index.php">
+                <img src="./images/logo.svg" alt="company logo">
+            </a>
         </div>
 
+        <div class="links">
+            <a href="index.php">Home</a>
+            <a href="">Blog</a>
+            <a href="">Contact</a>
+            <a href="">About us</a>
+        </div>
 
-
-
-
-
-        <div class="main">
-
-
-            <div class="whoami">
-                <h2>Who am i?</h2>
-                <hr color="black" size="0.5px" style="margin-top: -8px;">
-                <p><?php echo $row['Description']; ?></p>
+        <div class="afterlogin">
+            <img src="./images/Account icon.svg" alt="#" class="test">
+            <div class="dropdown">
+                <a href="sessiondestroy.php"><button>Log out</button></a>
             </div>
-            <?php }?>
+        </div>
+    </div>
+
+
+
+
+    <div class="notification">
+        <p>Update your profile before applying for jobs !!</p>
+        <?php echo $jobseeker_email; ?>
+    </div>
+    <div class="content">
+
+        <div class="sidebar">
+
+            <div class="imagearea">
+                <div class="imagetop">
+                    <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                        <img src="./images/esewa.png" alt="">
+                        <p>
+                            <?php echo $row['Full_name']; ?>
+                        </p>
+                    </div>
+                    <hr color="black">
+                    <div class="imagebutton">
+                        <p><i class="fa fa-phone  fa-1x"></i>&nbsp;&nbsp;
+                            <?php echo $row['Phone']; ?>
+                        </p>
+                        <p><i class="fa-regular fa-globe fa-1x"></i>&nbsp;&nbsp; <a
+                                href="<?php echo $row['website']; ?>"><?php echo $row['website']; ?></a></p>
+                        <p><i class="fa-solid fa-envelope"></i>&nbsp;&nbsp;
+                            <?php echo $row['contact_email']; ?>
+                        </p>
+                    </div>
+                </div>
+                <div class="Details">
+                    <div class="header">
+                        <h2>Job-Seeker Details</h2>
+                        <a href="./joseekerprofileedit/details.php" class="openOverlay"><i class="fa-solid fa-edit "
+                                style="color: black;"></i> Edit</a>
+                                <!-- <a href="./joseekerprofileedit/details.php">Edit</a> -->
+
+                        <div id="overlay">
+                            <div id="modal">
+                                <button id="closeOverlayBtn"><i class="fa fa-multiply"></i>Close</button>
+                                <iframe id="iframe" src="" frameborder="0"></iframe>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="lookingfor">
+                        <li style="font-weight: bold;">Looking for:</li>
+                        <li>
+                            <?php echo $row['Position'] ?>
+                        </li>
+                    </div>
+
+                    <div class="years">
+                        <li style="font-weight: bold;">Experience</li>
+                        <li>4 Years</li>
+                    </div>
+                    <div class="age">
+                        <li style="font-weight: bold;">Age</li>
+                        <?php $date = $row['Age'];
+                        $age = date_diff(date_create($date), date_create('today'))->y;
+                        ?>
+                        <li>
+                            <?php echo $age; ?>
+                        </li>
+                    </div>
+                    <div class="sex">
+                        <li style="font-weight: bold;">Gender:</li>
+                        <li>
+                            <?php echo $row['gender']; ?>
+                        </li>
+                    </div>
+                    <div class="address">
+                        <li style="font-weight: bold">Address:</li>
+                        <li>
+                            <?php echo $row['jobseeker_address']; ?>
+                        </li>
+                    </div>
+                </div>
+
+                <div class="jobcount">
+                    <h2>Jobs Count</h2>
+                    <div class="totaljobs">
+                        <div class="total">
+                            <li style="font-weight: bold;">Total jobs</li>
+                            <li>4</li>
+                        </div>
+                        <div class="pending">
+                            <li style="font-weight: bold;">Pending jobs</li>
+                            <li>1</li>
+                        </div>
+                        <div class="Rejected">
+                            <li style="font-weight: bold;">Rejected jobs</li>
+                            <li>3</li>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+            <div class="main">
+
+
+                <div class="whoami">
+                    <h2>Who am i?</h2>
+                    <hr color="black" size="0.5px" style="margin-top: -8px;">
+                    <p>
+                        <?php echo $row['jobseeker_description']; ?>
+                    </p>
+                </div>
+            <?php } ?>
 
             <div class="mainsub">
                 <div class="edu">
                     <h2>Education</h2>
-                    <a href="./joseekerprofileedit/educaiton.php" class="openOverlay"><button><i class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
+                    <a href="./joseekerprofileedit/educaiton.php" class="openOverlay"><button><i
+                                class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
                 </div>
                 <hr color="black" size="0.5px">
                 <div class="educontent">
@@ -194,7 +214,8 @@ $result = $stmt->get_result();
             <div class="mainsubtwo">
                 <div class="skill">
                     <h2>Skills</h2>
-                    <a href="./joseekerprofileedit/skills.php" class="openOverlay"><button><i class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
+                    <a href="./joseekerprofileedit/skills.php" class="openOverlay"><button><i class="fa-solid fa-plus "
+                                style="color: black;"></i> Add new</button></a>
                 </div>
                 <hr color="black" size="0.5px">
 
@@ -229,7 +250,8 @@ $result = $stmt->get_result();
             <div class="mainthree">
                 <div class="Certificates">
                     <h2>Certificates</h2>
-                    <a href="./joseekerprofileedit/certificates.php" class="openOverlay"><button><i class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
+                    <a href="./joseekerprofileedit/certificates.php" class="openOverlay"><button><i
+                                class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
                 </div>
                 <hr color="black" size="0.5px">
 
@@ -250,7 +272,8 @@ $result = $stmt->get_result();
             <div class="mainfour">
                 <div class="Experience">
                     <h2>Experience</h2>
-                    <a href="./joseekerprofileedit/experience.php" class="openOverlay"><button><i class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
+                    <a href="./joseekerprofileedit/experience.php" class="openOverlay"><button><i
+                                class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
                 </div>
                 <hr color="black" size="0.5px">
                 <div class="expcontents">
@@ -341,6 +364,6 @@ $result = $stmt->get_result();
     </div>
     <script src="./js/jobseekerprofile.js"></script>
 
-</body> 
+</body>
 
 </html>

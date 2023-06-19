@@ -11,23 +11,19 @@ if (isset($_POST['signin'])) {
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $email);
   $stmt->execute();
-  $stmt->store_result();
+  $isPasswordCorrect = FALSE;
+  $stmt->bind_result($jobseekerpassword);
+  if ($stmt->fetch() == TRUE) {
+    $isPasswordCorrect = password_verify($password, $jobseekerpassword);
+    $_SESSION['email'] = $email;
 
-  if ($stmt->num_rows == 1) {
-    $stmt->bind_result($storedPassword);
-    $stmt->fetch();
-
-    if (password_verify($password, $storedPassword)) {
-      $_SESSION['email'] = $email;
       header("Location:jobseekerprofile.php");
       exit();
     } else {
-      $error = "Incorrect password";
+      $error = "Incorrect email or Password";
     }
-  } else {
-    $error = "User doesn't exit";
   }
-}
+
 
 ?>
 <!DOCTYPE html>

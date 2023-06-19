@@ -1,9 +1,5 @@
 <?php
 session_start();
-
-?>
-<?php
-
 include('./database/connection.php');
 $error = '';
 $email = $pass = $storedpassword = '';
@@ -12,24 +8,24 @@ if (isset($_POST['signin'])) {
   $email = $_POST['email'];
   $pass= $_POST['password'];
 
-  $stmt = $conn->prepare("SELECT password from company where email = ?");
+  $sql = "SELECT password from company where email = ?";
+  $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $email);
   $stmt->execute();
-  $result = $stmt->get_result();
-  if ($result->num_rows == 1) {
-    $row = $result->fetch_assoc();
-    $storedpassword = $row['password'];
-    if(password_verify($pass, $storedpassword)){
-      $_SESSION['email'] = $email;
+  // $result = $stmt->get_result();
+  $isPasswordCorrect = FALSE;
+  $stmt->bind_result($company_password);
+  if ($stmt->fetch() == TRUE) {
+    $isPasswordCorrect = password_verify($password, $company_password);
+    $_SESSION['email'] = $email;
+
       header("Location:companyprofile.php");
       exit();
     } else {
-      $error = "Incorrect Password";
+      $error = "Incorrect email or Password";
     }
-  } else {
-    $error = "User doesn't exit";
   }
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

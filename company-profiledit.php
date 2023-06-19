@@ -19,7 +19,7 @@ if (isset($session)) {
             $comapnynameErr = "Only letter and whitespace";
         }
         $contactperson = test_input($_POST['contactperson']);
-        if (!preg_match("/^[a-zA-Z ]*$/", $contactperson)) {
+        if (!preg_match("/^[a-zA-Z ]*$/", $contactperson)) { 
             $contactpersonErr = "only letter and whitespace";
         }
         $companyaddress = test_input($_POST['companyaddress']);
@@ -187,7 +187,7 @@ function test_input($data)
                     </form>
                 </div>
             <?php }
-                            $stmt->close(); ?>
+                $stmt->close(); ?>
         </div>
     </div>
     </div>

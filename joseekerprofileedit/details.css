@@ -7,9 +7,12 @@ body{
 }
 .details-form{
     max-width:fit-content;
-    border: 0.5px solid;
     margin-left: 10px;
     height:fit-content;
+}
+form{
+    border: 0.5px solid;
+
 }
 label{
     margin-left:12px;
