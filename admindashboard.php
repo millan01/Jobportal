@@ -2,7 +2,7 @@
 <?php
 session_start();
 ?>
- 
+
 
 <!-- php to fetch data in counter area -->
 <?php
@@ -21,7 +21,7 @@ $row = mysqli_fetch_assoc($result);
 $total_job_seeker = $row['Job_seeker_id'];
 
 //  php to count the total number of vacancies  
-$sql = "SELECT sum(no_of_vacancy) as no_of_vacancy FROM job where Status=Active";
+$sql = "SELECT sum(no_of_vacancy) as no_of_vacancy FROM job where status = 'Active'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 $total_vacancies = $row['no_of_vacancy'];
@@ -83,6 +83,9 @@ mysqli_close($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="./styles/admindashboard.css">
+    <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
+  <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
+  <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
 
 
 </head>
@@ -131,7 +134,7 @@ mysqli_close($conn);
                                 <div class="counter">
                                     <h3>Total Job Seekers</h3>
                                     <!-- sql to update the password of the admin user in the database -->
-                                     <span class="count" id="">
+                                    <span class="count" id="">
                                         <!-- php to count the total number of job seeker  -->
                                         <?php
                                         echo "$total_job_seeker";
@@ -173,7 +176,7 @@ mysqli_close($conn);
                                     <th>Address</th>
                                     <th> Email</th>
                                     <th> Phone</th>
-                                    <!-- <th>Action</th> -->
+                                    <th>Action</th>
                                 </tr>
                                 <!-- php to retrive company data from the database in the tabe  -->
                                 <?php
@@ -190,7 +193,8 @@ mysqli_close($conn);
                                         echo "<td>" . $row['location'] . "</td>";
                                         echo "<td>" . $row['email'] . "</td>";
                                         echo "<td>" . $row['phone'] . "</td>";
-                                        // echo "<td>" . $row['Action'] . "</td>";
+                                        echo "<td>" . '<a class="btn" href="javascript:void(0);" onclick="confirmDelete('. $row['company_id'] . ');"><button style ="padding:3px 6px">Delete <i class="fa fa-trash" style=" color: #F33636; font-weight: lighter;"></i> </button></a>'
+                                        . "</td>";
                                         echo "</tr>";
                                     }
                                 }
@@ -212,7 +216,7 @@ mysqli_close($conn);
                                     <th>Address</th>
                                     <th> Email</th>
                                     <th> Phone</th>
-                                    <!-- <th>Action</th> -->
+                                    <th>Action</th>
                                 </tr>
                                 <!-- php to fetch the jobseeker content from the databse in the table -->
                                 <?php
@@ -226,10 +230,11 @@ mysqli_close($conn);
                                         echo "<tr>";
                                         echo "<td>" . $row['Job_seeker_id'] . "</td>";
                                         echo "<td>" . $row['Full_name'] . "</td>";
-                                        echo "<td>" . $row['Address'] . "</td>";
+                                        echo "<td>" . $row['jobseeker_address'] . "</td>";
                                         echo "<td>" . $row['Email'] . "</td>";
                                         echo "<td>" . $row['Phone'] . "</td>";
-                                        // echo "<td>" . $row['Action'] . "</td>";
+                                        echo "<td>" . '<a class="btn" href="javascript:void(0);" onclick="confirmDeleteseeker('. $row['Job_seeker_id'] . ');"><button style ="padding:3px 6px">Delete <i class="fa fa-trash" style=" color: #F33636; font-weight: lighter;"></i> </button></a>'
+                                            . "</td>";
                                         echo "</tr>";
                                     }
                                 }

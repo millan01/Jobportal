@@ -21,3 +21,21 @@ function openTab(evt, tabName) {
   evt.currentTarget.className+="active";
 }
 document.getElementById("defaultOpen").click();
+
+
+//function to delete jobseeker
+
+function confirmDeleteseeker(Job_seeker_id) {
+  var confirmed = confirm('Are you sure you want to delete?');
+  if (confirmed) {
+      window.location.href ="adminaction.php?Job_seeker_id=" + Job_seeker_id;
+  }
+}
+
+//function to delete company
+function confirmDelete(company_id) {
+  var confirmed = confirm('Are you sure you want to delete?');
+  if (confirmed) {
+      window.location.href ="adminaction.php?company_id=" + company_id;
+  }
+}
