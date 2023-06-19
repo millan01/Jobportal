@@ -1,4 +1,6 @@
 <?Php
+include('./database/connection.php');
+
 $name = $email = $phone = $password = $confirm_password = "";
 $nameErr = $emailErr = $phoneErr = $passwordErr = $confirm_passwordErr = "";
 
@@ -19,6 +21,12 @@ if (isset($_POST['submit'])) {
     $emailErr = "Email is required";
   } else {
     $email = test_input($_POST["email"]);
+    $sql = "SELECT * from job_seeker where email = '$email'";
+    $result = mysqli_query($conn,$sql);
+    $row = mysqli_num_rows($result);
+    if($row > 0){
+      $emailErr = "Email already exist";
+    }
     // check if email address is well-formed
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
       $emailErr = "Invalid email format";
@@ -64,8 +72,7 @@ if (isset($_POST['submit'])) {
   }
   //data insert into database
   if (empty($nameErr) && empty($emailErr) && empty($phoneErr) && empty($passwordErr) && empty($confirm_passwordErr)) {
-    include('./database/connection.php');
-
+    
     $job_seeker_password = password_hash($password, PASSWORD_DEFAULT);
 
     $stmt = $conn->prepare("INSERT INTO job_seeker(Full_name,Email,Phone,Password) VALUES (?,?,?,?)");

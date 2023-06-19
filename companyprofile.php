@@ -1,6 +1,6 @@
 <?php
 session_start();
-$companyemail = $_SESSION['email'];
+$companyemail = $_SESSION['email']; 
 if (!isset($companyemail)) {
   header("location:index.php");
 }

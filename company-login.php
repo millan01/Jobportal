@@ -17,8 +17,8 @@ if (isset($_POST['signin'])) {
   $stmt->bind_result($company_password);
   if ($stmt->fetch() == TRUE) {
     $isPasswordCorrect = password_verify($password, $company_password);
-    $_SESSION['email'] = $email;
-
+    $_SESSION['email'] = $email ;
+ 
       header("Location:companyprofile.php");
       exit();
     } else {

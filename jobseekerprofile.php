@@ -1,7 +1,10 @@
 <?php
 session_start();
 include('./database/connection.php');
-$jobseeker_email = $_SESSION['email'];
+$jobseeker_email = $_SESSION['seeker_Email'];
+if(!isset($jobseeker_email)){
+    header('location: index.php');
+}
 $stmt = $conn->prepare("SELECT * from job_seeker where email = ?");
 $stmt->bind_param("s", $jobseeker_email);
 $stmt->execute();

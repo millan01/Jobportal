@@ -21,7 +21,7 @@ $row = mysqli_fetch_assoc($result);
 $total_job_seeker = $row['Job_seeker_id'];
 
 //  php to count the total number of vacancies  
-$sql = "SELECT sum(no_of_vacancy) as no_of_vacancy FROM job";
+$sql = "SELECT sum(no_of_vacancy) as no_of_vacancy FROM job where Status=Active";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 $total_vacancies = $row['no_of_vacancy'];

@@ -15,9 +15,27 @@ if (isset($_POST['signin'])) {
   $stmt->bind_result($jobseekerpassword);
   if ($stmt->fetch() == TRUE) {
     $isPasswordCorrect = password_verify($password, $jobseekerpassword);
-    $_SESSION['email'] = $email;
+    $_SESSION['seeker_Email' ] = $email;
 
       header("Location:jobseekerprofile.php");
+      exit();
+    } else {
+      $error = "Incorrect email or Password";
+    }
+
+
+    //admin check
+  $sql = "SELECT Password from admin_login where Email = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $isPasswordCorrect = FALSE;
+  $stmt->bind_result($jobseekerpassword);
+  if ($stmt->fetch() == TRUE) {
+    $isPasswordCorrect = password_verify($password, $jobseekerpassword);
+    $_SESSION['admin_Email' ] = $email;
+
+      header("Location:admindashboard.php");
       exit();
     } else {
       $error = "Incorrect email or Password";

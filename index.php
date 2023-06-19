@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('./database/connection.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -109,7 +110,7 @@ include('./database/connection.php');
                                    <?php echo '<img src="./images/uploaded_image/'.$row['Image_name'].'"alt="">'?>
                                 </div>
                                 <div class="companyname">
-                                    <li>
+                                    <li> 
                                         <?php echo $row['job_title']; ?>
                                     </li>
                                     <li>
