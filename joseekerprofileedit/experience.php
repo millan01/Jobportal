@@ -1,15 +1,17 @@
 <?php
-
+session_start();
+include('../database/connection.php');
+$sessionmail = $_SESSION['seeker_Email'];
 $companyname = $startdate = $enddate = $start_date = $end_date = "";
 $companynameErr = $startdateErr = $enddateErr = "";
 
-if (isset($_POST[''])) {
+if (isset($_POST['update'])) {
 
     if (empty($_POST['cname'])) {
         $companynameErr = "company name not selected";
     } else {
-        $companyname = test_input($_POST['canme']);
-        if (!preg_match("/^[a-zA-Z ]*$/", $companyname)) {
+        $companyname = test_input($_POST['cname']);
+        if (!preg_match("/^[a-zA-Z0-9 ]+$/", $companyname)) {
             $companynameErr = "only letters";
         }
     }
@@ -30,14 +32,25 @@ if (isset($_POST[''])) {
 
 
     if (empty($companynameErr) && empty($startdateErr) && empty($enddateErr)) {
-        include('./database/connection.php');
-        $stmt = $conn->prepare("INSERT INTO table_name(companyname, starteddate,end_date) VALUES (?,?,?");
-        $stmt->bind_param("sss", $companyname, $start_date, $end_date);
+        $sql = "SELECT Job_seeker_id FROM job_seeker WHERE Email = '$sessionmail'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $seekerID = $row['Job_seeker_id'];
+        }
+        $stmt = $conn->prepare("INSERT INTO jobseeker_experience(companyName, startDate,endDate,jobseeker_id) VALUES (?,?,?,?)");
+        $stmt->bind_param("sssi", $companyname, $start_date, $end_date,$seekerID);
         $stmt->execute();
         $stmt->close();
-        header('location:jobseekerprofile.php');
+        header('location:../jobseekerprofile.php');
 
     }
+}
+function test_input($data){
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
 ?>
 

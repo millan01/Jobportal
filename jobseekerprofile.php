@@ -2,8 +2,29 @@
 session_start();
 include('./database/connection.php');
 $jobseeker_email = $_SESSION['seeker_Email'];
-if(!isset($jobseeker_email)){
+if (!isset($jobseeker_email)) {
     header('location: index.php');
+}
+
+$stmt = "SELECT * from job_seeker where email ='$jobseeker_email' ";
+$result = mysqli_query($conn, $stmt);
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $seekerid = $row['Job_seeker_id'];
+    }
+}
+
+//display the total years of experience
+$sum = 0;
+$sql = "SELECT startDate, endDate from jobseeker_experience where jobseeker_id =  '$seekerid'";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $exp = date_diff(date_create($row['startDate']), date_create($row['endDate']));
+    $expyear = $exp->y;
+    $expmonth = $exp->m;
+
+    $sum = $sum + $expyear + $expmonth;
 }
 $stmt = $conn->prepare("SELECT * from job_seeker where email = ?");
 $stmt->bind_param("s", $jobseeker_email);
@@ -19,7 +40,7 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./styles/jobseekerprofile.css">
+    <link rel="stylesheet" href="./styles/jobseekerprofilee.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
@@ -43,6 +64,7 @@ $result = $stmt->get_result();
         <div class="afterlogin">
             <img src="./images/Account icon.svg" alt="#" class="test">
             <div class="dropdown">
+                <a href="jobseekerprofile.php"><button>Profile</button></a>
                 <a href="sessiondestroy.php"><button>Log out</button></a>
             </div>
         </div>
@@ -53,7 +75,6 @@ $result = $stmt->get_result();
 
     <div class="notification">
         <p>Update your profile before applying for jobs !!</p>
-        <?php echo $jobseeker_email; ?>
     </div>
     <div class="content">
 
@@ -61,7 +82,9 @@ $result = $stmt->get_result();
 
             <div class="imagearea">
                 <div class="imagetop">
-                    <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                    <?php while ($row = mysqli_fetch_assoc($result)) {
+                        $seekerid = $row['Job_seeker_id'];
+                        ?>
                         <img src="./images/esewa.png" alt="">
                         <p>
                             <?php echo $row['Full_name']; ?>
@@ -84,7 +107,7 @@ $result = $stmt->get_result();
                         <h2>Job-Seeker Details</h2>
                         <a href="./joseekerprofileedit/details.php" class="openOverlay"><i class="fa-solid fa-edit "
                                 style="color: black;"></i> Edit</a>
-                                <!-- <a href="./joseekerprofileedit/details.php">Edit</a> -->
+                        <!-- <a href="./joseekerprofileedit/details.php">Edit</a> -->
 
                         <div id="overlay">
                             <div id="modal">
@@ -103,7 +126,8 @@ $result = $stmt->get_result();
 
                     <div class="years">
                         <li style="font-weight: bold;">Experience</li>
-                        <li>4 Years</li>
+
+                        <li></li>
                     </div>
                     <div class="age">
                         <li style="font-weight: bold;">Age</li>
@@ -149,11 +173,6 @@ $result = $stmt->get_result();
 
             </div>
 
-
-
-
-
-
             <div class="main">
 
 
@@ -174,43 +193,36 @@ $result = $stmt->get_result();
                 </div>
                 <hr color="black" size="0.5px">
                 <div class="educontent">
+                    <?php
+                    $stmt = "SELECT * from  jobseeker_education where jobseeker_id = $seekerid";
+                    $result = mysqli_query($conn, $stmt);
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                            <div class="eduschool">
+                                <div class="col1">
+                                    <p style="font-weight: bold;"><i class="fa fa-circle-check"></i>
+                                        <?php echo $row['Course'] ?> <span>
+                                            <?php echo $row['started_year'] ?> -
+                                            <?php echo $row['end_year'] ?>
+                                        </span>
+                                    </p>
+                                    <p>&nbsp;&nbsp;&nbsp; <i class="fa fa-dot-circle"></i>
+                                        <?php echo $row['institute'] ?>
+                                    </p>
 
-                    <div class="eduschool">
-                        <div class="col1">
-                            <p style="font-weight: bold;"><i class="fa fa-circle-check"></i> School <span>2010 -
-                                    2020</span></p>
-                            <p>&nbsp;&nbsp;&nbsp; <i class="fa fa-dot-circle"></i> Aankura English secondar boarding
-                                school </p>
-                        </div>
-                        <div class="col2">
-                            <a href=""><button><i class="fa fa-trash"></i> Delete</button></a>
-                        </div>
-                    </div>
 
-
-                    <div class="educollege">
-                        <div class="col1">
-                            <p style="font-weight: bold;"><i class="fa fa-circle-check"></i> Plus two <span>2020 -
-                                    2022</span></p>
-                            <p>&nbsp;&nbsp;&nbsp; <i class="fa fa-dot-circle"></i> Triton international college</p>
-                        </div>
-                        <div class="col2">
-                            <a href=""><button><i class="fa fa-trash"></i> Delete</button></a>
-
-                        </div>
-                    </div>
-
-                    <div class="edugraduation">
-                        <div class="col1">
-                            <p style="font-weight: bold;"><i class="fa fa-circle-check"></i> Gradutaion <span>2022 -
-                                    present</span></p>
-                            <p>&nbsp;&nbsp;&nbsp; <i class="fa fa-dot-circle"></i>Orchid International college</p>
-                        </div>
-                        <div class="col2">
-                            <a href=""><button><i class="fa fa-trash"></i> Delete</button></a>
-
-                        </div>
-                    </div>
+                                </div>
+                                <div class="col2">
+                                   <?php echo '<a href="javascript:void(0);" onclick="edudelete('.$row['id'].')"><button><i class="fa fa-trash" style="color: #F33636; font-weight: lighter;"></i> Delete</button></a>';
+                                    ?>
+                                </div>
+                            </div>
+                        <?php }
+                    } else { ?>
+                    <h3 style="font-style:Italic; word-spacing:1px;">No data added</h3>
+                    <?php }
+                    ?>
                 </div>
             </div>
 
@@ -222,32 +234,32 @@ $result = $stmt->get_result();
                 </div>
                 <hr color="black" size="0.5px">
 
-                <div class="skillcontent">
-                    <div class="skilltittle">
-                        <li><i class="fa fa-dot-circle"></i> &nbsp; python</li>
-                    </div>
-                    <div class="skillprogressbar">
-                        <progress value="90" max="100"></progress>
-                    </div>
 
-                    <div class="skilldelbtn">
-                        <a href=""><button><i class="fa fa-trash"></i> Delete</button></a>
+                <?php
+                $sql = "SELECT * from jobseeker_skill where jobseeker_id = $seekerid";
+                $result = mysqli_query($conn, $sql);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                        <div class="skillcontent">
+                            <div class="skilltittle">
+                                <li><i class="fa fa-dot-circle"></i> &nbsp;
+                                    <?php echo $row['Title']; ?>
+                                </li>
+                            </div>
+                            <div class="skillprogressbar">
+                                <progress value="<?php echo $row['progress']; ?>" max="100"></progress>
+                            </div>
 
-                    </div>
-                </div>
-                <div class="skillcontent">
-                    <div class="skilltittle">
-                        <li><i class="fa fa-dot-circle"></i> &nbsp; python</li>
-                    </div>
-                    <div class="skillprogressbar">
-                        <progress value="50" max="100"></progress>
-                    </div>
+                            <div class="skilldelbtn">
+                                <a href=""><button><i class="fa fa-trash"></i> Delete</button></a>
 
-                    <div class="skilldelbtn">
-                        <a href=""><button><i class="fa fa-trash"></i> Delete</button></a>
-
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                    <?php }
+                } else { ?>
+                <h3 style="font-style:Italic; word-spacing:1px;">No data added</h3>
+                <?php } ?>
             </div>
 
             <div class="mainthree">
@@ -257,19 +269,35 @@ $result = $stmt->get_result();
                                 class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
                 </div>
                 <hr color="black" size="0.5px">
+                <?php
+                $query = "SELECT * from  jobseeker_certs where jobseeker_id = $seekerid";
+                $result = mysqli_query($conn, $query);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                        <div class="certcontent">
+                            <div class="cert1">
+                                <li><i class="fa fa-dot-circle"></i>&nbsp;
+                                    <?php echo $row['Title']; ?>
+                                </li>
+                                <span>&nbsp;&nbsp;&nbsp;&nbsp; (
+                                    <?php echo $row['awarded_by']; ?>)
+                                </span>
+                            </div>
+                            <div class="cert2">
+                                <li>
+                                    <?Php echo $row['year']; ?>
+                                </li>
+                            </div>
+                            <div class="cert3">
+                                <a href=""><button><i class="fa fa-trash"></i> Delete</button></a>
 
-                <div class="certcontent">
-                    <div class="cert1">
-                        <li><i class="fa fa-dot-circle"></i>&nbsp; Title</li>
-                    </div>
-                    <div class="cert2">
-                        <li>Year</li>
-                    </div>
-                    <div class="cert3">
-                        <a href=""><button><i class="fa fa-trash"></i> Delete</button></a>
-
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                    <?php }
+                } else { ?>
+                <h3 style="font-style:Italic; word-spacing:1px;">No data added</h3>
+                <?php } ?>
             </div>
 
             <div class="mainfour">
@@ -279,18 +307,41 @@ $result = $stmt->get_result();
                                 class="fa-solid fa-plus " style="color: black;"></i> Add new</button></a>
                 </div>
                 <hr color="black" size="0.5px">
-                <div class="expcontents">
-                    <div class="expetitle">
-                        <li><i class="fa fa-dot-circle"></i>&nbsp; Esewa pvt ltd.</li>
-                    </div>
-                    <div class="expdate">
-                        <li>2000 - 2022</li><span>(22Years)</span>
-                    </div>
+                <?php
+                $sql = "SELECT * from jobseeker_experience where jobseeker_id =  $seekerid";
+                $result = mysqli_query($conn, $sql);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
 
-                    <div class="expdelbtn">
-                        <a href=""><button><i class="fa fa-trash"></i> Delete</button></a>
-                    </div>
-                </div>
+                        ?>
+                        <div class="expcontents">
+                            <div class="expetitle">
+                                <li><i class="fa fa-dot-circle"></i>&nbsp;
+                                    <?php echo $row['companyName']; ?>
+                                </li>
+                            </div>
+                            <div class="expdate">
+                                <li>
+                                    <?php echo date('Y', strtotime($row['startDate'])); ?> -
+                                    <?php echo date('Y', strtotime($row['endDate'])); ?>
+                                </li><span>
+                                    <?php
+                                    $totalyear = date_diff(date_create($row['startDate']), date_create($row['endDate']));
+                                    $year = $totalyear->y;
+                                    $months = $totalyear->m;
+                                    echo $year . 'Year' . '&nbsp;' . $months . 'months';
+                                    ?>
+                                </span>
+                            </div>
+
+                            <div class="expdelbtn">
+                                <a href=""><button><i class="fa fa-trash"></i> Delete</button></a>
+                            </div>
+                        </div>
+                    <?php }
+                } else { ?>
+                <h3 style="font-style:Italic; word-spacing:1px;">No data added</h3>
+                <?Php } ?>
             </div>
         </div>
     </div>
@@ -354,7 +405,7 @@ $result = $stmt->get_result();
             </div>
             <div class="contactus">
                 <h2>Contact us</h2>
-                <a href="">koteshwore Kthamndu Nepal</a>
+                <a href="">koteshwore Kathmndu Nepal</a>
                 <a href="">+977-011234567</a>
                 <a href="">insearch@gmail.com</a>
             </div>
@@ -365,7 +416,7 @@ $result = $stmt->get_result();
             </p>
         </div>
     </div>
-    <script src="./js/jobseekerprofile.js"></script>
+    <script src=".//js/jobseekerprofile.js"></script>
 
 </body>
 

@@ -9,7 +9,7 @@ $sql = "SELECT * FROM company WHERE email = '$companyemail'";
 $result = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 
 <head>
   <meta charset="UTF-8">
@@ -348,7 +348,7 @@ $result = mysqli_query($conn, $sql);
                     <?php echo $row['deadline_date']; ?>
                   </td>
                   <td>
-                    <?php echo $row['Status'];?>
+                    <?php echo $row['Status'];?> 
                   </td>
                   <td>
                      <!-- echo '<a class = "btn" href ="jobview.php?id=' . $row['job_id'] . '">View</a>' -->

@@ -1,13 +1,16 @@
 <?php
+session_start();
+include ('../database/connection.php');
+$sessionmail = $_SESSION['seeker_Email'];
 $title = $year = $compname = "";
 $titleErr = $yearErr = $compnameErr = "";
-if (isset($_POST['submit'])) {
+if (isset($_POST['update'])) {
 
     if (empty($_POST["certtitle"])) {
         $titleErr = "Name is required";
     } else {
         $title = test_input($_POST["certtitle"]);
-        if (!preg_match("/^[a-zA-Z ]*$/",  $title)) {
+        if (!preg_match("/^[a-zA-Z ]*$/",$title)) {
             $titleErr = "Only letters and white space allowed";
         }
     }
@@ -16,27 +19,31 @@ if (isset($_POST['submit'])) {
         $yearErr = "Name is required";
     } else {
         $year = test_input($_POST["year"]);
-        if (!preg_match("/^[/[0-9]$/]*$/",  $year)) {
-            $yearErr = "Only letters and white space allowed";
-        }
     }
 
     if (empty($_POST["companyname"])) {
         $compnameErr = "Name is required";
     } else {
         $compname = test_input($_POST["companyname"]);
-        if (!preg_match("/^[a-zA-Z ]*$/",  $compname)) {
+        if (!preg_match("/^[a-zA-Z ]*$/",$compname)) {
             $compnameErr = "Only letters and white space allowed";
         }
     }
 
     if(empty($titleErr) && empty($yearErr) && empty($compnameErr)){
-        include ('./database/connection.php');
-        $stmt = $conn->prepare("INSERT INTO table_name(cert_title, cert_year,cert_company) VALUES (?,?,?");
-        $stmt->bind_param("sss",$title,$year,$compname);
+        include('../database/connection.php');
+        $sql = "SELECT Job_seeker_id FROM job_seeker WHERE Email = '$sessionmail'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $seekerID = $row['Job_seeker_id'];
+        }
+
+        $stmt = $conn->prepare("INSERT INTO jobseeker_certs(Title, year,awarded_by,jobseeker_id) VALUES (?,?,?,?)");
+        $stmt->bind_param("sssi",$title,$year,$compname,$seekerID);
         $stmt->execute();
         $stmt->close();
-        header('location:jobseekerprofile.php');
+        header('location:../jobseekerprofile.php');
     }
 }
 function test_input($data)
@@ -62,8 +69,8 @@ function test_input($data)
     <form action="" method="post">
         <div class="formdetails">
             <h2>Update Certificates/Achivements</h2>
+            <?php echo $sessionmail; ?>
             <hr color="black" size="0.5px">
-
             <div class="form">
                 <label for="Title">Title</label>
                 <input type="text" name="certtitle" id="certtitle" required>
@@ -79,7 +86,7 @@ function test_input($data)
                 <input type="text" name="companyname" name="companyname" required>
             </div>
 
-            <a href=""><button type="submit">Update</button></a>
+            <a href=""><button type="submit" name="update">Update</button></a>
         </div>
     </form>
 </body>

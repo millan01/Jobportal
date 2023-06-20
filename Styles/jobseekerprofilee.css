@@ -209,7 +209,8 @@ body {
 }
 .edu {
   display: flex;
-  gap: 50%;
+  justify-content: space-between;
+  margin-right: 20px;
   align-items: center;
   font-weight: bold;
 }
@@ -233,7 +234,8 @@ body {
 }
 .eduschool {
   display: flex;
-  gap: 30%;
+  justify-content: space-between;
+  margin-right: 45px;
   align-content: center;
 }
 .eduschool .col2 {
@@ -247,22 +249,7 @@ body {
   margin-left: 20px;
 }
 
-.educollege {
-  display: flex;
-  gap: 45%;
-  align-content: center;
-}
-.educollege .col2 {
-  margin-top: 10px;
-}
-.edugraduation {
-  display: flex;
-  gap: 45%;
-}
-.edugraduation .col2 {
-  margin-top: 10px;
-  margin-right: 20px;
-}
+
 
 .mainsubtwo {
   margin-top: 50px;
@@ -272,7 +259,8 @@ body {
 }
 .skill {
   display: flex;
-  gap: 55%;
+  justify-content: space-between;
+  margin-right: 20px;
   align-items: center;
   font-weight: bold;
 }
@@ -290,7 +278,7 @@ body {
 
 .skillcontent {
   display: flex;
-  gap: 22%;
+  justify-content: space-between;
   margin-left: 10px;
   margin-right: 48px;
   margin-top: 15px;
@@ -311,7 +299,8 @@ progress {
 }
 .Certificates {
   display: flex;
-  gap: 50%;
+  justify-content: space-between;
+  margin-right: 20px;
   align-items: center;
   font-weight: bold;
 }
@@ -348,7 +337,8 @@ progress {
 }
 .Experience {
   display: flex;
-  gap: 50%;
+  justify-content: space-between;
+  margin-right: 20px;
   align-items: center;
   font-weight: bold;
 }

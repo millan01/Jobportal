@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('../database/connection.php');
-$sessionmail = $_SESSION['email'];
+$sessionmail = $_SESSION['seeker_Email'];
 
 $stmt = $conn->prepare("SELECT * from job_seeker where email = ?");
 $stmt->bind_param("s", $sessionmail);
@@ -96,12 +96,12 @@ if (isset($sessionmail)) {
         $whoami = test_input($_POST['description']);
 
         if (empty($nameErr) && empty($genderErr) && empty($dobErr) && empty($addressErr) && empty($phoneErr) && empty($mobileErr) && empty($websitErr) && empty($whoamiErr) && empty($imageErr)) {
-            // include('/database/connection.php');
+            include('../database/connection.php');
             $stmt = $conn->prepare("UPDATE job_seeker SET Full_name =?, gender=?,Age=?,jobseeker_address=?,Phone=?, Mobile=?,contact_email=?,website=?,job_description=?,Image_name=? where Email=?");
-            $stmt->bind_param("ssissssssss", $name, $gender, $dateofbirth, $address, $phone, $mobile, $contactemail, $website, $whoami, $imagename, $sessionmail);
+            $stmt->bind_param("ssissssssss", $name, $gender, $dateofbirth, $address, $phone, $mobile, $contactemail, $website, $whoami, $imagename, $_SESSION['seeker_Email']);
             $stmt->execute();
             $stmt->close();
-            header("location: certificates.php");
+            header("location: /jobseekerprofile.php");
         }
 
     }

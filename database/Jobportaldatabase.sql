@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2023 at 05:04 PM
+-- Generation Time: Jun 20, 2023 at 10:02 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -33,6 +33,13 @@ CREATE TABLE `admin_login` (
   `username` varchar(100) DEFAULT NULL,
   `Password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `admin_login`
+--
+
+INSERT INTO `admin_login` (`Admin_id`, `Email`, `username`, `Password`) VALUES
+(1, 'admin1@gmail.com', 'admin1', 'admin1@135');
 
 -- --------------------------------------------------------
 
@@ -65,7 +72,8 @@ INSERT INTO `company` (`company_id`, `company_name`, `conatact_personname`, `ema
 (3, 'Cedar Gate', 'Anish sapkota', 'cedargate@gmail.com', '9865525453', '$2y$10$QP5Dkbw5QHOk2CSm.zqrW.JL.FHoFNf5iLvO.vPRZhpN9oq0Q5tzO', '', NULL, '', '', '', ''),
 (4, 'ar group of company', 'Alex shrestha', 'argroup@gmail.com', '9876543210', '$2y$10$TGEvucUlJg50tiMvvIdGFOOdkBgMzLOBYS0cev0dSxnmsdhOQAKJm', '', NULL, '', '', '', ''),
 (5, 'ar group of company', 'alex shrestha', 'argroup@gamil.com', '9876543210', '$2y$10$gKjrtoecA6MsfX6uLQzwKOa22g.exzYY0xFmHmOhExxTw..rUNb1q', '', NULL, '', '', '', ''),
-(6, 'ar group of company', 'Alex shrestha', 'Argroup@gmail.com', '9843448387', '$2y$10$3tCt/.0G2cUhkipWFshgxuS1LYTS1pgAkHb4k6.6800apKJjKkT9K', '', NULL, '', '', '', '');
+(6, 'ar group of company', 'Alex shrestha', 'Argroup@gmail.com', '9843448387', '$2y$10$3tCt/.0G2cUhkipWFshgxuS1LYTS1pgAkHb4k6.6800apKJjKkT9K', '', NULL, '', '', '', ''),
+(7, 'ar group of company', 'alex shrestha', 'argroup123@gmail.com', '9876543210', '$2y$10$M8M10wtXOb3q/JCkV/IlWuL2Zruux3AMpyYdddfQPId98DOBRIo0y', '', NULL, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -127,6 +135,95 @@ INSERT INTO `job` (`job_id`, `category`, `job_title`, `posted_date`, `deadline_d
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jobseeker_certs`
+--
+
+CREATE TABLE `jobseeker_certs` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `Title` varchar(255) NOT NULL,
+  `year` varchar(100) NOT NULL,
+  `awarded_by` varchar(255) NOT NULL,
+  `jobseeker_id` int(10) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `jobseeker_certs`
+--
+
+INSERT INTO `jobseeker_certs` (`id`, `Title`, `year`, `awarded_by`, `jobseeker_id`) VALUES
+(1, 'Social Activist', '2076', 'Tech Talk', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jobseeker_education`
+--
+
+CREATE TABLE `jobseeker_education` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `Course` varchar(100) DEFAULT NULL,
+  `Board` varchar(100) DEFAULT NULL,
+  `institute` varchar(100) DEFAULT NULL,
+  `started_year` int(11) DEFAULT NULL,
+  `end_year` int(11) DEFAULT NULL,
+  `jobseeker_id` int(20) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `jobseeker_education`
+--
+
+INSERT INTO `jobseeker_education` (`id`, `Course`, `Board`, `institute`, `started_year`, `end_year`, `jobseeker_id`) VALUES
+(1, 'SLC/SEE', 'NEB', 'City school', 2063, 2074, 2),
+(2, 'Plus two', 'NEB', 'Triton international college', 2074, 2077, 2),
+(3, 'SLC/SEE', 'NEB', 'DAV school', 2063, 2074, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jobseeker_experience`
+--
+
+CREATE TABLE `jobseeker_experience` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `companyName` varchar(255) NOT NULL,
+  `startDate` date DEFAULT NULL,
+  `endDate` date DEFAULT NULL,
+  `jobseeker_id` int(10) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `jobseeker_experience`
+--
+
+INSERT INTO `jobseeker_experience` (`id`, `companyName`, `startDate`, `endDate`, `jobseeker_id`) VALUES
+(1, 'F1soft', '2020-02-24', '2023-02-25', 2),
+(2, 'Techpana', '2022-02-21', '2023-06-08', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jobseeker_skill`
+--
+
+CREATE TABLE `jobseeker_skill` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `Title` varchar(200) NOT NULL,
+  `progress` int(11) NOT NULL,
+  `jobseeker_id` int(20) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `jobseeker_skill`
+--
+
+INSERT INTO `jobseeker_skill` (`id`, `Title`, `progress`, `jobseeker_id`) VALUES
+(1, 'Java', 80, 2),
+(2, 'Python', 100, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `job_seeker`
 --
 
@@ -135,21 +232,30 @@ CREATE TABLE `job_seeker` (
   `Full_name` varchar(100) NOT NULL,
   `Email` varchar(200) DEFAULT NULL,
   `Password` varchar(200) NOT NULL,
-  `Address` varchar(200) NOT NULL,
+  `jobseeker_address` varchar(200) NOT NULL,
   `Phone` varchar(100) NOT NULL,
-  `Resume_file` varchar(100) NOT NULL
+  `Position` varchar(100) DEFAULT NULL,
+  `Image_name` varchar(100) NOT NULL,
+  `contact_email` varchar(100) NOT NULL,
+  `website` varchar(100) NOT NULL,
+  `gender` varchar(20) NOT NULL,
+  `jobseeker_description` varchar(255) NOT NULL,
+  `Mobile` varchar(20) NOT NULL,
+  `Age` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `job_seeker`
 --
 
-INSERT INTO `job_seeker` (`Job_seeker_id`, `Full_name`, `Email`, `Password`, `Address`, `Phone`, `Resume_file`) VALUES
-(1, 'Anish Sapkota', 'anish@gmail.com', '$2y$10$1DVnk4y6zThvA6M1C14rheE4S0gRGIlnKZTvKfsaFvBZbyxPA740O', '', '9876543210', ''),
-(2, 'oham shakya', 'oham@gmail.com', '$2y$10$vX5x7d2ILacc6QnENQ/qJem3fKC6qWFB9M0DlSv1N8MxTc7YAXm7i', '', '9865060905', ''),
-(3, 'aayush limbu', 'aayush@gmail.com', '$2y$10$AGt1.jUlthABypLRLTqfE.T2NN2bWw1PD75sv3Gc8nitTy7GH0Qau', '', '9843448387', ''),
-(4, 'Alex shrestha', 'alex@gmail.com', '$2y$10$UbVIt5HBWik.k7dQ9w/yreRT4L/cAuHDsWncZG/2v63uPSEHRdW1O', '', '9865060905', ''),
-(5, 'anish sapkota', 'anish@gmail.com', '$2y$10$N3pLrm/sRJG/h7mRWY6zh.BxwpCTE.NByyHmN0RLsmiM.EMNAccNK', '', '9876543210', '');
+INSERT INTO `job_seeker` (`Job_seeker_id`, `Full_name`, `Email`, `Password`, `jobseeker_address`, `Phone`, `Position`, `Image_name`, `contact_email`, `website`, `gender`, `jobseeker_description`, `Mobile`, `Age`) VALUES
+(1, 'Anish Sapkota', 'anish@gmail.com', '$2y$10$1DVnk4y6zThvA6M1C14rheE4S0gRGIlnKZTvKfsaFvBZbyxPA740O', 'kathmandu', '9876543210', NULL, '', 'anish123@gmail.com', 'https:///anish.com', 'Male', 'this is anish sapkota from kritipur kathmandu', '', NULL),
+(2, 'oham shakya', 'oham@gmail.com', '$2y$10$vX5x7d2ILacc6QnENQ/qJem3fKC6qWFB9M0DlSv1N8MxTc7YAXm7i', 'kathmandu', '9865060905', NULL, '', 'oham123@gmail.com', 'https://oham.com', 'Male', 'hey', '', '2003-06-03'),
+(3, 'aayush limbu', 'aayush@gmail.com', '$2y$10$AGt1.jUlthABypLRLTqfE.T2NN2bWw1PD75sv3Gc8nitTy7GH0Qau', '', '9843448387', NULL, '', '', '', '', '', '', NULL),
+(4, 'Alex shrestha', 'alex@gmail.com', '$2y$10$UbVIt5HBWik.k7dQ9w/yreRT4L/cAuHDsWncZG/2v63uPSEHRdW1O', '', '9865060905', NULL, '', '', '', '', '', '', NULL),
+(6, 'Hari oham', 'harioham@gmial.com', '$2y$10$tzjOl4j9FPi.yRJEHA1RRe6KEzIYd.8vGD6LDQFdBkV4KM2gsarU.', '', '9876543210', NULL, '', '', '', '', '', '', NULL),
+(7, 'Harry shrestha', 'harry@gmail.com', '$2y$10$gwbe5EGFuZuYdyHmgMYx0uIeq6kwgOx7wUEPFr3DZDfDrvOStdpxK', '', '9876543210', NULL, '', '', '', '', '', '', NULL),
+(8, 'milan karki', 'milan@gmail.com', '$2y$10$NRTWCCpjBlsV8FZ66.Kfw.D.Rnh04HF3CqN.fJ.3sAyY79plItxmy', '', '9843448387', NULL, '', '', '', '', '', '', NULL);
 
 --
 -- Indexes for dumped tables
@@ -177,6 +283,34 @@ ALTER TABLE `job`
   ADD KEY `companyID` (`companyID`);
 
 --
+-- Indexes for table `jobseeker_certs`
+--
+ALTER TABLE `jobseeker_certs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jobseeker_id` (`jobseeker_id`);
+
+--
+-- Indexes for table `jobseeker_education`
+--
+ALTER TABLE `jobseeker_education`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jobseeker_id` (`jobseeker_id`);
+
+--
+-- Indexes for table `jobseeker_experience`
+--
+ALTER TABLE `jobseeker_experience`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jobseeker_id` (`jobseeker_id`);
+
+--
+-- Indexes for table `jobseeker_skill`
+--
+ALTER TABLE `jobseeker_skill`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jobseeker_id` (`jobseeker_id`);
+
+--
 -- Indexes for table `job_seeker`
 --
 ALTER TABLE `job_seeker`
@@ -190,25 +324,49 @@ ALTER TABLE `job_seeker`
 -- AUTO_INCREMENT for table `admin_login`
 --
 ALTER TABLE `admin_login`
-  MODIFY `Admin_id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `Admin_id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
-  MODIFY `company_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `company_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `job`
 --
 ALTER TABLE `job`
-  MODIFY `job_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `job_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `jobseeker_certs`
+--
+ALTER TABLE `jobseeker_certs`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `jobseeker_education`
+--
+ALTER TABLE `jobseeker_education`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `jobseeker_experience`
+--
+ALTER TABLE `jobseeker_experience`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `jobseeker_skill`
+--
+ALTER TABLE `jobseeker_skill`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `job_seeker`
 --
 ALTER TABLE `job_seeker`
-  MODIFY `Job_seeker_id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Job_seeker_id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
@@ -219,6 +377,30 @@ ALTER TABLE `job_seeker`
 --
 ALTER TABLE `job`
   ADD CONSTRAINT `job_ibfk_1` FOREIGN KEY (`companyID`) REFERENCES `company` (`company_id`);
+
+--
+-- Constraints for table `jobseeker_certs`
+--
+ALTER TABLE `jobseeker_certs`
+  ADD CONSTRAINT `jobseeker_certs_ibfk_1` FOREIGN KEY (`jobseeker_id`) REFERENCES `job_seeker` (`Job_seeker_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `jobseeker_education`
+--
+ALTER TABLE `jobseeker_education`
+  ADD CONSTRAINT `jobseeker_education_ibfk_1` FOREIGN KEY (`jobseeker_id`) REFERENCES `job_seeker` (`Job_seeker_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `jobseeker_experience`
+--
+ALTER TABLE `jobseeker_experience`
+  ADD CONSTRAINT `jobseeker_experience_ibfk_1` FOREIGN KEY (`jobseeker_id`) REFERENCES `job_seeker` (`Job_seeker_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `jobseeker_skill`
+--
+ALTER TABLE `jobseeker_skill`
+  ADD CONSTRAINT `jobseeker_skill_ibfk_1` FOREIGN KEY (`jobseeker_id`) REFERENCES `job_seeker` (`Job_seeker_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

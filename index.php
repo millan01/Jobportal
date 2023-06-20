@@ -52,7 +52,7 @@ include('./database/connection.php');
                     </div>
                 </div>  
             <?php } ?>
-        </div>
+        </div> 
     </div>
 
     <div class="mainimage">

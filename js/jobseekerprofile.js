@@ -15,3 +15,12 @@ closeOverlayBtn.addEventListener('click', function() {
   overlay.style.display = 'none';
   iframe.src = '';
 });
+
+//function to delete job
+
+function edudelete(id){
+ var confirmed =  confirm ("Are you sure you want to delte?");
+ if(confirmed){
+  window.location.href="./joseekerprofileedit/edudelete.php?id=" +id;
+ }
+}

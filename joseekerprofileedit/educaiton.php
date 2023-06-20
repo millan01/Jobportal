@@ -1,5 +1,8 @@
 <?php
-$course = $board = $name = $started = $end = $present = "";
+session_start();
+include('../database/connection.php');
+$sessionmail = $_SESSION['seeker_Email'];
+$course = $board = $name = $started = $end = $present = $jobseekerid = "";
 $courseErr = $boardErr = $nameErr = $startedErr = $endErr = $presentErr = "";
 
 if (isset($_POST['update'])) {
@@ -12,7 +15,7 @@ if (isset($_POST['update'])) {
     if (empty($_POST["board"])) {
         $boardErr = "Education board is required";
     } else {
-        $board = test_input($_POST["name"]);
+        $board = test_input($_POST["board"]);
         if (!preg_match("/^[a-zA-Z ]*$/", $board)) {
             $boardErr = "Only letters";
         }
@@ -31,33 +34,39 @@ if (isset($_POST['update'])) {
         $started = test_input($_POST['started']);
     }
 
-    if (empty($_POST['passed'])) {
-        $endErr = "Date not selected";
-    } else {
-        $end = test_input($_POST['passed']);
-    }
+    $end = test_input($_POST['passed']);
 
 
     // checkbox validation here
+    $present = test_input($_POST['present']);
 
-    if(empty($courseErr) && empty($boardErr)&& empty($nameErr) && empty($startedErr) && empty($endErr)){
 
-        include ('./database/connection.php');
-        $stmt = $conn->prepare("INSERT INTO table_name(course,board,insititute,startedyear,endyear,running) VALUES (?,?,?,?,?,?)");
-        $stmt->bind_param("ssssss", $course, $board, $name, $started, $end);
+    if (empty($courseErr) && empty($boardErr) && empty($nameErr) && empty($startedErr) && empty($endErr)) {
+        include('../database/connection.php');
+        $sql = "SELECT Job_seeker_id FROM job_seeker WHERE Email = '$sessionmail'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $seekerID = $row['Job_seeker_id'];
+        }
+
+        $stmt = $conn->prepare("INSERT INTO jobseeker_education (course,board,institute,started_year,end_year ,jobseeker_id) VALUES (?,?,?,?,?,?)");
+        $stmt->bind_param("sssiii", $course, $board, $name, $started, $end, $seekerID);
         $stmt->execute();
         $stmt->close();
 
-        header('location:jobseekerprofile.php');
+        header('location: ../jobseekerprofile.php');
 
     }
 
+
 }
-function test_input($data){
+function test_input($data)
+{
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
-    return $data; 
+    return $data;
 }
 
 ?>
@@ -75,18 +84,18 @@ function test_input($data){
     <form action="" method="post">
         <div class="formdetails">
             <h2>Update Education details</h2>
-
+            <?php echo $jobseekerid; ?>
             <hr color="black" size="1px">
 
             <div class="form">
                 <label for="course">Course</label>
                 <select name="course" id="course" required>
                     <option value="">Select course</option>
-                    <option value="school">SLC/SEE</option>
-                    <option value="plustwo">Plus two</option>
-                    <option value="diploma">Diploma</option>
-                    <option value="graduation">Gradutaion</option>
-                    <option value="postgraduation">Post Gradutaion</option>
+                    <option value="SLC/SEE">SLC/SEE</option>
+                    <option value="Plus two">Plus two</option>
+                    <option value="Diploma">Diploma</option>
+                    <option value="Gradutaion">Gradutaion</option>
+                    <option value="Post Gradutaion">Post Gradutaion</option>
                     <option value="Master">Master</option>
                     <option value="Phd">Phd</option>
                 </select>
@@ -103,18 +112,18 @@ function test_input($data){
             </div>
 
             <div class="form">
-                <label for="started">Started year</label>
-                <input type="date" name="started" id="started" required>
+                <label for="started">Star ted year</label>
+                <input type="varchar" name="started" id="started" required>
             </div>
 
             <div class="form">
                 <label for="present">present</label>
-                <input type="checkbox" name="present" id="present" required>
+                <input type="checkbox" name="present" id="present">
             </div>
 
             <div class="form">
                 <label for="passed">Passed year</label>
-                <input type="date" name="passed" id="passed" required>
+                <input type="varchar" name="passed" id="passed">
             </div>
 
             <a href=""><button type="submit" name="update">Update</button></a>

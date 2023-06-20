@@ -1,5 +1,7 @@
 <?php 
-
+session_start();
+include('../database/connection.php');
+$sessionmail = $_SESSION['seeker_Email'];
 $title = $progress = "";
 $titleErr = $progressErr = "";
 
@@ -21,12 +23,18 @@ if(isset($_POST['update'])){
     }
 
     if(empty($titleErr) && empty($progressErr)){
-        include('./database/connection.php');
-        $stmt = $conn->prepare("INSERT INTO table_name(skill_title, skill_progress) VALUES (?,?");
-        $stmt->bind_param("ss", $title , $progress);
+
+        $sql = "SELECT Job_seeker_id FROM job_seeker WHERE Email = '$sessionmail'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $seekerID = $row['Job_seeker_id'];
+        }
+        $stmt = $conn->prepare("INSERT INTO jobseeker_skill (Title, progress, jobseeker_id ) VALUES (?,?,?)");
+        $stmt->bind_param("ssi", $title , $progress, $seekerID);
         $stmt->execute();
         $stmt->close();
-        header('location:jobseekerprofile.php');
+        header('location: ../jobseekerprofile.php');
     }
 }
 function test_input($data){
