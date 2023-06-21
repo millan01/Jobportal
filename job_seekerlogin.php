@@ -15,16 +15,16 @@ if (isset($_POST['signin'])) {
   $stmt->bind_result($jobseekerpassword);
   if ($stmt->fetch() == TRUE) {
     $isPasswordCorrect = password_verify($password, $jobseekerpassword);
-    $_SESSION['seeker_Email' ] = $email;
+    $_SESSION['seeker_Email'] = $email;
 
-      header("Location:jobseekerprofile.php");
-      exit();
-    } else {
-      $error = "Incorrect email or Password";
-    }
+    header("Location:jobseekerprofile.php");
+    exit();
+  } else {
+    $error = "Incorrect email or Password";
+  }
 
 
-    //admin check
+  //admin check
   $sql = "SELECT Password from admin_login where Email = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $email);
@@ -33,14 +33,14 @@ if (isset($_POST['signin'])) {
   $stmt->bind_result($jobseekerpassword);
   if ($stmt->fetch() == TRUE) {
     $isPasswordCorrect = password_verify($password, $jobseekerpassword);
-    $_SESSION['admin_Email' ] = $email;
+    $_SESSION['admin_Email'] = $email;
 
-      header("Location:admindashboard.php");
-      exit();
-    } else {
-      $error = "Incorrect email or Password";
-    }
+    header("Location:admindashboard.php");
+    exit();
+  } else {
+    $error = "Incorrect email or Password";
   }
+}
 
 
 ?>
@@ -52,12 +52,29 @@ if (isset($_POST['signin'])) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <link rel="stylesheet" href="./styles/jobseekerlogin.css" />
+  <link rel="stylesheet" href="./styles/jobseekerloginn.css" />
 </head>
 
 <body>
-  <div>
-    <?php include('job_seekerloginnav.php') ?>
+  <div class="navbar_flow">
+    <div class="logo">
+      <a href="index.php">
+        <img src="./images/logo.svg " alt="company logo"> </a>
+    </div>
+    <div class="header">
+      <a href="index.php" id="home">Home</a>
+      <a href="#" id="Blog">Blog</a>
+      <a href="#" id="contact">Contact</a>
+      <a href="#" id="company">About us</a>
+    </div>
+    <div class="buttons">
+      <div class="signin">
+        <a href="job_seekerregistration.php">
+          <button type="submit">
+            <img src="./images/sign in.png" alt="#" width="10px" height="10px" /> Sign up</button>
+        </a>
+      </div>
+    </div>
   </div>
   <div class="outersection">
     <div class="formlogin">
@@ -81,10 +98,9 @@ if (isset($_POST['signin'])) {
             <form action="" method="POST">
               <div class="input-field">
                 <label for="email"></label>
-                <input type="email" name="email" id="email" placeholder="Email"
-                  value="<?php if (isset($_POST['email'])) {
-                    echo $_POST['email'];
-                  } ?>" required />
+                <input type="email" name="email" id="email" placeholder="Email" value="<?php if (isset($_POST['email'])) {
+                  echo $_POST['email'];
+                } ?>" required />
               </div>
 
               <div class="input-field">

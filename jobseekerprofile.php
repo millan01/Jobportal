@@ -214,7 +214,7 @@ $result = $stmt->get_result();
 
                                 </div>
                                 <div class="col2">
-                                   <?php echo '<a href="javascript:void(0);" onclick="edudelete('.$row['id'].')"><button><i class="fa fa-trash" style="color: #F33636; font-weight: lighter;"></i> Delete</button></a>';
+                                    <?php echo '<a href="javascript:void(0);" onclick="edudelete(' . $row['id'] . ')"><button><i class="fa fa-trash" style="color: #F33636; font-weight: lighter;"></i> Delete</button></a>';
                                     ?>
                                 </div>
                             </div>
@@ -252,7 +252,7 @@ $result = $stmt->get_result();
                             </div>
 
                             <div class="skilldelbtn">
-                                <a href=""><button><i class="fa fa-trash"></i> Delete</button></a>
+                                <?php echo '<a href="javascript:void(0);" onclick="skilldelete(' . $row['id'] . ')"><button><i class="fa fa-trash"style="color: #F33636; font-weight: lighter;"></i> Delete</button></a>' ?>
 
                             </div>
                         </div>
@@ -290,7 +290,7 @@ $result = $stmt->get_result();
                                 </li>
                             </div>
                             <div class="cert3">
-                                <a href=""><button><i class="fa fa-trash"></i> Delete</button></a>
+                                <?php echo '<a href="javascript:void(0);" onclick="certdelete(' . $row['id'] . ')"><button><i class="fa fa-trash"style="color: #F33636; font-weight: lighter;"></i> Delete</button></a>' ?>
 
                             </div>
                         </div>
@@ -335,7 +335,7 @@ $result = $stmt->get_result();
                             </div>
 
                             <div class="expdelbtn">
-                                <a href=""><button><i class="fa fa-trash"></i> Delete</button></a>
+                                <?php echo '<a href="javascript:void(0);" onclick="expdelete(' . $row['id'] . ')"><button><i class="fa fa-trash"style="color: #F33636; font-weight: lighter;"></i> Delete</button></a>' ?>
                             </div>
                         </div>
                     <?php }

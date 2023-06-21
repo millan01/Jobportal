@@ -45,7 +45,7 @@
                 </div>
                 <div class="contactus">
                     <h3>Contact us</h3>
-                    <a href="">koteshwore Kathmandu Nepal</a>
+                    <a href="https://www.google.com/maps/place/Koteshwor,+Kathmandu+44600/@27.6771988,85.3340218,15z/data=!3m1!4b1!4m6!3m5!1s0x39eb19f2804a02bf:0x85468199859b2d8d!8m2!3d27.6755549!4d85.3459238!16s%2Fm%2F04jn6xk?entry=ttu">koteshwore Kathmandu Nepal</a>
                     <a href="">+977-011234567</a>
                     <a href="">insearch@gmail.com</a>
                 </div>

@@ -16,11 +16,40 @@ closeOverlayBtn.addEventListener('click', function() {
   iframe.src = '';
 });
 
-//function to delete job
+//function to delete education
 
 function edudelete(id){
  var confirmed =  confirm ("Are you sure you want to delte?");
  if(confirmed){
   window.location.href="./joseekerprofileedit/edudelete.php?id=" +id;
  }
+}
+
+
+//function to delete skill 
+
+function skilldelete(id){
+  var confirmed = confirm("Are you sure you wan to delete?");
+  if(confirmed){
+    window.location.href = "./joseekerprofileedit/skilldelete.php?id="+id;
+  }
+}
+
+
+//function to delete cert
+
+function certdelete(id){
+  var confirmed = confirm("Are you sure you want to delete?");
+  if(confirmed){
+    window.location.href = "./joseekerprofileedit/certdelete.php?id="+id;
+  }
+}
+
+// function to delete experience
+
+function expdelete(id){
+  var confirmed = confirm("Are you sure you want to delete?");
+  if(confirmed){
+    window.location.href= "./joseekerprofileedit/expdelete.php?id="+id;
+  }
 }

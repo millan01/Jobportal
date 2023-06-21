@@ -120,12 +120,29 @@ function test_input($data)
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>signup</title>
-  <link rel="stylesheet" href="./styles/companyregistration.css">
+  <link rel="stylesheet" href="./styles/companyregistrationn.css">
 </head>
 
 <body>
-  <div class="navbar">
-    <?php include('company-registrationnav.php') ?>
+  <div class="navbar_flow">
+  <div class="logo">
+      <a href="index.php">
+        <img src="./images/logo.svg " alt="company logo"> </a>
+    </div>
+    <div class="header">
+      <a href="index.php" id="home">Home</a>
+      <a href="#" id="Blog">Blog</a> 
+      <a href="#" id="contact">Contact</a>
+      <a href="#" id="company">About us</a>
+    </div>
+    <div class="buttons">
+      <div class="signin">
+        <a href="company-login.php">
+          <button type="submit">
+            <img src="./images/sign in.png" alt="#" width="10px" height="10px" /> Sign in</button>
+        </a>
+      </div>
+    </div>
   </div>
   <div class="registration">\
     <div class="formfields">

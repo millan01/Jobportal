@@ -6,7 +6,7 @@ $email = $pass = $storedpassword = '';
 if (isset($_POST['signin'])) {
 
   $email = $_POST['email'];
-  $pass= $_POST['password'];
+  $pass = $_POST['password'];
 
   $sql = "SELECT password from company where email = ?";
   $stmt = $conn->prepare($sql);
@@ -17,14 +17,14 @@ if (isset($_POST['signin'])) {
   $stmt->bind_result($company_password);
   if ($stmt->fetch() == TRUE) {
     $isPasswordCorrect = password_verify($password, $company_password);
-    $_SESSION['email'] = $email ;
- 
-      header("Location:companyprofile.php");
-      exit();
-    } else {
-      $error = "Incorrect email or Password";
-    }
+    $_SESSION['email'] = $email;
+
+    header("Location:companyprofile.php");
+    exit();
+  } else {
+    $error = "Incorrect email or Password";
   }
+}
 
 ?>
 <!DOCTYPE html>
@@ -35,12 +35,29 @@ if (isset($_POST['signin'])) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <link rel="stylesheet" href="./styles/ccompanylogin.css" />
+  <link rel="stylesheet" href="./styles/companylogin.css" />
 </head>
 
 <body>
-  <div class="navbar">
-    <?php include('company-loginnav.php') ?>
+  <div class="navbar_flow">
+    <div class="logo">
+      <a href="index.php">
+        <img src="./images/logo.svg " alt="company logo"> </a>
+    </div>
+    <div class="header">
+      <a href="index.php" id="home">Home</a>
+      <a href="#" id="Blog">Blog</a>
+      <a href="#" id="contact">Contact</a>
+      <a href="#" id="company">About us</a>
+    </div>
+    <div class="buttons">
+      <div class="signin">
+        <a href="company-registration.php">
+          <button type="submit">
+            <img src="./images/sign in.png" alt="#" width="10px" height="10px" /> Sign up</button>
+        </a>
+      </div>
+    </div>
   </div>
 
   <div class="outersection">
@@ -60,13 +77,18 @@ if (isset($_POST['signin'])) {
             <form action="" method="POST">
               <div class="input-field">
                 <label for="email"></label>
-                <input type="text" name="email" id="email" placeholder="Email" value="<?php if(isset($_POST['email'])){echo $_POST['email'];} ?>" required />
+                <input type="text" name="email" id="email" placeholder="Email"
+                  value="<?php if (isset($_POST['email'])) {
+                    echo $_POST['email'];
+                  } ?>" required />
               </div>
 
               <div class="input-field">
                 <label for="password"></label>
                 <input type="password" name="password" id="password" placeholder="Password" required /> <br>
-                <span><?php echo $error; ?></span>
+                <span>
+                  <?php echo $error; ?>
+                </span>
               </div>
               <div class="rememberme">
                 <input type="checkbox" name="checkbox" id="checkbox" />

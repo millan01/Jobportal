@@ -6,6 +6,33 @@
 body{
    background-color: rgb(228, 210, 188);
 }
+.navbar_flow{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FBEEEE;
+    height: 9vh;
+}
+.logo img{
+    height: 100px;
+    width: 100px;
+}
+.header a{
+    font-size: 20px;
+   margin: 13px;
+    text-decoration: none;
+}
+.buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0px 12px 0px 0px;
+}
+.buttons button{
+    border-radius: 11px;
+    padding: 6px 11px 6px 11px;
+}
 .registration{
     display: flex;
     flex-direction: row;

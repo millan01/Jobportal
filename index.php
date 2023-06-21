@@ -50,9 +50,9 @@ include('./database/connection.php');
                         <a href="companyprofile.php"><button>profile</button></a>
                         <a href="sessiondestroy.php"><button>Log out</button></a>
                     </div>
-                </div>  
+                </div>
             <?php } ?>
-        </div> 
+        </div>
     </div>
 
     <div class="mainimage">
@@ -102,43 +102,43 @@ include('./database/connection.php');
             ?>
             <div class="trendingjob">
                 <div class="cards">
-                    <?php echo'<a href="jobdescription.php?job_id='.$row['job_id'] . '">'?>
-                        <!--contents -->
-                        <div class="cardscontent">
-                            <div class="imagearea">
-                                <div class="companyimg">
-                                   <?php echo '<img src="./images/uploaded_image/'.$row['Image_name'].'"alt="">'?>
-                                </div>
-                                <div class="companyname">
-                                    <li> 
-                                        <?php echo $row['job_title']; ?>
-                                    </li>
-                                    <li>
-                                        <?php echo $row['company_name']; ?>
-                                    </li>
-                                </div>
+                    <?php echo '<a href="jobdescription.php?job_id=' . $row['job_id'] . '">' ?>
+                    <!--contents -->
+                    <div class="cardscontent">
+                        <div class="imagearea">
+                            <div class="companyimg">
+                                <?php echo '<img src="./images/uploaded_image/' . $row['Image_name'] . '"alt="">' ?>
                             </div>
-                            <div class="info">
+                            <div class="companyname">
                                 <li>
-                                    <?php echo "location:" . $row['job_address']; ?>
+                                    <?php echo $row['job_title']; ?>
                                 </li>
                                 <li>
-                                    <?php echo "Job-type:" . $row['job_type']; ?>
-                                </li>
-                                <li>
-                                    <?php
-                                    $deaddate = $row['deadline_date'];
-                                    $deadstamp = strtotime($deaddate);
-                                    $dead = date('Y-m-d', $deadstamp);
-                                    echo "Deadlinedate:".$dead;
-                                    ?>
+                                    <?php echo $row['company_name']; ?>
                                 </li>
                             </div>
-                           <?php echo '<a href="jobdescription.php?jobid='.$row['job_id'].'">
+                        </div>
+                        <div class="info">
+                            <li>
+                                <?php echo "location:" . $row['job_address']; ?>
+                            </li>
+                            <li>
+                                <?php echo "Job-type:" . $row['job_type']; ?>
+                            </li>
+                            <li>
+                                <?php
+                                $deaddate = $row['deadline_date'];
+                                $deadstamp = strtotime($deaddate);
+                                $dead = date('Y-m-d', $deadstamp);
+                                echo "Deadlinedate:" . $dead;
+                                ?>
+                            </li>
+                        </div>
+                        <?php echo '<a href="jobdescription.php?jobid=' . $row['job_id'] . '">
                                 <button>Apply</button>
                             </a>' ?>
-                        </div>
-                   <?php echo '</a>' ?>
+                    </div>
+                    <?php echo '</a>' ?>
                 </div>
 
             </div>
@@ -239,7 +239,9 @@ include('./database/connection.php');
                 </div>
                 <div class="contactus">
                     <h2>Contact us</h2>
-                    <a href="">koteshwore Kthamndu Nepal</a>
+                    <a
+                        href="https://www.google.com/maps/place/Koteshwor,+Kathmandu+44600/@27.6771988,85.3340218,15z/data=!3m1!4b1!4m6!3m5!1s0x39eb19f2804a02bf:0x85468199859b2d8d!8m2!3d27.6755549!4d85.3459238!16s%2Fm%2F04jn6xk?entry=ttu">koteshwore
+                        Kthamndu Nepal</a>
                     <a href="">+977-011234567</a>
                     <a href="">insearch@gmail.com</a>
                 </div>

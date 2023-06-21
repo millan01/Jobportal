@@ -16,15 +16,31 @@ $result = mysqli_query($conn, $sql);
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="./styles/companyproffile.css">
+  <link rel="stylesheet" href="./styles/companyprofile.css">
   <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
   <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
   <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
 </head>
 
 <body>
-  <div class="navbar">
-    <?php include('afterloginnav.php') ?>
+  <div class="navbar_flow">
+    <div class="logo">
+      <a href="index.php">
+        <img src="./images/logo.svg " alt="company logo"> </a>
+    </div>
+    <div class="header">
+      <a href="index.php" id="home">Home</a>
+      <a href="#" id="Blog">Blog</a>
+      <a href="#" id="contact">Contact</a>
+      <a href="#" id="company">About us</a>
+    </div>
+    <div class="buttons">
+      <img src="./images/Account icon.svg" alt="#" class="test">
+      <div class="dropdown">
+        <a href="companyprofile.php"><button>profile</button></a>
+        <a href="sessiondestroy.php"><button>Log out</button></a>
+      </div>
+    </div>
   </div>
   <div class="dashboard">
     <div class="dashboard-page">
