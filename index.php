@@ -30,7 +30,7 @@ include('./database/connection.php');
         </div>
 
         <div class="navbutton">
-            <?php if (!isset($_SESSION['email'])) { ?>
+            <?php if (!isset($_SESSION['seeker_Email'])) { ?>
                 <div class="signin">
                     <a href="job_seekerlogin.php">
                         <button type="submit"><img src="./images/sign in.png" height="13px" width="13px"

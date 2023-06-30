@@ -112,7 +112,7 @@ $result = $stmt->get_result();
                         <div id="overlay">
                             <div id="modal">
                                 <button id="closeOverlayBtn"><i class="fa fa-multiply"></i>Close</button>
-                                <iframe id="iframe" src="" frameborder="0"></iframe>
+                                <iframe id="iframe" scrooling = "no" src="" frameborder=""></iframe>
                             </div>
                         </div>
 

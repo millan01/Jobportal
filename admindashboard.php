@@ -82,29 +82,51 @@ mysqli_close($conn);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="./styles/admindashboard.css">
+    <link rel="stylesheet" href="./styles/admindashboardd.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
-  <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
-  <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
+    <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
+    <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
 
 
 </head>
 
 <body>
-    <div class="navbar">
-        <?php include('afterloginnav.php') ?>
+    <div class="navbarflow">
+        <div class="logo">
+            <a href="index.php">
+                <img src="./images/logo.svg" alt="company logo">
+            </a>
+        </div>
 
+        <div class="links">
+            <a href="index.php">Home</a>
+            <a href="">Blog</a>
+            <a href="">Contact</a>
+            <a href="">About us</a>
+        </div>
+
+        <div class="navbutton">
+            <div class="icon">
+                <img src="./images/Account icon.svg" alt="#" class="test">
+                <div class="dropdown">
+                    <a href="companyprofile.php"><button>profile</button></a>
+                    <a href="sessiondestroy.php"><button>Log out</button></a>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="dashboard">
         <div class="dashboard_flex">
             <div id="menu">
                 <div class="items">
                     <ul>
+                        <li><a href="index.php">Home</a></li>
                         <li><a onclick="openTab(event,'dashboard_tab')" class="tablinks" id="defaultOpen">Dashboard</a>
                         </li>
                         <li><a onclick="openTab(event,'company_tab')" class="tablinks">Manage Company</a></li>
                         <li><a onclick="openTab(event,'jobseeker_tab')" class="tablinks">Manage Job Seeker</a></li>
                         <li><a onclick="openTab(event,'setting_tab')" class="tablinks">Setting</a></li>
+                        <li><a onclick="openTab(event,'addadmin')" class="tablinks">Add Admin</a></li>
                         <li><a onclick="openTab(event,'logout_tab')" class="tablinks">Logout</a></li>
 
                     </ul>
@@ -193,8 +215,8 @@ mysqli_close($conn);
                                         echo "<td>" . $row['location'] . "</td>";
                                         echo "<td>" . $row['email'] . "</td>";
                                         echo "<td>" . $row['phone'] . "</td>";
-                                        echo "<td>" . '<a class="btn" href="javascript:void(0);" onclick="confirmDelete('. $row['company_id'] . ');"><button style ="padding:3px 6px">Delete <i class="fa fa-trash" style=" color: #F33636; font-weight: lighter;"></i> </button></a>'
-                                        . "</td>";
+                                        echo "<td>" . '<a class="btn" href="javascript:void(0);" onclick="confirmDelete(' . $row['company_id'] . ');"><button style ="padding:3px 6px">Delete <i class="fa fa-trash" style=" color: #F33636; font-weight: lighter;"></i> </button></a>'
+                                            . "</td>";
                                         echo "</tr>";
                                     }
                                 }
@@ -233,7 +255,7 @@ mysqli_close($conn);
                                         echo "<td>" . $row['jobseeker_address'] . "</td>";
                                         echo "<td>" . $row['Email'] . "</td>";
                                         echo "<td>" . $row['Phone'] . "</td>";
-                                        echo "<td>" . '<a class="btn" href="javascript:void(0);" onclick="confirmDeleteseeker('. $row['Job_seeker_id'] . ');"><button style ="padding:3px 6px">Delete <i class="fa fa-trash" style=" color: #F33636; font-weight: lighter;"></i> </button></a>'
+                                        echo "<td>" . '<a class="btn" href="javascript:void(0);" onclick="confirmDeleteseeker(' . $row['Job_seeker_id'] . ');"><button style ="padding:3px 6px">Delete <i class="fa fa-trash" style=" color: #F33636; font-weight: lighter;"></i> </button></a>'
                                             . "</td>";
                                         echo "</tr>";
                                     }
@@ -269,7 +291,7 @@ mysqli_close($conn);
 
                                             <label for="password2">Confirm Password</label>
                                             <input type="password" name="confirmpassword" id="confirmpassword"
-                                                placeholder=" Re-Enter New password">
+                                                placeholder=" Confirm New password">
                                             <span class="error">
                                                 <!-- display the error message -->
                                                 <?php echo $confirmpasserr; ?>
@@ -283,9 +305,118 @@ mysqli_close($conn);
                                 </div>
                             </div>
                         </div>
+
+
+                        <!-- add admin -->
+                        <?php
+                        $addemail = $addpass = $adduser = "";
+                        $addemailErr = $addpassErr = $adduserErr = "";
+                        if (isset($_POST['addadmin'])) {
+
+                            if (empty($_POST["admin-email"])) {
+                                $addemailErr = "Email is required";
+                            } else {
+                                $addemail = test_input($_POST["admin-email"]);
+
+                                $emailexit = "SELECT Email from admin_login where Email = '$addemail'";
+                                $result = mysqli_query($conn, $emailexit);
+                                $rowexit = mysqli_num_rows($result);
+                                if ($rowexit > 0) {
+                                    $addemailErr = "Email already exist";
+                                } elseif (!filter_var($addemail, FILTER_VALIDATE_EMAIL)) {
+                                    $addemailErr = "Enter the valid email address";
+                                }
+                            }
+
+                            if (empty($_POST["username"])) {
+                                $adduserErr = "Name is required";
+                            } else {
+                                $adduser = test_input($_POST["username"]);
+                                // check if name only contains letters and whitespace
+                                if (!preg_match("/^[a-zA-Z ]*$/", $adduser)) {
+                                    $adduserErr = "Only letters and white space allowed";
+                                }
+                            }
+
+                            if (empty($_POST['adminpass'])) {
+                                $addpassErr = "password is required";
+                            } else {
+                                $addpass = test_input($_POST['adminpass']);
+                                //check if the password is strong or not
+                                if (strlen($addpass) < 8) {
+                                    $addpassErr = "Password must be at least 8 characters long";
+                                } elseif (!preg_match("#[0-9]+#", $addpass)) {
+                                    $addpassErr = "Password must contain at least one number";
+                                } elseif (!preg_match("#[A-Z]+#", $addpass)) {
+                                    $addpassErr = "Password must contain at least one uppercase letter";
+                                } elseif (!preg_match("#[a-z]+#", $addpass)) {
+                                    $addpassErr = "Password must contain at least one lowercase letter";
+                                }
+                            }
+
+                            if (empty($addemail) && empty($addpass) && empty($adduser)) {
+
+                                $userpassword = password_hash($addpass, PASSWORD_DEFAULT);
+
+                                $sql = "INSERT INTO admin_login (Email, username, Password) VALUES('$addemail','$adduser','$addpass')";
+                                $result = mysqli_query($conn,$sql);
+                                if($result){
+                                    echo "added successfully";
+                                }
+                                header('location:admindashboard.php');
+                            }
+                        }
+                        function test_input($data){
+                            $data = trim($data);
+                            $data = stripslashes($data);
+                            $data = htmlspecialchars($data);
+                            return $data;
+                        }
+
+                        ?>
+
+                        <div class="tabcontent" id="addadmin">
+
+                            <form action="" method="post">
+                                <div class="adminadd">
+                                    <div class="titleadmin">
+                                        <h3>Add admin</h3>
+                                    </div>
+                                    <div class="upperemail">
+                                        <label for="email">Email:</label>
+                                        <input type="text" name="admin-email" id="admin-email">
+                                        <span style="color:red;">
+                                            <?Php echo $addemailErr; ?>
+                                        </span>
+                                    </div>
+                                    <div class="uppertop">
+                                        <label for="username">Username:</label>
+                                        <input type="text" name="username" id="username">
+                                        <span style="color:red;">
+                                            <?Php echo $adduserErr; ?>
+                                        </span>
+
+                                    </div>
+
+                                    <div class="lowerbuttom">
+                                        <label for="password">Password:</label>
+                                        <input type="password" name="adminpass">
+                                        <span style="color:red;">
+                                            <?Php echo $addpassErr; ?>
+                                        </span>
+
+                                    </div>
+                                    <div class="admin-btn">
+                                        <button type="submit" href="admindashboard.php" name="addadmin">Add
+                                            Admin</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
                     </div>
                 </section>
-                <script src="./js/dashboard.js"></script>
+                <!-- <script src="./js/dashboard.js"></script> -->
             </div>
         </div>
     </div>

@@ -1,0 +1,310 @@
+body {
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+.dashboard_flex {
+  display: flex;
+}
+.navbarflow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fbeeee;
+  height: 8vh;
+}
+.logo img {
+  height: 100px;
+  width: 100px;
+}
+.links a {
+  font-size: 20px;
+  text-decoration: none;
+  margin: 12px;
+}
+.navbutton{
+  margin-right: 12px;
+}
+.icon img {
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+.icon .dropdown {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 60px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+.icon .dropdown button {
+  display: block;
+  background-color: transparent;
+  padding: 6px 5px;
+  color: none;
+  cursor: pointer;
+  border: none;
+}
+.icon .dropdown a {
+  text-decoration: none;
+  font-size: 10px;
+}
+
+.icon:hover .dropdown {
+  display: block;
+}
+#menu {
+  background: #111827;
+  width: 20%;
+}
+/* css for menu items  */
+#menu .items {
+  margin-top: 10px;
+  height: 100vh;
+}
+
+#menu .items li {
+  list-style: none;
+  padding: 15px;
+  text-align: left;
+  color: white;
+  font-size: medium;
+  transition: 0.5s ease;
+}
+
+/* hover effect for the tablinks */
+#menu .items li:hover {
+  background: #253047;
+  color: white;
+  text-decoration-color: white;
+  cursor: pointer;
+}
+
+#menu .items li a {
+  text-decoration: none;
+  color: rgb(134, 141, 151);
+  background-color: none;
+  font-weight: 300px;
+  border: none;
+  padding: 0%;
+  cursor: pointer;
+  transition: 0.5 ease;
+}
+
+/* side bar code ends here */
+#container {
+  /* margin-left: 300px; */
+  /* margin-right: 20px; */
+  padding: 0px;
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+/* admin nav container here */
+#container .navbar {
+  color: white;
+  width: 100%;
+  height: 100px;
+  padding: 8px;
+  text-align: center;
+  font-size: 34px;
+  font-weight: bold;
+  background-color: #5399af;
+  border-bottom: 5px solid #d00a0a;
+}
+
+/*css for main containter for the content*/
+#container.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.content_heading {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #111827;
+}
+
+.counter_area {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+
+.counter {
+  width: 43%;
+  background-color: ghostwhite;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.counter h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.count {
+  font-size: 36px;
+  font-weight: bold;
+  color: #111827;
+}
+
+/*css for company tab */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  background-color: ghostwhite;
+  color: #111827;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.table td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tr:hover {
+  background-color: #ddd;
+}
+
+.action-button {
+  background-color: green;
+  width: 0px;
+}
+
+/* css for setting tab */
+
+.form-control {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin-left: 9%;
+  padding: 33px;
+}
+
+.setting-title h3 {
+  font-size: 20px;
+  color: #000;
+  margin: 0 0 10px;
+  text-align: center;
+  /* text-decoration: underline; */
+}
+
+/* Style for the form */
+.form {
+  padding-top: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.setting_form_input label {
+  display: block;
+  font-size: 16px;
+  color: #000;
+  margin-bottom: 5px;
+}
+
+.setting_form_input input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #333;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}
+
+.submit-area input[type="submit"] {
+  background-color: #2672a1;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  margin-left: 13%;
+  width: 75%;
+}
+
+.submit-area input[type="submit"]:hover {
+  background-color: rgb(29, 206, 29);
+}
+
+/* Add admin tab */
+.adminadd{
+  margin-left: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+.adminadd .titleadmin{
+  display: flex;
+  justify-content: center;
+}
+.adminadd .titleadmin h3{
+  font-size: 30px;
+  font-weight: 600;
+}
+.adminadd label{
+  margin-left: 20px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.adminadd input{
+  width: 57%;
+  height: 20px;
+}
+.adminadd .upperemail input{
+  margin-left: 32px;
+}
+.adminadd div{
+  margin: 20px;
+}
+.adminadd .admin-btn button{
+  margin-left:45%;
+  width: 40%;
+  background-color: #2672a1;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+.adminadd .admin-btn button:hover{
+  background-color: rgb(29, 206, 29);
+
+}

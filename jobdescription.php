@@ -1,5 +1,6 @@
 <?php
-// session_start();
+session_start();
+
 include('./database/connection.php');
 ?>
 
@@ -34,9 +35,7 @@ include('./database/connection.php');
         </div>
 
         <div class="navbutton">
-            <!-- <?php
-            if (!isset($_SESSION['email'])) {
-                ?> -->
+            <?php if (!isset($_SESSION['email'])) { ?>
                 <div class="signin">
                     <a href="job_seekerlogin.php">
                         <button type="submit"><img src="./images/sign in.png" height="13px" width="13px"
@@ -45,8 +44,8 @@ include('./database/connection.php');
                 </div>
                 <div class="signup">
                     <a href="company-registration.php">
-                        <button type="submit"><img src="./images/post.png" width="13px" height="13px" alt="">
-                            PostJob</button>
+                        <button type="submit"><img src="./images/post.png" width="13px" height="13px" alt=""> Post
+                            Job</button>
                     </a>
                 </div>
             <?php } else { ?>
@@ -83,7 +82,7 @@ include('./database/connection.php');
                     <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                         <div class="companyname">
                             <div class="companyname1">
-                              <?php echo '<img src="./images/uploaded_image/'.$row['Image_name'].'" alt="company logo" style="object-fit:cover;">' ?>
+                                <?php echo '<img src="./images/uploaded_image/' . $row['Image_name'] . '" alt="company logo" style="object-fit:cover;">' ?>
                             </div>
                             <?php echo $id; ?>
                             <div class="companyname2">
@@ -245,7 +244,7 @@ include('./database/connection.php');
                         <?php echo '<a style="text-decoration: none; color:black;" href="jobdescription.php?job_id=' . $row['job_id'] . '">' ?>
                         <div class="relatedjob-upper">
                             <div class="asideimg">
-                              <?php echo '<img src="./images/uploaded_image/'.$row['Image_name'].'" height="40px" width="40px"  alt="" style="object-fit:cover;">'?>
+                                <?php echo '<img src="./images/uploaded_image/' . $row['Image_name'] . '" height="40px" width="40px"  alt="" style="object-fit:cover;">' ?>
                             </div>
                             <div class="iconside">
                                 <h4>
@@ -276,7 +275,7 @@ include('./database/connection.php');
 
                         <div class="otherjob-upper">
                             <div class="asideimg">
-                              <?php echo'<img src="./images/uploaded_image/'.$row['Image_name'].'" height="40px" width="40px" alt="" style ="object-fit:cover;">'?>
+                                <?php echo '<img src="./images/uploaded_image/' . $row['Image_name'] . '" height="40px" width="40px" alt="" style ="object-fit:cover;">' ?>
                             </div>
                             <div class="iconside">
                                 <h4>
