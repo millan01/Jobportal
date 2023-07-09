@@ -1,6 +1,8 @@
 <?php
 session_start();
 include('./database/connection.php');
+$seekerSession = isset($_SESSION['seeker_Email']);
+$companySession = isset($_SESSION['email']);
 
 ?>
 <!DOCTYPE html>
@@ -11,10 +13,12 @@ include('./database/connection.php');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="./styles/index.css">
+    <link rel="stylesheet" href="./styles/indexxxx.css">
 </head>
 
 <body>
+    <?php echo $seekerSession;
+    ?>
     <div class="navbarflow">
         <div class="logo">
             <a href="index.php">
@@ -178,13 +182,24 @@ include('./database/connection.php');
     </section>
 
     <section id="trustedcompany">
-        <div class="trusted">
-            <img src="./images/esewa.svg" alt="">
-            <img src="./images/esewa.svg" alt="">
-            <img src="./images/esewa.svg" alt="">
-            <img src="./images/esewa.svg" alt="">
-            <img src="./images/esewa.svg" alt="">
-            <img src="./images/esewa.svg" alt="">
+        <div class="trustedcompany">
+            <div class="carousel">
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+            </div>
         </div>
     </section>
 
@@ -254,5 +269,6 @@ include('./database/connection.php');
         </div>
     </footer>
 </body>
+<script src="./js/index.js"></script>
 
 </html>

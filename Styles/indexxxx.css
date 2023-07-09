@@ -118,7 +118,7 @@
 .trendingjob {
   display: inline-grid;
   grid-template-columns: auto auto auto auto auto auto;
-  column-gap: 2px; 
+  column-gap: 2px;
   row-gap: 6px;
 }
 .trendingjob .cards {
@@ -222,19 +222,47 @@
 }
 
 #trustedcompany {
+  margin-left: 20px;
+  margin-right: 20px;
   margin-top: 20px;
+  max-width: fit-content;
 }
-.trusted {
+
+.carousel {
   display: flex;
-  justify-content: space-between;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 2.5rem;
 }
-.trusted img {
-  width: 100px;
+.items {
+  animation: animate 25s linear infinite;
+}
+.items img {
   height: 100px;
+  width: 100px;
+}
+.carousel:hover .items {
+  animation-play-state: paused;
+}
+@keyframes animate {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-1800px, 0, 0);
+  }
+}
+.carousel div {
+  margin: 10px;
+}
+.carousel div img {
+  height: 100px;
+  width: 100px;
 }
 
 #dreamjob {
   background-color: #d9d9d9;
+  margin-top: 20px;
   margin-bottom: -15px;
   height: auto;
   display: flex;
@@ -269,12 +297,11 @@
   text-decoration: none;
   display: block;
   color: #ffffff;
-  margin:7px;
+  margin: 7px;
   font-size: 16px;
 }
 .footer h2 {
   color: #ffffff;
-
 }
 
 .footer .copyright {
@@ -286,7 +313,7 @@
   word-spacing: 1;
 }
 .sociallinks .upper,
-  .sociallinks .lower{
-    display: grid;
-    grid-template-columns: auto auto;
-  }
+.sociallinks .lower {
+  display: grid;
+  grid-template-columns: auto auto;
+}
