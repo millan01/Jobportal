@@ -110,13 +110,14 @@ body {
   background-color: #fff;
   padding: 20px;
   border-radius: 6px;
-  place-content: center;
-  width: 45%;
+  max-height: 80%;
+  overflow-y: auto;
+  max-width: 45%;
 }
 .closeProfile {
   position: absolute;
-  top: 0%;
-  right: 30%;
+  top: 4%;
+  right: 25%;
   font-size: 18px;
   cursor: pointer;
 }
@@ -139,12 +140,11 @@ body {
 .col1 {
   display: flex;
   flex-direction: column;
-  /* gap: 6px; */
   margin: 10px;
 }
 .col1 input {
-  padding: 4px;
-  width: 95%;
+  padding: 6px;
+  width: 98%;
 }
 
 .col2 {
@@ -221,7 +221,7 @@ body {
 .col5 input {
   margin: 6px;
   padding: 6px;
-  width: 95%;
+  width: 100%;
 }
 textarea {
   padding: 10px;
@@ -238,7 +238,7 @@ textarea {
 .col6 a {
   text-decoration: none;
 }
-.col6button {
+.col6 button {
   margin: 8px;
   padding: 9px 19px;
   font-size: 15px;
@@ -726,7 +726,9 @@ table tr:hover {
 }
 
 .footer {
+  margin-top: 30px;
   background-color: #1a1818;
+  margin-bottom: -20px;
 }
 .footer .footercontent {
   display: flex;

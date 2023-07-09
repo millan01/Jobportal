@@ -456,19 +456,20 @@ $result = $stmt->get_result();
                         }
                     }
                     if (empty($_POST['started'])) {
-                        $startedErr = "Date not selected";
+                        $startedErr = "Date not entered";
                     } else {
                         $started = test_input($_POST['started']);
                     }
 
-                    $end = test_input($_POST['passed']);
-
-
-                    // checkbox validation here
-                    $present = test_input($_POST['present']);
-
-
-                    if (empty($courseErr) && empty($boardErr) && empty($nameErr) && empty($startedErr) && empty($endErr)) {
+                    if(empty($_POST['present']) && empty($_POST['passed'])){
+                        $presentErr  ="Date not entered";
+                    }
+                    if(isset($_POST['present'])){
+                        $end = "Current";
+                    }else{
+                        $end = test_input(isset($_POST['passed']));
+                    }
+                     if (empty($courseErr) && empty($boardErr) && empty($nameErr) && empty($startedErr) && empty($endErr)) {
                         $stmt = $conn->prepare("INSERT INTO jobseeker_education (course,board,institute,started_year,end_year ,jobseeker_id) VALUES (?,?,?,?,?,?)");
                         $stmt->bind_param("sssiii", $course, $board, $name, $started, $end, $seekerID);
                         $stmt->execute();
@@ -511,17 +512,17 @@ $result = $stmt->get_result();
                                 </div>
 
                                 <div class="form">
-                                    <label for="started">Star ted year</label>
+                                    <label for="started">Start year</label>
                                     <input type="varchar" name="started" id="started" required>
                                 </div>
-
+                
                                 <div class="form">
                                     <label for="present">present</label>
-                                    <input type="checkbox" name="present" id="present">
+                                    <input type="checkbox" name="present" onclick="toggleEndYear()" id="present">
                                 </div>
 
                                 <div class="form">
-                                    <label for="passed">Passed year</label>
+                                    <label for="passed">End year</label>
                                     <input type="varchar" name="passed" id="passed">
                                 </div>
 
@@ -546,7 +547,7 @@ $result = $stmt->get_result();
                                         </span>
                                     </p>
                                     <p>&nbsp;&nbsp;&nbsp; <i class="fa fa-dot-circle"></i>
-                                        <?php echo $row['institute'] ?>
+                                    <?php echo $row['institute'] ?>
                                     </p>
 
 

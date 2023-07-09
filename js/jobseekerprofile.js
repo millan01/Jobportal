@@ -20,6 +20,12 @@ function closeEdu() {
   var overlayedu = document.getElementById('overlayEduContainer');
   overlayedu.style.display = 'none';
 }
+
+//
+function toggleEndYear() {
+  var endYearField = document.getElementById('passed');
+  endYearField.disabled = !endYearField.disabled;
+}
 // overlay for skill set
 function openOver() {
   var overlay = document.getElementById('over');
