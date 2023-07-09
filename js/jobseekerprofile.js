@@ -1,21 +1,58 @@
-const openOverlayLinks = document.querySelectorAll('.openOverlay');
-const closeOverlayBtn = document.getElementById('closeOverlayBtn');
-const overlay = document.getElementById('overlay');
-const iframe = document.getElementById('iframe');
 
-openOverlayLinks.forEach(function(link) {
-  link.addEventListener('click', function(event) {
-    event.preventDefault();
-    overlay.style.display = 'flex';
-    iframe.src = this.href;
-  });
-});
 
-closeOverlayBtn.addEventListener('click', function() {
+//overlay edit option
+function openProfile(){
+  var overlayprofile = document.getElementById('overlayEditProfile');
+  overlayprofile.style.display='flex';
+}
+
+function closeProfile(){
+  var overlayprofile = document.getElementById('overlayEditProfile');
+  overlayprofile.style.display='none';
+}
+//overlay for education
+function openEdu() {
+  var overlayedu = document.getElementById('overlayEduContainer');
+  overlayedu.style.display = 'flex';
+}
+
+function closeEdu() {
+  var overlayedu = document.getElementById('overlayEduContainer');
+  overlayedu.style.display = 'none';
+}
+// overlay for skill set
+function openOver() {
+  var overlay = document.getElementById('over');
+  overlay.style.display = 'flex';
+}
+
+function closeOver() {
+  var overlay = document.getElementById('over');
   overlay.style.display = 'none';
-  iframe.src = '';
-});
+}
 
+
+//overlay for certificates
+function openCert(){
+  var overlayCert = document.getElementById('openOverlayCert');
+  overlayCert.style.display='flex';
+}
+
+function closeCert(){
+  var overlayCert = document.getElementById('openOverlayCert');
+  overlayCert.style.display='none';
+}
+
+//overlay experience
+function openExp(){
+  var overlayExp = document.getElementById('overlayExperienceContainer');
+  overlayExp.style.display='flex';
+}
+
+function closeExp(){
+  var overlayExp = document.getElementById('overlayExperienceContainer');
+  overlayExp.style.display='none';
+}
 //function to delete education
 
 function edudelete(id){

@@ -235,7 +235,7 @@
   padding: 2.5rem;
 }
 .items {
-  animation: animate 25s linear infinite;
+  animation: animate 40s linear infinite;
 }
 .items img {
   height: 100px;

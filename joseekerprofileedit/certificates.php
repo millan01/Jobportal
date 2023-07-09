@@ -1,6 +1,5 @@
 <?php
-session_start();
-include ('../database/connection.php');
+
 $sessionmail = $_SESSION['seeker_Email'];
 $title = $year = $compname = "";
 $titleErr = $yearErr = $compnameErr = "";

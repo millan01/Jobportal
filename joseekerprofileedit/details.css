@@ -128,19 +128,19 @@ textarea{
     box-shadow: 1px 1px 1px #999;
     font-family: 'Times New Roman', Times, serif;
 }
-.buttons{
+.col6{
     margin-left: 81%;
 }
-.buttons a{
+.col6 a{
     text-decoration: none;
 }
-.buttons button{
+.col6button{
    margin: 8px;
    padding: 9px 19px;
     font-size: 15px;
    background-color:rgb(17, 150, 17);
    border-radius: 8px;
 }
-.buttons button:hover{
+.col6 button:hover{
     color: white;
 }
