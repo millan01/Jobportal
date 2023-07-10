@@ -13,7 +13,7 @@ $companySession = isset($_SESSION['email']);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="./styles/dashboard.css">
+    <link rel="stylesheet" href="./styles/indexx.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
@@ -196,21 +196,18 @@ $companySession = isset($_SESSION['email']);
     <section id="trustedcompany">
         <div class="trustedcompany">
             <div class="carousel">
-                <div class="items"><a href=""><img src="./images/techpana.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/carousel/3m.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/uploaded_image/techpana.png" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/carousel/barstool-store.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/carousel/budweiser.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/carousel/buzzfeed.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/carousel/forbes.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/carousel/3m.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/carousel/macys.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/carousel/menshealth.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/carousel/mrbeast.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/carousel/budweiser.svg" alt=""></a></div>
+
             </div>
         </div>
     </section>
