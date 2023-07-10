@@ -195,7 +195,7 @@ $result = $stmt->get_result();
 
                         if (empty($nameErr) && empty($genderErr) && empty($dobErr) && empty($addressErr) && empty($phoneErr) && empty($mobileErr) && empty($websitErr) && empty($whoamiErr) && empty($imageErr)) {
                             $stmt = $conn->prepare("UPDATE job_seeker SET Full_name =?, gender=?,Age=?,jobseeker_address=?,Phone=?, Mobile=?,contact_email=?,website=?,job_description=?,Image_name=? where Email=?");
-                            $stmt->bind_param("ssissssssss", $name, $gender, $dateofbirth, $address, $phone, $mobile, $contactemail, $website, $whoami, $imagename, $_SESSION['seeker_Email']);
+                            $stmt->bind_param("ssissssssss", $name, $gender, $dateofbirth, $address, $phone, $mobile, $contactemail, $website, $whoami, $imagename,$jobseeker_email );
                             $stmt->execute();
                             $stmt->close();
                         }

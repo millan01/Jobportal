@@ -17,8 +17,6 @@ $companySession = isset($_SESSION['email']);
 </head>
 
 <body>
-    <?php echo $seekerSession;
-    ?>
     <div class="navbarflow">
         <div class="logo">
             <a href="index.php">
@@ -34,7 +32,7 @@ $companySession = isset($_SESSION['email']);
         </div>
 
         <div class="navbutton">
-            <?php if (!isset($_SESSION['seeker_Email'])) { ?>
+            <?php if(!($seekerSession || $companySession)){ ?>
                 <div class="signin">
                     <a href="job_seekerlogin.php">
                         <button type="submit"><img src="./images/sign in.png" height="13px" width="13px"
@@ -51,7 +49,12 @@ $companySession = isset($_SESSION['email']);
                 <div class="afterlogin">
                     <img src="./images/Account icon.svg" alt="#" class="test">
                     <div class="dropdown">
+                        <?php
+                        if($seekerSession){ ?>
+                            <a href="jobseekerprofile.php"><button>profile</button></a>
+                        <?php }else{ ?>
                         <a href="companyprofile.php"><button>profile</button></a>
+                        <?php } ?>
                         <a href="sessiondestroy.php"><button>Log out</button></a>
                     </div>
                 </div>
