@@ -14,6 +14,9 @@ $companySession = isset($_SESSION['email']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="./styles/dashboard.css">
+    <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
+    <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
+    <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
 </head>
 
 <body>
@@ -27,12 +30,12 @@ $companySession = isset($_SESSION['email']);
         <div class="links">
             <a href="index.php">Home</a>
             <a href="">Blog</a>
-            <a href="">Contact</a>
-            <a href="">About us</a>
+            <a href="#footer">Contact</a>
+            <a href="#footer">About us</a>
         </div>
 
         <div class="navbutton">
-            <?php if(!($seekerSession || $companySession)){ ?>
+            <?php if (!($seekerSession || $companySession)) { ?>
                 <div class="signin">
                     <a href="job_seekerlogin.php">
                         <button type="submit"><img src="./images/sign in.png" height="13px" width="13px"
@@ -47,16 +50,22 @@ $companySession = isset($_SESSION['email']);
                 </div>
             <?php } else { ?>
                 <div class="afterlogin">
-                    <img src="./images/Account icon.svg" alt="#" class="test">
-                    <div class="dropdown">
-                        <?php
-                        if($seekerSession){ ?>
-                            <a href="jobseekerprofile.php"><button>profile</button></a>
-                        <?php }else{ ?>
-                        <a href="companyprofile.php"><button>profile</button></a>
-                        <?php } ?>
-                        <a href="sessiondestroy.php"><button>Log out</button></a>
-                    </div>
+
+                    <?php if ($seekerSession) { ?>
+                        <img src="./images/Account icon.svg" alt="">
+                         <div class="dropdown">
+                            <a href="jobseekerprofile.php"><button>Profile</button></a>
+                            <a href="sessiondestroy.php"><button>Log out</button></a>
+                        </div>
+
+                    <?php } else { ?>
+                        <img src="./images/Account icon.svg" alt="">
+
+                        <div class="dropdown">
+                            <a href="companyprofile.php"><button>Profile</button></a>
+                            <a href="sessiondestroy.php"><button>Log out</button></a>
+                        </div>
+                    <?php } ?>
                 </div>
             <?php } ?>
         </div>
@@ -91,7 +100,7 @@ $companySession = isset($_SESSION['email']);
                     <option value="E-comerce">E-comerce</option>
                 </select>
 
-                <button type="submit"> <img src="./images/search.png" height="14px" width="14px" alt=""> Search</button>
+                <button type="submit" name="search"> <i class="fa-solid fa-magnifying-glass"></i> Search</button>
             </form>
         </div>
     </div>
@@ -187,21 +196,21 @@ $companySession = isset($_SESSION['email']);
     <section id="trustedcompany">
         <div class="trustedcompany">
             <div class="carousel">
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
-            <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/techpana.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
+                <div class="items"><a href=""><img src="./images/instagram.svg" alt=""></a></div>
             </div>
         </div>
     </section>
@@ -217,7 +226,7 @@ $companySession = isset($_SESSION['email']);
 
 
     <footer>
-        <div class="footer">
+        <div class="footer" id="footer">
             <div class="footercontent">
                 <div class="aboutus">
                     <h2>About Us</h2>

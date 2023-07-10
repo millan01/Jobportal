@@ -53,9 +53,28 @@ body {
 .notification {
   display: flex;
   justify-content: center;
+  animation-name: slide;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 .notification p {
+  font-size: 20px;
+  color: #6E77EE;
   opacity: 0.7;
+}
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(20px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 .content {
   display: flex;
@@ -71,10 +90,9 @@ body {
   margin: 20px;
   box-shadow: 0px 3px 10px rgb(100, 100, 100.5);
 }
-.imagetop img {
+.detailsimage img {
   height: 100px;
   width: 100px;
-  border-radius: none;
   border-radius: 50%;
   object-fit: cover;
 }

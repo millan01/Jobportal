@@ -2,6 +2,9 @@
 session_start();
 
 include('./database/connection.php');
+$seekerSession = isset($_SESSION['seeker_Email']);
+$companySession = isset($_SESSION['email']);
+
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +38,7 @@ include('./database/connection.php');
         </div>
 
         <div class="navbutton">
-            <?php if (!isset($_SESSION['email'])) { ?>
+            <?php if (!($seekerSession || $companySession)) { ?>
                 <div class="signin">
                     <a href="job_seekerlogin.php">
                         <button type="submit"><img src="./images/sign in.png" height="13px" width="13px"
@@ -52,7 +55,12 @@ include('./database/connection.php');
                 <div class="afterlogin">
                     <img src="./images/Account icon.svg" alt="#" class="test">
                     <div class="dropdown">
-                        <a href="companyprofile.php"><button>profile</button></a>
+                        <?php
+                        if ($seekerSession) { ?>
+                            <a href="jobseekerprofile.php"><button>Profile</button></a>
+                        <?php } else { ?>
+                            <a href="companyprofile.php"><button>profile</button></a>
+                        <?php } ?>
                         <a href="sessiondestroy.php"><button>Log out</button></a>
                     </div>
                 </div>
@@ -84,7 +92,6 @@ include('./database/connection.php');
                             <div class="companyname1">
                                 <?php echo '<img src="./images/uploaded_image/' . $row['Image_name'] . '" alt="company logo" style="object-fit:cover;">' ?>
                             </div>
-                            <?php echo $id; ?>
                             <div class="companyname2">
                                 <p style="margin-top: 10px;">
                                     <?php echo $row['company_name'] ?>
@@ -208,7 +215,11 @@ include('./database/connection.php');
                     </div>
 
                     <div class="upper-five">
-                        <a href=""><button>Apply</button></a>
+                        <?php if ($seekerSession) { ?>
+                            <a href=""><button>Apply</button></a>
+                        <?php } else { ?>
+                            <a href="" onclick="checkuser()"><button>Apply</button></a>
+                        <?php } ?>
                     </div>
                 </div>
 
@@ -302,7 +313,7 @@ include('./database/connection.php');
         include('footer.php');
         ?>
     </div>
-
+    <script src="./js/jobdescription.js"></script>
 </body>
 
 </html>

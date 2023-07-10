@@ -1,7 +1,10 @@
 <?php
 session_start();
 include('./database/connection.php');
-$session = $_SESSION['email'];
+$session = $_SESSION['email']; 
+if(!isset($_SESSION['email'])){
+    header('location: index.php');
+}
 
 $stmt = $conn->prepare("SELECT * from company where email = ?");
 $stmt->bind_param("s", $session);
@@ -11,7 +14,7 @@ $result = $stmt->get_result();
 
 $comapnyname = $contactperson = $companyaddress = $companywebsite = $companyphone = $companyemail = $companydesc = $a = '';
 $comapnynameErr = $contactpersonErr = $companyaddressErr = $companywebsiteErr = $companyphoneErr = $companyemailErr = $imageErr = $companydescErr = '';
-if (isset($session)) { 
+if (isset($session)) {
 
     if (isset($_POST['submit'])) {
         $companyname = test_input($_POST['companyname']);
@@ -19,7 +22,7 @@ if (isset($session)) {
             $comapnynameErr = "Only letter and whitespace";
         }
         $contactperson = test_input($_POST['contactperson']);
-        if (!preg_match("/^[a-zA-Z ]*$/", $contactperson)) { 
+        if (!preg_match("/^[a-zA-Z ]*$/", $contactperson)) {
             $contactpersonErr = "only letter and whitespace";
         }
         $companyaddress = test_input($_POST['companyaddress']);
@@ -101,11 +104,32 @@ function test_input($data)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./Styles/companyprofiledit.css">
+    <link rel="stylesheet" href="./Styles/companyprofile-edit.css">
 </head>
 
 <body>
-    <?php include('afterloginnav.php') ?>
+    <div class="navbarflow">
+        <div class="logo">
+            <a href="index.php">
+                <img src="./images/logo.svg" alt="company logo">
+            </a>
+        </div>
+
+        <div class="links">
+            <a href="index.php">Home</a>
+            <a href="">Blog</a>
+            <a href="">Contact</a>
+            <a href="">About us</a>
+        </div>
+
+        <div class="afterlogin">
+            <img src="./images/Account icon.svg" alt="#" class="test">
+            <div class="dropdown">
+                <a href="companyprofile.php"><button>Profile</button></a>
+                <a href="sessiondestroy.php"><button>Log out</button></a>
+            </div>
+        </div>
+    </div>
     <div class="main">
         <div class="dashboard-nav">
             <div class="dashboard-vertical-nav">
@@ -129,7 +153,7 @@ function test_input($data)
                                     <?php if ($row['Image_name'] == '') {
                                         echo '<img src = ./images/avatar.png>';
                                     } else {
-                                        echo '<img src="./images/uploaded_image/'. $row['Image_name'].'">';
+                                        echo '<img src="./images/uploaded_image/' . $row['Image_name'] . '">';
                                     } ?>
                                     <input type="file" name="image">
                                 </div>
@@ -187,7 +211,7 @@ function test_input($data)
                     </form>
                 </div>
             <?php }
-                $stmt->close(); ?>
+                            $stmt->close(); ?>
         </div>
     </div>
     </div>

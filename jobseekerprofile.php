@@ -38,7 +38,7 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./styles/jobseeker-profile.css">
+    <link rel="stylesheet" href="./styles/jobseeker-pprofile.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
@@ -79,11 +79,18 @@ $result = $stmt->get_result();
         <div class="sidebar">
 
             <div class="imagearea">
-                <div class="imagetop">
-                    <?php while ($row = mysqli_fetch_assoc($result)) {
-                        $seekerid = $row['Job_seeker_id'];
-                        ?>
-                        <img src="./images/esewa.png" alt="">
+                <?php while ($row = mysqli_fetch_assoc($result)) {
+                    $seekerid = $row['Job_seeker_id']; ?>
+                    <div class="imagetop">
+                        <div class="detailsimage">
+                            <?php
+                            if ($row['Image_name'] == '') {
+                                echo '<img src =./images/avatar.png>';
+                            } else {
+                                echo '<img src="./images/uploaded_image/jobseeker/' . $row['Image_name'] . '">';
+                            }
+                            ?>
+                        </div>
                         <p>
                             <?php echo $row['Full_name']; ?>
                         </p>
@@ -96,257 +103,260 @@ $result = $stmt->get_result();
                         <p><i class="fa-regular fa-globe fa-1x"></i>&nbsp;&nbsp; <a
                                 href="<?php echo $row['website']; ?>"><?php echo $row['website']; ?></a></p>
                         <p><i class="fa-solid fa-envelope"></i>&nbsp;&nbsp;
-                            <?php echo $row['contact_email']; } $stmt->close(); ?>
-                        </p>
-                    </div>
+                            <?php echo $row['contact_email'];
+                }
+                $stmt->close(); ?>
+                    </p>
                 </div>
-                <div class="Details">
-                    <div class="header">
-                        <h2>Job-Seeker Details</h2>
-                        <button onclick="openProfile()"><i class="fa-solid fa-edit"></i> Edit</button>
-                    </div>
-                    <?php
+            </div>
+            <div class="Details">
+                <div class="header">
+                    <h2>Job-Seeker Details</h2>
+                    <button onclick="openProfile()"><i class="fa-solid fa-edit"></i> Edit</button>
+                </div>
+                <?php
 
-                    $stmt = $conn->prepare("SELECT * from job_seeker where email = ?");
-                    $stmt->bind_param("s", $jobseeker_email);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    $name = $gender = $dob = $dateofbirth = $address = $phone = $mobile = $website = $contactemail = $whoami = $imagename = "";
-                    $nameErr = $genderErr = $dobErr = $addressErr = $phoneErr = $mobileErr = $websiteErr = $whoamiErr = $contactErr = $imageErr = "";
-                    if (isset($_POST['submit'])) {
+                $stmt = $conn->prepare("SELECT * from job_seeker where email = ?");
+                $stmt->bind_param("s", $jobseeker_email);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $name = $sex = $birthdate = $datebirth = $address = $phone = $mobile = $website = $contactemail = $whoami = $imagename = "";
+                $nameErr = $genderErr = $dobErr = $addressErr = $phoneErr = $mobileErr = $websiteErr = $whoamiErr = $contactErr = $imageErr = "";
+                if (isset($_POST['submit'])) {
 
-                        if (isset($_FILES["image"]) && $_FILES["image"]["error"] == UPLOAD_ERR_OK) {
-                            $imageName = $_FILES["image"]["name"];
-                            $targetDir = "./images/uploaded_image/jobseeker";
-                            $targetFile = $targetDir . basename($_FILES["image"]["name"]);
-                            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+                    if (isset($_FILES["image"]) && $_FILES["image"]["error"] == UPLOAD_ERR_OK) {
+                        $imageName = $_FILES["image"]["name"];
+                        $targetDir = "./images/uploaded_image/jobseeker/";
+                        $targetFile = $targetDir . basename($_FILES["image"]["name"]);
+                        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-                            $validExtensions = ["jpg", "jpeg", "png"];
-                            if (in_array($imageFileType, $validExtensions)) {
+                        $validExtensions = ["jpg", "jpeg", "png"];
+                        if (in_array($imageFileType, $validExtensions)) {
 
-                                if ($_FILES["image"]["size"] <= 5 * 1024 * 1024) {
+                            if ($_FILES["image"]["size"] <= 5 * 1024 * 1024) {
 
-                                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-                                        // Store the image name in the database
-                                        $imageName = $_FILES["image"]["name"];
+                                if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
+                                    // Store the image name in the database
+                                    $imageName = $_FILES["image"]["name"];
 
-                                    } else {
-                                        $imageErr = "Error uploading files";
-                                    }
                                 } else {
-                                    $imageErr = "Files should be less than 5MB";
+                                    $imageErr = "Error uploading files";
                                 }
                             } else {
-                                $imageErr = "Invalid image format";
+                                $imageErr = "Files should be less than 5MB";
                             }
                         } else {
-                            $imageErr = "Error uploading files";
+                            $imageErr = "Invalid image format";
                         }
-
-
-                        $name = test_input($_POST["name"]);
-                        if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-                            $nameErr = "Only letters and white space allowed";
-                        }
-
-                        if (empty($_POST['gender'])) {
-                            $dobErr = "choose a gender";
-                        } else {
-                            $dob = $_POST['gender'];
-                        }
-
-                        if (empty($_POST['address'])) {
-                            $addressErr = "Address field empty";
-                        } else {
-                            $address = $_POST['address'];
-                        }
-
-                        $phone = test_input($_POST['phone']);
-                        if (!preg_match("/[0-9]{10}$/", $phone)) {
-                            $phoneErr = "invalid phone number";
-                        }
-
-                        $mobile = test_input($_POST['mobile']);
-                        if (!preg_match("/[0-9]{10}$/", $mobile)) {
-                            $mobileErr = "invalid phone number";
-                        }
-
-                        if (empty($_POST['dob'])) {
-                            $dobErr = "select date of birth";
-                        } else {
-                            $dob = $_POST['dob'];
-                            $dateofbirth = date('Y-m-d', strtotime($dob));
-                        }
-
-                        $website = ($_POST['website']);
-                        if (!preg_match("~^(?:f|ht)tps?://~", $website)) {
-                            $website = 'https://' . $website;
-                            $websiteErr = "invalid website format";
-                        }
-
-                        $contactemail = test_input($_POST["cemail"]);
-                        // check if email address is well-formed
-                        if (!filter_var($contactemail, FILTER_VALIDATE_EMAIL)) {
-                            $contactErr = "Invalid email format";
-                        }
-
-
-                        $whoami = test_input($_POST['description']);
-
-                        if (empty($nameErr) && empty($genderErr) && empty($dobErr) && empty($addressErr) && empty($phoneErr) && empty($mobileErr) && empty($websitErr) && empty($whoamiErr) && empty($imageErr)) {
-                            $stmt = $conn->prepare("UPDATE job_seeker SET Full_name =?, gender=?,Age=?,jobseeker_address=?,Phone=?, Mobile=?,contact_email=?,website=?,job_description=?,Image_name=? where Email=?");
-                            $stmt->bind_param("ssissssssss", $name, $gender, $dateofbirth, $address, $phone, $mobile, $contactemail, $website, $whoami, $imagename,$jobseeker_email );
-                            $stmt->execute();
-                            $stmt->close();
-                        }
-
+                    } else {
+                        $imageErr = "Error uploading files";
                     }
 
-                    ?>
-                    <div class="overlayEditProfile" id="overlayEditProfile">
-                        <span onclick="closeProfile()" class="closeProfile"><i class="fa-solid fa-multiply"></i></span>
-                        <div class="profileformContainer">
-                            <form action="" method="POST" enctype="multipart/form-data">
-                                <div class="details-form">
-                                    <h2>Update Basic information</h2>
-                                    <hr color="black" size="0.5px">
 
-                                    <div class="profileContent">
-                                        <?php 
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                             ?>
-                                            <div class="profileimage">
-                                                <?php
-                                                 if ($row['Image_name'] == '') {
-                                                     echo '<img src =./images/avatar.png>';
-                                                } else {
-                                                    echo '<img src="./images/jobseekerprofile/' . $row['Image_name'] . '">';
-                                                }
-                                                 ?>
-                                                <input type="file" name="image">
-                                            </div>
+                    $name = test_input($_POST["name"]);
+                    if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+                        $nameErr = "Only letters and white space allowed";
+                    }
 
-                                            <div class="col1">
-                                                <label for="Name">Name:</label>
-                                                <input type="text" name="name" id="name"
-                                                    value="<?php echo $row['Full_name'] ?>">
+                    if (empty($_POST['gender'])) {
+                        $dobErr = "choose a gender";
+                    } else {
+                        $sex = $_POST['gender'];
+                    }
+
+                    if (empty($_POST['address'])) {
+                        $addressErr = "Address field empty";
+                    } else {
+                        $address = $_POST['address'];
+                    }
+
+                    $phone = test_input($_POST['phone']);
+                    if (!preg_match("/[0-9]{10}$/", $phone)) {
+                        $phoneErr = "invalid phone number";
+                    }
+
+                    $mobile = test_input($_POST['mobile']);
+                    if (!preg_match("/[0-9]{10}$/", $mobile)) {
+                        $mobileErr = "invalid phone number";
+                    }
+
+                    if (empty($_POST['dob'])) {
+                        $dobErr = "select date of birth";
+                    } else {
+                        $birthdate= $_POST['dob'];
+                        $datebirth = date('Y-m-d',strtotime($birthdate));
+                    }
+
+                    $website = ($_POST['website']);
+                    if (!preg_match("~^(?:f|ht)tps?://~", $website)) {
+                        $website = 'https://' . $website;
+                        $websiteErr = "invalid website format";
+                    }
+
+                    $contactemail = test_input($_POST["cemail"]);
+                    if (!filter_var($contactemail, FILTER_VALIDATE_EMAIL)) {
+                        $contactErr = "Invalid email format";
+                    }
+
+
+                    $whoami = test_input($_POST['description']);
+
+                    if (empty($nameErr) && empty($genderErr) && empty($dobErr) && empty($addressErr) && empty($phoneErr) && empty($mobileErr) && empty($websitErr) && empty($whoamiErr) && empty($imageErr)) {
+                        $stmt = $conn->prepare("UPDATE job_seeker SET Full_name =?, gender=?,Age=?,jobseeker_address=?,Phone=?, Mobile=?,contact_email=?,website=?,jobseeker_description=?,Image_name=? where Email=?");
+                        $stmt->bind_param("sssssssssss", $name, $sex , $datebirth, $address, $phone, $mobile, $contactemail, $website, $whoami, $imageName, $jobseeker_email);
+                        $stmt->execute();
+                        $stmt->close();
+                        header('location:jobseekerprofile.php');
+                    }
+
+                }
+
+                ?>
+                <div class="overlayEditProfile" id="overlayEditProfile">
+                    <span onclick="closeProfile()" class="closeProfile"><i class="fa-solid fa-multiply"></i></span>
+                    <div class="profileformContainer">
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <div class="details-form">
+                                <h2>Update Basic information</h2>
+                                <hr color="black" size="0.5px">
+
+                                <div class="profileContent">
+                                    <?php
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        ?>
+                                        <div class="profileimage">
+                                            <?php
+                                            if ($row['Image_name'] == '') {
+                                                echo '<img src =./images/avatar.png>';
+                                            } else {
+                                                echo '<img src="./images/uploaded_image/jobseeker/' . $row['Image_name'] . '">';
+                                            }
+                                            ?>
+                                            <input type="file" name="image">
+                                        </div>
+
+                                        <div class="col1">
+                                            <label for="Name">Name:</label>
+                                            <input type="text" name="name" id="name"
+                                                value="<?php echo $row['Full_name'] ?>">
+                                            <span style="color:red;">
+                                                <?php echo $nameErr; ?>
+                                            </span>
+                                        </div>
+
+                                        <div class="col2">
+
+                                            <div class="gender">
+                                                <label for="gender">Gender:</label>
+                                                <select name="gender" id="gender" required>
+                                                    <option value="">Select Gender</option>
+                                                    <option value="Male" <?php echo ($row['gender'] === 'Male') ? 'selected' : ''; ?>>Male
+                                                    </option>
+                                                    <option value="Female" <?php echo ($row['gender'] === 'Female') ? 'selected' : ''; ?>>Female
+                                                    </option>
+                                                    <option value="Other" <?php echo ($row['gender'] === 'Other') ? 'selected' : ''; ?>>Other
+                                                    </option>
+                                                </select>
                                                 <span style="color:red;">
-                                                    <?php echo $nameErr; ?>
+                                                    <?php echo $genderErr; ?>
                                                 </span>
+
                                             </div>
-
-                                            <div class="col2">
-
-                                                <div class="gender">
-                                                    <label for="gender">Gender:</label>
-                                                    <select name="gender" id="Gender" required>
-                                                        <option value="">Select Gender</option>
-                                                        <option value="Male" <?php echo ($row['gender'] === 'Male') ? 'selected' : ''; ?>>Male
-                                                        </option>
-                                                        <option value="Female" <?php echo ($row['gender'] === 'Female') ? 'selected' : ''; ?>>Female
-                                                        </option>
-                                                        <option value="Other" <?php echo ($row['gender'] === 'Other') ? 'selected' : ''; ?>>Other
-                                                        </option>
-                                                    </select>
-                                                    <span style="color:red;">
-                                                        <?php echo $genderErr; ?>
-                                                    </span>
-
-                                                </div>
-                                                <div class="dob">
-                                                    <label for="dob">Date of birth:</label>
-                                                    <input type="date" name="dob" value="<?php echo $row['Age'] ?>" required>
-                                                    <span style="color:red;">
-                                                        <?php echo $dobErr; ?>
-                                                    </span>
-
-                                                </div>
-
-                                                <div class="address">
-                                                    <label for="address">Address:</label>
-                                                    <input type="text" name="address" id="address"
-                                                        value="<?php echo $row['jobseeker_address'] ?>" required>
-                                                    <span style="color:red;">
-                                                        <?php echo $addressErr; ?>
-                                                    </span>
-
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col3">
-                                                <div class="phone">
-                                                    <label for="phone">Phone:</label>
-                                                    <input type="text" name="phone" id="phone"
-                                                        value="<?php echo $row['Phone']; ?>" required>
-                                                    <span style="color:red;">
-                                                        <?php echo $phoneErr; ?>
-                                                    </span>
-
-                                                </div>
-                                                <div class="mobile">
-                                                    <label for="mobile">Mobile</label>
-                                                    <input type="text" name="mobile" id="mobile"
-                                                        value="<?php echo $row['Mobile'] ?>">
-                                                    <span style="color:red;">
-                                                        <?php echo $mobileErr; ?>
-                                                    </span>
-
-                                                </div>
-                                                <div class="website">
-                                                    <label for="website">Website<span>(if any):</span></label>
-                                                    <input type="text" name="website" id="website"
-                                                        value="<?php echo $row['website'] ?>" required>
-                                                    <span style="color:red;">
-                                                        <?php echo $websiteErr; ?>
-                                                    </span>
-
-
-                                                </div>
-                                            </div>
-                                            <div class="col5">
-                                                <label for="contactemail">Contact_email</label>
-                                                <input type="text" name="cemail" id="cemail"
-                                                    value="<?php echo $row['contact_email'] ?>">
-                                                <span>
-                                                    <?php echo $contactErr; ?>
-                                                </span>
-                                            </div>
-
-
-                                            <div class="col4">
-                                                <label for="description">Who am I?</label>
-                                                <textarea name="description" id="description" cols="48" rows="15"
-                                                    required><?php echo $row['jobseeker_description'] ?></textarea>
+                                            <div class="dob">
+                                                <label for="dob">Date of birth:</label>
+                                                <input type="date" name="dob" value="<?php echo $row['Age'] ?>" required>
                                                 <span style="color:red;">
-                                                    <?php echo $whoamiErr; ?>
+                                                    <?php echo $dobErr; ?>
+                                                </span>
+
+                                            </div>
+
+                                            <div class="address">
+                                                <label for="address">Address:</label>
+                                                <input type="text" name="address" id="address"
+                                                    value="<?php echo $row['jobseeker_address'] ?>" required>
+                                                <span style="color:red;">
+                                                    <?php echo $addressErr; ?>
+                                                </span>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col3">
+                                            <div class="phone">
+                                                <label for="phone">Phone:</label>
+                                                <input type="text" name="phone" id="phone"
+                                                    value="<?php echo $row['Phone']; ?>" required>
+                                                <span style="color:red;">
+                                                    <?php echo $phoneErr; ?>
+                                                </span>
+
+                                            </div>
+                                            <div class="mobile">
+                                                <label for="mobile">Mobile</label>
+                                                <input type="text" name="mobile" id="mobile"
+                                                    value="<?php echo $row['Mobile'] ?>">
+                                                <span style="color:red;">
+                                                    <?php echo $mobileErr; ?>
+                                                </span>
+
+                                            </div>
+                                            <div class="website">
+                                                <label for="website">Website<span>(if any):</span></label>
+                                                <input type="text" name="website" id="website"
+                                                    value="<?php echo $row['website'] ?>" required>
+                                                <span style="color:red;">
+                                                    <?php echo $websiteErr; ?>
                                                 </span>
 
 
                                             </div>
-                                        <?php } $stmt->close(); ?>
+                                        </div>
+                                        <div class="col5">
+                                            <label for="contactemail">Contact_email</label>
+                                            <input type="text" name="cemail" id="cemail"
+                                                value="<?php echo $row['contact_email'] ?>">
+                                            <span>
+                                                <?php echo $contactErr; ?>
+                                            </span>
+                                        </div>
 
 
-                                    </div>
+                                        <div class="col4">
+                                            <label for="description">Who am I</label>
+                                            <textarea name="description" id="description" cols="48" rows="15"
+                                                required><?php echo $row['jobseeker_description'] ?></textarea>
+                                            <span style="color:red;">
+                                                <?php echo $whoamiErr; ?>
+                                            </span>
+
+
+                                        </div>
+                                    <?php }
+                                    $stmt->close(); ?>
+
+
                                 </div>
-                                <div class="col6">
-                                    <button type="submit" name="submit" id="closeOverlayBtn">Update</button>
-                                </div>
-                            </form>
+                            </div>
+                            <div class="col6">
+                                <button type="submit" name="submit" id="closeOverlayBtn">Update</button>
+                            </div>
+                        </form>
 
 
-                        </div>
                     </div>
-                    <?php 
-                    $stmt = $conn->prepare("SELECT * from job_seeker where email = ?");
-                    $stmt->bind_param("s", $jobseeker_email);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    ?>
-                    <div class="lookingfor">
-                        <li style="font-weight: bold;">Looking for:</li>
-                        <li>
-                            <?php while($row=mysqli_fetch_assoc($result)){ ?>
+                </div>
+                <?php
+                $stmt = $conn->prepare("SELECT * from job_seeker where email = ?");
+                $stmt->bind_param("s", $jobseeker_email);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                ?>
+                <div class="lookingfor">
+                    <li style="font-weight: bold;">Looking for:</li>
+                    <li>
+                        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                             <?php echo $row['Position'] ?>
                         </li>
                     </div>
@@ -378,49 +388,50 @@ $result = $stmt->get_result();
                         </li>
                     </div>
                 </div>
-                <?php  } $stmt->close();?>
+            <?php }
+                        $stmt->close(); ?>
 
-                <div class="jobcount">
-                    <h2>Jobs Count</h2>
-                    <div class="totaljobs">
-                        <div class="total">
-                            <li style="font-weight: bold;">Total jobs</li>
-                            <li>4</li>
-                        </div>
-                        <div class="pending">
-                            <li style="font-weight: bold;">Pending jobs</li>
-                            <li>1</li>
-                        </div>
-                        <div class="Rejected">
-                            <li style="font-weight: bold;">Rejected jobs</li>
-                            <li>3</li>
-                        </div>
+            <div class="jobcount">
+                <h2>Jobs Count</h2>
+                <div class="totaljobs">
+                    <div class="total">
+                        <li style="font-weight: bold;">Total jobs</li>
+                        <li> </li>
+                    </div>
+                    <div class="pending">
+                        <li style="font-weight: bold;">Pending jobs</li>
+                        <li> </li>
+                    </div>
+                    <div class="Rejected">
+                        <li style="font-weight: bold;">Rejected jobs</li>
+                        <li> </li>
                     </div>
                 </div>
-
-
             </div>
 
-            <div class="main">
+
+        </div>
+
+        <div class="main">
 
 
-                <div class="whoami">
-                    <h2>Who am i?</h2>
-                    <hr color="black" size="0.5px" style="margin-top: -8px;">
-                    <?php 
-                     $stmt = $conn->prepare("SELECT jobseeker_description from job_seeker where email = ?");
-                     $stmt->bind_param("s", $jobseeker_email);
-                     $stmt->execute();
-                     $result = $stmt->get_result();
-                     if($result->num_rows ==1){
-                        $row= mysqli_fetch_assoc($result);
-                        $des = $row['jobseeker_description'];
-                     }
-                    ?>
-                    <p>
-                        <?php echo $des; ?>
-                    </p>
-                </div>
+            <div class="whoami">
+                <h2>Who am I</h2>
+                <hr color="black" size="0.5px" style="margin-top: -8px;">
+                <?php
+                $stmt = $conn->prepare("SELECT jobseeker_description from job_seeker where email = ?");
+                $stmt->bind_param("s", $jobseeker_email);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if ($result->num_rows == 1) {
+                    $row = mysqli_fetch_assoc($result);
+                    $des = $row['jobseeker_description'];
+                }
+                ?>
+                <p>
+                    <?php echo $des; ?>
+                </p>
+            </div>
             <?php ?>
 
             <div class="mainsub">
@@ -461,15 +472,15 @@ $result = $stmt->get_result();
                         $started = test_input($_POST['started']);
                     }
 
-                    if(empty($_POST['present']) && empty($_POST['passed'])){
-                        $presentErr  ="Date not entered";
+                    if (empty($_POST['present']) && empty($_POST['passed'])) {
+                        $presentErr = "Date not entered";
                     }
-                    if(isset($_POST['present'])){
+                    if (isset($_POST['present'])) {
                         $end = "Current";
-                    }else{
+                    } else {
                         $end = test_input(isset($_POST['passed']));
                     }
-                     if (empty($courseErr) && empty($boardErr) && empty($nameErr) && empty($startedErr) && empty($endErr)) {
+                    if (empty($courseErr) && empty($boardErr) && empty($nameErr) && empty($startedErr) && empty($endErr)) {
                         $stmt = $conn->prepare("INSERT INTO jobseeker_education (course,board,institute,started_year,end_year ,jobseeker_id) VALUES (?,?,?,?,?,?)");
                         $stmt->bind_param("sssiii", $course, $board, $name, $started, $end, $seekerID);
                         $stmt->execute();
@@ -515,7 +526,7 @@ $result = $stmt->get_result();
                                     <label for="started">Start year</label>
                                     <input type="varchar" name="started" id="started" required>
                                 </div>
-                
+
                                 <div class="form">
                                     <label for="present">present</label>
                                     <input type="checkbox" name="present" onclick="toggleEndYear()" id="present">
@@ -547,7 +558,7 @@ $result = $stmt->get_result();
                                         </span>
                                     </p>
                                     <p>&nbsp;&nbsp;&nbsp; <i class="fa fa-dot-circle"></i>
-                                    <?php echo $row['institute'] ?>
+                                        <?php echo $row['institute'] ?>
                                     </p>
 
 
@@ -889,11 +900,11 @@ $result = $stmt->get_result();
             <th>Status</th>
 
             <tr>
-                <td>software Engineer</td>
-                <td>Esewa pvt ltd.</td>
-                <td>IT&Telicommunication</td>
-                <td>2023-12-03</td>
-                <td>Pending</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
         </table>
     </div>
