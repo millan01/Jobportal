@@ -30,7 +30,7 @@ if (isset($session)) {
             $companyaddressErr = "only letter and whitespace";
         }
         $companywebsite = ($_POST['companywebsite']);
-        if (!preg_match("~^(?:f|ht)tps?://~", $companywebsite)) {
+        if (preg_match("~^(?:f|ht)tps?://~", $companywebsite)) {
             $companywebsite = 'https://' . $companywebsite;
             $companywebsiteErr = "invalid website format";
         }
@@ -78,7 +78,7 @@ if (isset($session)) {
 
 
         if (empty($comapnynameErr) && empty($contactpersonErr) && empty($companyaddressErr) && empty($companywebsiteErr) && empty($companyphoneErr) && empty($companyemailErr) && empty($companydescErr)) {
-            $stmt = $conn->prepare("UPDATE company SET company_name =? ,conatact_personname =?,email=?,phone=?,location=?,website=?,description=?,Image_name=? where email =?");
+            $stmt = $conn->prepare("UPDATE company SET company_name =? ,conatact_personname =?,Contact_email=?,phone=?,location=?,website=?,description=?,Image_name=? where email =?");
             $stmt->bind_param("sssssssss", $companyname, $contactperson, $companyemail, $companyphone, $companyaddress, $companywebsite, $companydesc, $imageName, $session);
 
             $stmt->execute();

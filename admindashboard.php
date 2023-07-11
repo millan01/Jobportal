@@ -34,7 +34,6 @@ $total_vacancies = $row['no_of_vacancy'];
 
 
 //close the connection 
-mysqli_close($conn);
 ?>
 
 <!-- sql to update the password of the admin user in the database -->
@@ -70,7 +69,6 @@ if (isset($_POST['submit'])) {
 // }
 
 // Close the connesubmit-area input[type=submit]ction
-mysqli_close($conn);
 
 ?>
 
@@ -220,7 +218,6 @@ mysqli_close($conn);
                                         echo "</tr>";
                                     }
                                 }
-                                mysqli_close($conn);
                                 ?>
                             </table>
                         </div>
@@ -260,7 +257,6 @@ mysqli_close($conn);
                                         echo "</tr>";
                                     }
                                 }
-                                mysqli_close($conn);
                                 ?>
                             </table>
                         </div>
@@ -321,7 +317,7 @@ mysqli_close($conn);
                                 $emailexit = "SELECT Email from admin_login where Email = '$addemail'";
                                 $result = mysqli_query($conn, $emailexit);
                                 $rowexit = mysqli_num_rows($result);
-                                if ($rowexit > 0) {
+                                if ($rowexit == 1) {
                                     $addemailErr = "Email already exist";
                                 } elseif (!filter_var($addemail, FILTER_VALIDATE_EMAIL)) {
                                     $addemailErr = "Enter the valid email address";
@@ -333,7 +329,7 @@ mysqli_close($conn);
                             } else {
                                 $adduser = test_input($_POST["username"]);
                                 // check if name only contains letters and whitespace
-                                if (!preg_match("/^[a-zA-Z ]*$/", $adduser)) {
+                                if (!preg_match("/^[a-zA-Z0-9 ]*$/", $adduser)) {
                                     $adduserErr = "Only letters and white space allowed";
                                 }
                             }
@@ -354,16 +350,16 @@ mysqli_close($conn);
                                 }
                             }
 
-                            if (empty($addemail) && empty($addpass) && empty($adduser)) {
+                            if (empty($addemailErr) && empty($addpassErr) && empty($adduserErr)) {
 
                                 $userpassword = password_hash($addpass, PASSWORD_DEFAULT);
 
-                                $sql = "INSERT INTO admin_login (Email, username, Password) VALUES('$addemail','$adduser','$addpass')";
+                                $sql = "INSERT INTO  admin_login (Email, username, Password) VALUES('$addemail','$adduser','$addpass')";
                                 $result = mysqli_query($conn,$sql);
                                 if($result){
-                                    echo "added successfully";
+                                    echo "Admin added successfully";
                                 }
-                                header('location:admindashboard.php');
+                                // header('location:admindashboard.php');
                             }
                         }
                         function test_input($data){
@@ -416,7 +412,7 @@ mysqli_close($conn);
 
                     </div>
                 </section>
-                <!-- <script src="./js/dashboard.js"></script> -->
+                <script src="./js/dashboard.js"></script>
             </div>
         </div>
     </div>

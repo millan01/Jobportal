@@ -3,6 +3,7 @@ session_start();
 include('./database/connection.php');
 $seekerSession = isset($_SESSION['seeker_Email']);
 $companySession = isset($_SESSION['email']);
+$adminSession = isset($_SESSION['admin_Email']);
 
 ?>
 <!DOCTYPE html>
@@ -35,7 +36,7 @@ $companySession = isset($_SESSION['email']);
         </div>
 
         <div class="navbutton">
-            <?php if (!($seekerSession || $companySession)) { ?>
+            <?php if (!($seekerSession || $companySession || $adminSession)) { ?>
                 <div class="signin">
                     <a href="job_seekerlogin.php">
                         <button type="submit"><img src="./images/sign in.png" height="13px" width="13px"
@@ -53,11 +54,17 @@ $companySession = isset($_SESSION['email']);
 
                     <?php if ($seekerSession) { ?>
                         <img src="./images/Account icon.svg" alt="">
-                         <div class="dropdown">
+                        <div class="dropdown">
                             <a href="jobseekerprofile.php"><button>Profile</button></a>
                             <a href="sessiondestroy.php"><button>Log out</button></a>
                         </div>
 
+                    <?php } elseif ($adminSession) { ?>
+                        <img src="./images/Account icon.svg" alt="">
+                        <div class="dropdown">
+                            <a href="admindashboard.php"><button>Profile</button></a>
+                            <a href="sessiondestroy.php"><button>Log out</button></a>
+                        </div>
                     <?php } else { ?>
                         <img src="./images/Account icon.svg" alt="">
 
