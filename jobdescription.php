@@ -220,8 +220,10 @@ $adminSession = isset($_SESSION['admin_Email']);
                     <div class="upper-five">
                         <?php if ($seekerSession) { ?>
                             <a href=""><button>Apply</button></a>
-                        <?php } else { ?>
+                        <?php } elseif ($companySession) { ?>
                             <a href="" onclick="checkuser()"><button>Apply</button></a>
+                        <?php } else { ?>
+                            <a href="" onclick="checksession()"><button>Apply</button></a>
                         <?php } ?>
                     </div>
                 </div>
@@ -316,6 +318,11 @@ $adminSession = isset($_SESSION['admin_Email']);
         include('footer.php');
         ?>
     </div>
+    <script>
+        function checksession(){
+            alert("Please login before applying for job :)");
+        }
+    </script>
     <script src="./js/jobdescription.js"></script>
 </body>
 

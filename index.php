@@ -157,11 +157,10 @@ $adminSession = isset($_SESSION['admin_Email']);
                                 ?>
                             </li>
                         </div>
-                        <?php echo '<a href="jobdescription.php?jobid=' . $row['job_id'] . '">
-                                <button>Apply</button>
-                            </a>' ?>
-                    </div>
+                        <?php echo '<a href="jobdescription.php?job_id=' . $row['job_id'] . '">
+                                <button>Apply</button> </a>' ?>
                     <?php echo '</a>' ?>
+                    </div>
                 </div>
 
             </div>
