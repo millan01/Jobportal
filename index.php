@@ -120,7 +120,7 @@ $adminSession = isset($_SESSION['admin_Email']);
         $sql = "SELECT j.job_title,j.job_address,j.job_type,j.deadline_date,j.job_id,c.company_name,c.Image_name from company c 
         Inner JOIN job j ON c.company_id = j.companyID 
          where deadline_date >= CURDATE() ORDER BY RAND()";
-        $result = mysqli_query($conn, $sql);
+        $result = mysqli_query($conn,$sql);
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
             <div class="trendingjob">

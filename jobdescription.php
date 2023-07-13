@@ -72,7 +72,7 @@ $adminSession = isset($_SESSION['admin_Email']);
     </div>
 
 
-    <?php
+    <?php 
     if ($_GET['job_id']) {
         $id = $_GET['job_id'];
     }
@@ -80,7 +80,7 @@ $adminSession = isset($_SESSION['admin_Email']);
     j.job_title,j.job_address,j.no_of_vacancy,j.estimated_salary,j.category,j.job_type,j.posted_date,j.deadline_date,
     j.job_description,j.experience
      from company c INNER JOIN job j 
-      ON c.company_id = j.companyID where job_id = ?");
+      ON c.company_id = j.companyID where job_id = ? AND deadline_date >= CURDATE()");
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
