@@ -60,7 +60,7 @@ body {
 }
 .notification p {
   font-size: 20px;
-  color: #6E77EE;
+  color: #6e77ee;
   opacity: 0.7;
 }
 @keyframes slide {
@@ -89,6 +89,7 @@ body {
   width: 100%;
   margin: 20px;
   box-shadow: 0px 3px 10px rgb(100, 100, 100.5);
+  background-color: rgb(234, 241, 241);
 }
 .detailsimage img {
   height: 100px;
@@ -109,6 +110,8 @@ body {
   width: 100%;
   margin: 20px;
   box-shadow: 0px 3px 10px rgb(100, 100, 100.5);
+  background-color: rgb(234, 241, 241);
+
 }
 
 .overlayEditProfile {
@@ -280,6 +283,8 @@ textarea {
   width: 100%;
   margin: 20px;
   box-shadow: 0px 3px 10px rgb(100, 100, 100.5);
+  background-color: rgb(234, 241, 241);
+
 }
 .jobcount li {
   list-style-type: none;
@@ -337,6 +342,8 @@ textarea {
   width: 93%;
   height: 35vh;
   box-shadow: 0px 3px 10px rgb(100, 100, 100.5);
+  background-color: rgb(234, 241, 241);
+
 }
 .whoami h2 {
   align-content: center;
@@ -351,6 +358,8 @@ textarea {
   font-size: 15px;
   margin-top: 50px;
   box-shadow: 0px 3px 10px rgb(100, 100, 100.5);
+  background-color: rgb(234, 241, 241);
+
 }
 
 .edu {
@@ -456,6 +465,8 @@ textarea {
   width: 93%;
   height: auto;
   box-shadow: 0px 3px 10px rgb(100, 100, 100.5);
+  background-color: rgb(234, 241, 241);
+
 }
 .skill {
   display: flex;
@@ -551,6 +562,8 @@ progress {
   font-size: 15px;
   margin-top: 50px;
   box-shadow: 0px 3px 10px rgb(100, 100, 100.5);
+  background-color: rgb(234, 241, 241);
+
 }
 .Certificates {
   display: flex;
@@ -633,6 +646,8 @@ progress {
   font-size: 15px;
   margin-top: 50px;
   box-shadow: 0px 3px 10px rgb(100, 100, 100.5);
+  background-color: rgb(234, 241, 241);
+
   margin-bottom: 25px;
 }
 .Experience {
@@ -714,6 +729,8 @@ progress {
   margin-right: 115px;
   margin-top: 20px;
   box-shadow: 0px 3px 10px rgb(100, 100, 100.5);
+  background-color: rgb(234, 241, 241);
+
 }
 table {
   width: 100%;

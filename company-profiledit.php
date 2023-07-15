@@ -30,8 +30,8 @@ if (isset($session)) {
             $companyaddressErr = "only letter and whitespace";
         }
         $companywebsite = ($_POST['companywebsite']);
-        if (preg_match("~^(?:f|ht)tps?://~", $companywebsite)) {
-            $companywebsite = 'https://' . $companywebsite;
+        if (!preg_match("~^(?:f|ht)tps?://~", $companywebsite)) {
+            $companywebsite = 'https://'. $companywebsite;
             $companywebsiteErr = "invalid website format";
         }
         $companyphone = test_input($_POST['companyphone']);
@@ -43,7 +43,6 @@ if (isset($session)) {
             $companyemailErr = "invalid email format";
         }
         $companydesc = test_input($_POST['details']);
-
 
         if (isset($_FILES["image"]) && $_FILES["image"]["error"] == UPLOAD_ERR_OK) {
             $imageName = $_FILES["image"]["name"];
