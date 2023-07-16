@@ -1,15 +1,15 @@
 <?php
 session_start();
-$companyemail = $_SESSION['email']; 
+$companyemail = $_SESSION['email'];
 if (!isset($companyemail)) {
   header("location:index.php");
 }
 include('./database/connection.php');
-$sql = "SELECT * FROM company WHERE email = '$companyemail'";  
+$sql = "SELECT * FROM company WHERE email = '$companyemail'";
 $result = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -60,7 +60,8 @@ $result = mysqli_query($conn, $sql);
         <div id="profile" class="container">
           <?php
           while ($row = mysqli_fetch_assoc($result)) {
-            ?>
+            $companyID
+              ?>
           <div class="profile">
             <div class="profile-details">
               <div class="profile-header">
@@ -68,11 +69,11 @@ $result = mysqli_query($conn, $sql);
 
                   <div class="imagesection">
                     <!-- company image -->
-                    <?php if($row['Image_name'] == ''){
-                      echo '<img src = ./images/avatar.png>';
-                    }else{
-                     echo '<img src="./images/uploaded_image/'.$row['Image_name'].'">';
-                    } ?>
+                      <?php if ($row['Image_name'] == '') {
+                        echo '<img src = ./images/avatar.png>';
+                      } else {
+                        echo '<img src="./images/uploaded_image/' . $row['Image_name'] . '">';
+                      } ?>
                       <!-- <input type="file" name="imagefile"> -->
                     </div>
                     <div class="details">
@@ -81,7 +82,7 @@ $result = mysqli_query($conn, $sql);
                         <?php echo $row['company_name'] ?>
                       </h3>
                       <!-- company location -->
-                      <p> 
+                      <p>
                         <?php echo $row['location'] ?>
                       </p>
                     </div>
@@ -133,8 +134,8 @@ $result = mysqli_query($conn, $sql);
                 <h3>Post JOb</h3>
                 <div class="basicinfo">
                   <?php
-                  $category = $title = $deadline =$deadlinetime =$deadline_datee= $deadlinetime=  $deadlinedatetime =$no_of_vacancy = $salary = $location = $jobtype = $decription =$turnicatedescription = '';
-                  $categoryErr = $titleErr = $deadlineErr =$deadlinetimeErr= $no_of_vacancyErr = $salaryErr = $locationErr = $jobtypeErr = $descriptionErr = '';
+                  $category = $title = $deadline = $deadlinetime = $deadline_datee = $deadlinetime = $deadlinedatetime = $no_of_vacancy = $salary = $location = $jobtype = $decription = $turnicatedescription = '';
+                  $categoryErr = $titleErr = $deadlineErr = $deadlinetimeErr = $no_of_vacancyErr = $salaryErr = $locationErr = $jobtypeErr = $descriptionErr = '';
 
                   if (isset($_POST['post'])) {
 
@@ -156,12 +157,12 @@ $result = mysqli_query($conn, $sql);
                       $deadline = $_POST['deadline_date'];
                       $deadline_datee = date('Y-m-d', strtotime($deadline));
                     }
-                    if(empty($_POST['deadline_time'])){
+                    if (empty($_POST['deadline_time'])) {
                       $deadlinetimeErr = "Time not selected";
-                    }else{
-                      $deadlinetime =test_input($_POST['deadline_time']);
+                    } else {
+                      $deadlinetime = test_input($_POST['deadline_time']);
                     }
-                    $deadlinedatetime = $deadline_datee .' '.$deadlinetime;
+                    $deadlinedatetime = $deadline_datee . ' ' . $deadlinetime;
 
                     if (empty($_POST['no_of_vacancy'])) {
                       $no_of_vacancyErr = "Mention the number of vacancy";
@@ -195,9 +196,9 @@ $result = mysqli_query($conn, $sql);
                     if (empty($categoryErr) && empty($titleErr) && empty($deadlineErr) && empty($no_of_vacancyErr) && empty($salaryErr) && empty($locationErr) && empty($jobtypeErr) && empty($decriptionErr)) {
                       date_default_timezone_set('Asia/Kathmandu');
                       $defaulttime = time();
-                      $postdate = date('Y-m-d H:i:s',$defaulttime);
+                      $postdate = date('Y-m-d H:i:s', $defaulttime);
 
-                      
+
                       include('./database/connection.php');
                       $email = $_SESSION['email'];
                       $sql = "SELECT company_id,company_name FROM company WHERE email = '$email'";
@@ -208,19 +209,19 @@ $result = mysqli_query($conn, $sql);
                         $companyName = $row['company_name'];
                       }
 
-                      
-                      
+
+
                       $stmt = $conn->prepare("INSERT INTO job(Category,Job_title, posted_date,deadline_date,no_of_vacancy ,estimated_salary,job_address,Job_Type,Job_description,companyID,CompanyName)VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-                      $stmt->bind_param("ssssissssis", $category, $title, $postdate,  $deadlinedatetime, $no_of_vacancy, $salary, $location, $jobtype, $description , $companyID, $companyName);
+                      $stmt->bind_param("ssssissssis", $category, $title, $postdate, $deadlinedatetime, $no_of_vacancy, $salary, $location, $jobtype, $description, $companyID, $companyName);
                       $stmt->execute();
                       $stmt->close();
 
                       $sql = "UPDATE job set status = case when deadline_date >= CURDATE() Then 'Active' else 'Expire' end ";
-                      $result = mysqli_query($conn,$sql);
-                      if($result){
-                        $stmt  = "INSERT into job(status) VALUES $result";
-                      }else{
-                        die ("Error").mysqli_connect_error();
+                      $result = mysqli_query($conn, $sql);
+                      if ($result) {
+                        $stmt = "INSERT into job(status) VALUES $result";
+                      } else {
+                        die("Error") . mysqli_connect_error();
                       }
                     }
                   }
@@ -235,7 +236,7 @@ $result = mysqli_query($conn, $sql);
                   <form action="" method="post">
 
                     <label for="Category"></label>
-                    <select name="basciinfo" id="basicinfo" value="<?php  ?>">
+                    <select name="basciinfo" id="basicinfo" value="<?php ?>">
                       <option value="" id="Select company/industry category">Select company/industry category</option>
                       <option value="IT&Telecommunication" id="IT&Telecommunication">IT&Telecommunication</option>
                       <option value="Design/Graphics" id="Design/Graphics">Design/Graphics</option>
@@ -248,41 +249,59 @@ $result = mysqli_query($conn, $sql);
                       <option value="E-comerce" id="E-comerce">E-comerce</option>
                     </select>
                     <span style="color:red">
-                        <?php echo $categoryErr; ?>
-                      </span>
+                      <?php echo $categoryErr; ?>
+                    </span>
 
                     <label for="job title">Job title</label>
-                    <input type="text" name="jobtitle" id="jobtitle" value="<?php if(isset($_POST['jobtitle'])){echo $_POST['jobtitle'];} ?>">
+                    <input type="text" name="jobtitle" id="jobtitle"
+                      value="<?php if (isset($_POST['jobtitle'])) {
+                        echo $_POST['jobtitle'];
+                      } ?>">
                     <span style="color:red">
                       <?php echo $titleErr; ?>
                     </span>
 
                     <label for="deadline-date">Deadline Date</label>
-                    <input type="date" name="deadline_date" id="deadline_date"value="<?php if(isset($_POST['deadline_date'])){echo $_POST['deadline_date'];} ?>">
+                    <input type="date" name="deadline_date" id="deadline_date"
+                      value="<?php if (isset($_POST['deadline_date'])) {
+                        echo $_POST['deadline_date'];
+                      } ?>">
                     <span style="color:red">
                       <?php echo $deadlineErr ?>
                     </span>
 
                     <label for="deadline-time">Time</label>
-                    <input type="time" name="deadline_time" id="deadline_time"value="<?php if(isset($_POST['deadline_time'])){echo $_POST['deadline_time'];} ?>">
+                    <input type="time" name="deadline_time" id="deadline_time"
+                      value="<?php if (isset($_POST['deadline_time'])) {
+                        echo $_POST['deadline_time'];
+                      } ?>">
                     <span style="color:red">
                       <?php echo $deadlinetimeErr; ?>
                     </span>
 
                     <label for="no-of-vacancy">No of Vacancy</label>
-                    <input type="number" name="no_of_vacancy" id="no_of_vacancy"value="<?php if(isset($_POST['no_of_vacancy'])){echo $_POST['no_of_vacancy'];} ?>">
+                    <input type="number" name="no_of_vacancy" id="no_of_vacancy"
+                      value="<?php if (isset($_POST['no_of_vacancy'])) {
+                        echo $_POST['no_of_vacancy'];
+                      } ?>">
                     <span style="color:red">
                       <?php echo $no_of_vacancyErr; ?>
                     </span>
 
                     <label for="estimatedsalary">Estimated Salary</label>
-                    <input type="text" name="estimatedsalary" id="estimatedsalary"value="<?php if(isset($_POST['estimatedsalary'])){echo $_POST['estimatedsalary'];} ?>">
+                    <input type="text" name="estimatedsalary" id="estimatedsalary"
+                      value="<?php if (isset($_POST['estimatedsalary'])) {
+                        echo $_POST['estimatedsalary'];
+                      } ?>">
                     <span style="color:red">
                       <?php echo $salaryErr; ?>
                     </span>
 
                     <label for="location">Job-Location</label>
-                    <input type="text" name="joblocation" id="joblocation"value="<?php if(isset($_POST['joblocation'])){echo $_POST['joblocation'];} ?>">
+                    <input type="text" name="joblocation" id="joblocation"
+                      value="<?php if (isset($_POST['joblocation'])) {
+                        echo $_POST['joblocation'];
+                      } ?>">
                     <span style="color:red">
                       <?php echo $locationErr; ?>
                     </span>
@@ -295,7 +314,7 @@ $result = mysqli_query($conn, $sql);
                       <option value="Remote">Remote</option>
                     </select>
                     <span style="color:red">
-                      <?php echo  $jobtypeErr; ?>
+                      <?php echo $jobtypeErr; ?>
                     </span>
 
                     <!-- <input type="text" name="jobtype" id="jobtype"> -->
@@ -364,11 +383,11 @@ $result = mysqli_query($conn, $sql);
                     <?php echo $row['deadline_date']; ?>
                   </td>
                   <td>
-                    <?php echo $row['Status'];?> 
+                    <?php echo $row['Status']; ?>
                   </td>
                   <td>
-                     <!-- echo '<a class = "btn" href ="jobview.php?id=' . $row['job_id'] . '">View</a>' -->
-                    <?php echo '<a class = "btn"  href ="jobedit.php?job_id='.$row['job_id'] . '"> <button style="padding:3px 6px; background-color:;"> Edit <i class ="fa fa-edit" style="color: #5B5BD0; font-weight:lighter;"></i></button></a>' ?>
+                    <!-- echo '<a class = "btn" href ="jobview.php?id=' . $row['job_id'] . '">View</a>' -->
+                    <?php echo '<a class = "btn"  href ="jobedit.php?job_id=' . $row['job_id'] . '"> <button style="padding:3px 6px; background-color:;"> Edit <i class ="fa fa-edit" style="color: #5B5BD0; font-weight:lighter;"></i></button></a>' ?>
                     <?php echo '<a class="btn" href="javascript:void(0);" onclick="confirmDelete(' . $row['job_id'] . ');"><button style ="padding:3px 6px">Delete <i class="fa fa-trash" style=" color: #F33636; font-weight: lighter;"></i> </button></a>' ?>
 
 
@@ -384,14 +403,44 @@ $result = mysqli_query($conn, $sql);
           </div>
         </div>
         <!----------application------------->
+        <?php
+        $stmt = $conn->prepare("SELECT jobID,jobTitle from application where companyID = ?");
+        $stmt->bind_param("i", $companyID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        ?>
         <div id="application" class="container">
           <div class="application">
             <table>
               <th>SN</th>
               <th>Job ID</th>
               <th>Title</th>
-              <th>no of vacancy</th>
-              <th>Deadline date</th>
+              <th>Email</th>
+              <th>Action</th>
+              <th>View application</th>
+              <?php
+              $sn = 1;
+              if ($result->num_rows > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+
+                  ?>
+              <tr>
+                <td>
+                  <?php echo   $sn; ?>
+                </td>
+                <td>
+                  <?php echo $row['jobID']; ?>
+                </td>
+                <td>
+                  <?php echo $row['jobTitle']; ?>
+                </td>
+                <td></td>
+                <td></td>
+                <td> <a href="">View profile</a> </td>
+              </tr>
+              <?php $sn++;
+                }
+              } ?>
             </table>
           </div>
         </div>

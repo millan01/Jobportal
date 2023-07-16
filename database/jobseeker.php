@@ -81,15 +81,17 @@ $conn = mysqli_connect($servername, $username, $password, $databasename);
 //         on delete cascade
 //         on update cascade)";
 
-$sql = "CREATE TABLE jobseeker_experience(id int unsigned auto_increment primary key,
-        companyName varchar(255) not null,
-        startDate date,
-        endDate date,
-        jobseeker_id int unsigned,
-        foreign key(jobseeker_id) references job_seeker(job_seeker_id)
-        on delete cascade
-        on update cascade)
-        ";
+// $sql = "CREATE TABLE jobseeker_experience(id int unsigned auto_increment primary key,
+//         companyName varchar(255) not null,
+//         startDate date,
+//         endDate date,
+//         jobseeker_id int unsigned,
+//         foreign key(jobseeker_id) references job_seeker(job_seeker_id)
+//         on delete cascade
+//         on update cascade)
+//         ";
+
+
 if(mysqli_query($conn,$sql)){
     echo "table created successfully";
     }

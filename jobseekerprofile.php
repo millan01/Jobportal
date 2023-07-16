@@ -183,8 +183,8 @@ $result = $stmt->get_result();
                     if (empty($_POST['dob'])) {
                         $dobErr = "select date of birth";
                     } else {
-                        $birthdate= $_POST['dob'];
-                        $datebirth = date('Y-m-d',strtotime($birthdate));
+                        $birthdate = $_POST['dob'];
+                        $datebirth = date('Y-m-d', strtotime($birthdate));
                     }
 
                     $website = ($_POST['website']);
@@ -203,7 +203,7 @@ $result = $stmt->get_result();
 
                     if (empty($nameErr) && empty($genderErr) && empty($dobErr) && empty($addressErr) && empty($phoneErr) && empty($mobileErr) && empty($websitErr) && empty($whoamiErr) && empty($imageErr)) {
                         $stmt = $conn->prepare("UPDATE job_seeker SET Full_name =?, gender=?,Age=?,jobseeker_address=?,Phone=?, Mobile=?,contact_email=?,website=?,jobseeker_description=?,Image_name=? where Email=?");
-                        $stmt->bind_param("sssssssssss", $name, $sex , $datebirth, $address, $phone, $mobile, $contactemail, $website, $whoami, $imageName, $jobseeker_email);
+                        $stmt->bind_param("sssssssssss", $name, $sex, $datebirth, $address, $phone, $mobile, $contactemail, $website, $whoami, $imageName, $jobseeker_email);
                         $stmt->execute();
                         $stmt->close();
                         header('location:jobseekerprofile.php');
@@ -390,13 +390,27 @@ $result = $stmt->get_result();
                 </div>
             <?php }
                         $stmt->close(); ?>
-
             <div class="jobcount">
                 <h2>Jobs Count</h2>
                 <div class="totaljobs">
                     <div class="total">
                         <li style="font-weight: bold;">Total jobs</li>
-                        <li> </li>
+                        <?php
+                        include('./database/connection.php');
+                        $totaljob ='';
+                        $stmt = $conn->prepare("SELECT COUNT(jobSeekerID) from  application where jobSeekerID  = ? ");
+                        $stmt->bind_param("i", $seekerID);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        if ($result->num_rows > 1) {
+                            $row = mysqli_fetch_assoc($result);
+                            $totaljob = $row['jobSeekerID '];
+                        }
+                        $stmt->close();
+                        ?>
+                        <li>
+                            <?php echo $totaljob ; ?>
+                        </li>
                     </div>
                     <div class="pending">
                         <li style="font-weight: bold;">Pending jobs</li>
