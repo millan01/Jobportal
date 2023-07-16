@@ -14,7 +14,7 @@ $adminSession = isset($_SESSION['admin_Email']);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="./styles/indexx.css">
+    <link rel="stylesheet" href="./styles/index.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
@@ -79,7 +79,7 @@ $adminSession = isset($_SESSION['admin_Email']);
     </div>
 
     <div class="mainimage">
-        <div class="image"><img src="./images/man2.jpg" width="100%" height="550px" alt=""></div>
+        <div class="image"><img src="./images/man2.jpg"  alt=""></div>
         <div class="text">
             <p class="text1">Discover your <span style="color: #B4710D;"> Dream Job</span> <br>
                 Explore opportunities Across <br>
@@ -148,7 +148,7 @@ $adminSession = isset($_SESSION['admin_Email']);
                             <li>
                                 <?php echo "Job-type:" . $row['job_type']; ?>
                             </li>
-                            <li>
+                            <li> 
                                 <?php
                                 $deaddate = $row['deadline_date'];
                                 $deadstamp = strtotime($deaddate);

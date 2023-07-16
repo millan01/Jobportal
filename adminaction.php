@@ -10,7 +10,7 @@ if(isset($_GET['Job_seeker_id '])){
     $stmt->close();
 
     header("location: admindashboard.php");
-    }
+    } 
 
 
     // if(isset($_GET['company_id '])){

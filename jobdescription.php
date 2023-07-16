@@ -223,7 +223,7 @@ $adminSession = isset($_SESSION['admin_Email']);
                         <?php } elseif ($companySession) { ?>
                             <a href="" onclick="checkuser()"><button>Apply</button></a>
                         <?php } else { ?>
-                            <a href="" onclick="checksession()"><button>Apply</button></a>
+                            <a href="" onclick="checksession()"><button>Apply</button></a> 
                         <?php } ?>
                     </div>
                 </div>
