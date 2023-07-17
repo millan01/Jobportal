@@ -397,7 +397,7 @@ $result = $stmt->get_result();
                         <li style="font-weight: bold;">Total jobs</li>
                         <?php
                         include('./database/connection.php');
-                        $totaljob ='';
+                        $totaljob = '';
                         $stmt = $conn->prepare("SELECT COUNT(jobSeekerID) from  application where jobSeekerID  = ? ");
                         $stmt->bind_param("i", $seekerID);
                         $stmt->execute();
@@ -409,7 +409,7 @@ $result = $stmt->get_result();
                         $stmt->close();
                         ?>
                         <li>
-                            <?php echo $totaljob ; ?>
+                            <?php echo $totaljob; ?>
                         </li>
                     </div>
                     <div class="pending">
@@ -906,20 +906,42 @@ $result = $stmt->get_result();
     </div>
 
     <div class="appliedjobs">
+        <h3 style='font-style:bold; word-spacing:1px;'>Applied Jobs</h3>
+
         <table>
-            <th>Position</th>
-            <th>Company</th>
-            <th>Industry</th>
+            <th>S.N</th>
+            <th>Company Name</th>
+            <th>Job Title</th>
             <th>Applied On</th>
             <th>Status</th>
-
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            <?php
+            $sql = "SELECT * from application where jobSeekerID = $seekerID";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) {
+                $counter = 1;
+                while ($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <tr>
+                        <td>
+                            <?php echo $counter; ?>
+                        </td>
+                        <td><?php echo $row['companyName']; ?></td>
+                        <td>
+                            <?php echo $row['jobTitle'] ?>
+                        </td>
+                        <td>
+                            <?php echo $row['applicationDate']; ?>
+                        </td>
+                        <td>
+                            <?php echo $row['applicationStatus']; ?>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <?php
+                    $counter++;
+                }
+            }
+            ?>
         </table>
     </div>
 

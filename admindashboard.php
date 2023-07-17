@@ -197,12 +197,13 @@ if (isset($_POST['submit'])) {
                                     <th> Email</th>
                                     <th> Phone</th>
                                     <th>Action</th>
+                                    <!-- <th>Total Posted job</th> -->
+                                    <!-- <th>Total Application Received</th> -->
                                 </tr>
                                 <!-- php to retrive company data from the database in the tabe  -->
                                 <?php
                                 include('./database/connection.php');
-
-                                $sql = "SELECT * FROM company";
+                                $sql = "SELECT * from company";
                                 $result = mysqli_query($conn, $sql);
 
                                 if (mysqli_num_rows($result) > 0) {
@@ -215,6 +216,7 @@ if (isset($_POST['submit'])) {
                                         echo "<td>" . $row['phone'] . "</td>";
                                         echo "<td>" . '<a class="btn" href="javascript:void(0);" onclick="confirmDelete(' . $row['company_id'] . ');"><button style ="padding:3px 6px">Delete <i class="fa fa-trash" style=" color: #F33636; font-weight: lighter;"></i> </button></a>'
                                             . "</td>";
+                                     
                                         echo "</tr>";
                                     }
                                 }

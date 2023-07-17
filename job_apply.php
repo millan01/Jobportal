@@ -43,8 +43,8 @@ $stmt->close();
 $defaulttime = time();
 $applicationdate = date('Y-m-d H:i:s', $defaulttime);
 
-$stmt = $conn->prepare("INSERT INTO application(jobID,jobTitle,companyID,jobSeekerID,jobSeekerEmail,applicationDate) VALUES (?,?,?,?,?,?)");
-$stmt->bind_param("isiiss", $id, $jobtitle, $companyid, $jobseeker, $email,$applicationdate);
+$stmt = $conn->prepare("INSERT INTO application(jobID,jobTitle,companyID,companyName,jobSeekerID,jobSeekerEmail,applicationDate) VALUES (?,?,?,?,?,?,?)");
+$stmt->bind_param("isisiss", $id, $jobtitle, $companyid,$companyName, $jobseeker, $email,$applicationdate);
 $stmt->execute();
 $stmt->close();
 header('location:jobdescription.php?job_id=' . $id);
