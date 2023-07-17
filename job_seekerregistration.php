@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
     }
   }
 
-  //validate email
+  //validate email 
   if (empty($_POST["email"])) {
     $emailErr = "Email is required";
   } else {

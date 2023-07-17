@@ -225,6 +225,7 @@ table tr:nth-child(even) {
 table tr:hover {
 	background-color: #ddd;
 }
+/* ------------application -------------- */
 
 /*------change password-----------*/
 .password{
