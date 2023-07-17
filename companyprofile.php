@@ -404,7 +404,7 @@ $result = mysqli_query($conn, $sql);
         </div>
         <!----------application------------->
         <?php
-        $stmt = $conn->prepare("SELECT jobID,jobTitle,jobSeekerEmail from application where companyID = ?");
+        $stmt = $conn->prepare("SELECT application_id,jobID,jobTitle,jobSeekerEmail from application where companyID = ?");
         $stmt->bind_param("i", $companyID);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -436,13 +436,8 @@ $result = mysqli_query($conn, $sql);
                 </td>
                 <td><?php echo $row['jobSeekerEmail']; ?></td>
                 <td>
-                  <form action="">
-                    <input type="radio" name="status" value="Pending">Pending
-                    <input type="radio" name="status" value = "Accepted">Accepted
-                    <input type="radio" name="status" value="Rejected">Rejected
-                  </form>
                 </td>
-                <td> <a href="profileview.php" target="_blank" >View profile</a> </td>
+                <td> <?php echo '<a href="profileview.php?applicationid='.$row['application_id'].'" target="_blank" >View profile</a>'?> </td>
               </tr>
               <?php $sn++;
                 }
