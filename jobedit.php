@@ -7,107 +7,81 @@ if (!isset($companyemail)) {
 }
 if (isset($_GET['job_id'])) {
   $id = trim($_GET['job_id']);
-
-  $stmt = $conn->prepare("SELECT * from job where job_id = ?");
-  $stmt->bind_param("i", $id);
-  $stmt->execute();
-
-  $result = $stmt->get_result();
-
-  $category = $title = $deadline = $deadlinedatetime = $no_of_vacancy = $salary = $location = $jobtype = $decription = '';
-  $categoryErr = $titleErr = $deadlineErr = $no_of_vacancyErr = $deadlinetimeErr = $salaryErr = $locationErr = $jobtypeErr = $descriptionErr = '';
-  // $select = $jobtitle = $deadlinedate = $noofvacancy = $estimatedsalary = $jobaddress = $type = $jobdescription = '';
-
-  if (isset($_POST[""]) && !empty($_POST['replace'])) {
-
-
-    if (empty($_POST['basciinfo'])) {
-      $categoryErr = "Category type not selected";
-    } else {
-      $category = $_POST['basciinfo'];
-    }
-
-    if (empty($_POST['jobtitle'])) {
-      $titleErr = "Job Title is not mentioned";
-    } else {
-      $title = test_input($_POST['jobtitle']);
-    }
-
-    if (empty($_POST['deadline_date'])) {
-      $deadlineErr = "Deadline date not selected";
-    } else {
-      $deadline = $_POST['deadline_date'];
-      $deadline_datee = date('Y-m-d', strtotime($deadline));
-    }
-    if (empty($_POST['deadline_time'])) {
-      $deadlinetimeErr = "Time not selected";
-    } else {
-      $deadlinetime = $_POST['deadline_time'];
-    }
-    $deadlinedatetime = $deadline_datee . ' ' . $deadlinetime;
-
-
-    if (empty($_POST['no_of_vacancy'])) {
-      $no_of_vacancyErr = "Mention the number of vacancy";
-    } else {
-      $no_of_vacancy = test_input($_POST['no_of_vacancy']);
-    }
-
-    if (empty($_POST['estimatedsalary'])) {
-      $salaryErr = "Mention the estimated salary details";
-    } else {
-      $salary = test_input($_POST['estimatedsalary']);
-    }
-
-    if (empty($_POST['joblocation'])) {
-      $locationErr = "job location not mentioned";
-    } else {
-      $location = test_input($_POST['joblocation']);
-    }
-
-    if (empty($_POST['jobtype'])) {
-      $jobtypeErr = "job type not selected";
-    } else {
-      $jobtype = test_input($_POST['jobtype']);
-    }
-    if (empty($_POST['jobdescription'])) {
-      $decriptionErr = "Job description cannot be left empty";
-    } else {
-      $description = test_input($_POST['jobdescription']);
-    }
-
-    if (empty($categoryErr) && empty($titleErr) && empty($deadlineErr) && empty($no_of_vacancyErr) && empty($salaryErr) && empty($locationErr) && empty($jobtypeErr) && empty($decriptionErr)) {
-
-      $stmt = $conn->prepare("UPDATE job SET category =?,job_title=?,deadline_date=?,no_of_vacancy=?,estimated_salary=?,job_address=?,job_type=?,job_description=? where 	job_id = ? ");
-      $stmt->bind_param("sssissssi", $category, $title, $deadlinedatetime, $no_of_vacancy, $salary, $location, $jobtype, $description, $id);
-      $stmt->execute();
-      $stmt->close();
-      header("location:companyprofile.php");
-    }
-  }
-  //check id before processiong further
-  if (mysqli_num_rows($result) == 1) {
-    $row = mysqli_fetch_assoc($result);
-
-    $select = $row['category'];
-    $jobtitle = $row['job_title'];
-    $deadlinedate = $row['deadline_date'];
-    $date = date('Y-m-d', strtotime($deadlinedate));
-    $time = date('H:i:s', strtotime($deadlinedate));
-    $noofvacancy = $row['no_of_vacancy'];
-    $estimatedsalary = $row['estimated_salary'];
-    $jobaddress = $row['job_address'];
-    $type = $row['job_type'];
-    $jobdescription = $row['job_description'];
-  } else {
-    echo "Error";
-    header("location:companyprofile.php");
-    exit();
-  }
-  $stmt->close();
-} else {
-  echo header('location:index.php');
 }
+$category = $title = $deadline = $deadlinedatetime = $no_of_vacancy = $salary = $location = $jobtype = $decription = '';
+$categoryErr = $titleErr = $deadlineErr = $no_of_vacancyErr = $deadlinetimeErr = $salaryErr = $locationErr = $jobtypeErr = $descriptionErr = '';
+// $select = $jobtitle = $deadlinedate = $noofvacancy = $estimatedsalary = $jobaddress = $type = $jobdescription = '';
+
+if (isset($_POST["replace"])) {
+
+
+  if (empty($_POST['basciinfo'])) {
+    $categoryErr = "Category type not selected";
+  } else {
+    $category = $_POST['basciinfo'];
+  }
+
+  if (empty($_POST['jobtitle'])) {
+    $titleErr = "Job Title is not mentioned";
+  } else {
+    $title = test_input($_POST['jobtitle']);
+  }
+
+  if (empty($_POST['deadline_date'])) {
+    $deadlineErr = "Deadline date not selected";
+  } else {
+    $deadline = $_POST['deadline_date'];
+    $deadline_datee = date('Y-m-d', strtotime($deadline));
+  }
+  if (empty($_POST['deadline_time'])) {
+    $deadlinetimeErr = "Time not selected";
+  } else {
+    $deadlinetime = $_POST['deadline_time'];
+  }
+  $deadlinedatetime = $deadline_datee . ' ' . $deadlinetime;
+
+
+  if (empty($_POST['no_of_vacancy'])) {
+    $no_of_vacancyErr = "Mention the number of vacancy";
+  } else {
+    $no_of_vacancy = test_input($_POST['no_of_vacancy']);
+  }
+
+  if (empty($_POST['estimatedsalary'])) {
+    $salaryErr = "Mention the estimated salary details";
+  } else {
+    $salary = test_input($_POST['estimatedsalary']);
+  }
+
+  if (empty($_POST['joblocation'])) {
+    $locationErr = "job location not mentioned";
+  } else {
+    $location = test_input($_POST['joblocation']);
+  }
+
+  if (empty($_POST['jobtype'])) {
+    $jobtypeErr = "job type not selected";
+  } else {
+    $jobtype = test_input($_POST['jobtype']);
+  }
+  if (empty($_POST['jobdescription'])) {
+    $decriptionErr = "Job description cannot be left empty";
+  } else {
+    $description = test_input($_POST['jobdescription']);
+  }
+
+  if (empty($categoryErr) && empty($titleErr) && empty($deadlineErr) && empty($no_of_vacancyErr) && empty($salaryErr) && empty($locationErr) && empty($jobtypeErr) && empty($decriptionErr)) {
+
+    $stmt = $conn->prepare("UPDATE job SET category =?,job_title=?,deadline_date=?,no_of_vacancy=?,estimated_salary=?,job_address=?,job_type=?,job_description=? where 	job_id = ? ");
+    $stmt->bind_param("sssissssi", $category, $title, $deadlinedatetime, $no_of_vacancy, $salary, $location, $jobtype, $description, $id);
+    $stmt->execute();
+    $stmt->close();
+    header("location:companyprofile.php");
+  }
+}
+//check id before processiong further
+
+
 // }
 // }else {
 //   header("location:index.php");
@@ -165,11 +139,37 @@ function test_input($data)
         <div class="dashboard-vertical-nav">
 
           <a href="index.php"><button class="tablinks">Home</button></a>
+          <a href="companyprofile.php"><button class="tablinks">Profile</button></a>
           <button class="tablinks">Post job</button>
         </div>
       </div>
 
       <!-- ----------------------------profile information------------------->
+      <?php
+      $stmt = $conn->prepare("SELECT * from job where job_id = ?");
+      $stmt->bind_param("i", $id);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      if (mysqli_num_rows($result) == 1) {
+        while ($row = mysqli_fetch_assoc($result)) {
+          $select = $row['category'];
+          $jobtitle = $row['job_title'];
+          $deadlinedate = $row['deadline_date'];
+          $date = date('Y-m-d', strtotime($deadlinedate));
+          $time = date('H:i:s', strtotime($deadlinedate));
+          $noofvacancy = $row['no_of_vacancy'];
+          $estimatedsalary = $row['estimated_salary'];
+          $jobaddress = $row['job_address'];
+          $type = $row['job_type'];
+          $jobdescription = $row['job_description'];
+        }
+      } else {
+        echo "Error";
+        header("location:companyprofile.php");
+        exit();
+      }
+      $stmt->close();
+      ?>
       <div class="dashboard-content">
         <div id="profile" class="container">
           <!------------post job-------------------->
@@ -178,7 +178,7 @@ function test_input($data)
               <div class="postjob-details">
                 <!-- company desceiption call from company profile -->
                 <div class="postjob-details-qualification">
-                  <h3>Post JOb</h3>
+                  <h3>Edit JOb</h3>
                   <div class="basicinfo">
                     <form action="" method="post">
                       <?php echo $id; ?>
@@ -207,6 +207,7 @@ function test_input($data)
                       <span style="color:red">
                         <?php echo $titleErr; ?>
                       </span>
+
 
                       <label for="deadline-date">Deadline Date</label>
                       <input type="date" s name="deadline_date" id="deadline_date" value="<?php echo $date; ?>">
@@ -247,6 +248,8 @@ function test_input($data)
                         <option value="Part time" <?php echo ($type === 'Part time') ? 'selected' : ''; ?>>Part time
                         </option>
                         <option value="Remote" <?php echo ($type === 'Remote') ? 'selected' : ''; ?>>Remote</option>
+                        <option value="Internship" <?php echo ($type === 'Internship') ? 'selected' : ''; ?>>Internship
+                        </option>
                       </select>
                       <span style="color:red">
                         <?php $jobtypeErr; ?>
@@ -260,7 +263,6 @@ function test_input($data)
                       <span style="color:red">
                         <?php echo $descriptionErr; ?>
                       </span>
-                      <input type="hidden" name="job_id" value="<?php echo $id; ?>" />
                       <input type="submit" name="replace" value="Update" class="post">
                       <!-- <input type="submit" value="Delete"> -->
 

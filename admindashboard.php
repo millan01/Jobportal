@@ -26,11 +26,11 @@ $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 $total_vacancies = $row['no_of_vacancy'];
 
-// <!-- php to count the total number of applied jobs  
-// $sql = "SELECT COUNT(*) as total_applied_jobs FROM ";
-// $result = mysqli_query($conn, $sql);
-// $row = mysqli_fetch_assoc($result);
-// $total_applied_jobs = $row['total_applied_jobs'];
+//  php to count the total number of applied jobs  
+$sql = "SELECT COUNT(*) as application_id FROM  application ";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+$total_applied_jobs = $row['application_id'];
 
 
 //close the connection 
@@ -107,7 +107,7 @@ if (isset($_POST['submit'])) {
             <div class="icon">
                 <img src="./images/Account icon.svg" alt="#" class="test">
                 <div class="dropdown">
-                    <a href="companyprofile.php"><button>profile</button></a>
+                    <a href="admindashboard.php"><button>profile</button></a>
                     <a href="sessiondestroy.php"><button>Log out</button></a>
                 </div>
             </div>
@@ -175,7 +175,7 @@ if (isset($_POST['submit'])) {
                                     <span class="count" id="">
                                         <!-- php to count the total number of applied jobs  -->
                                         <?php
-                                        // echo "$total_applied_jobs";
+                                        echo "$total_applied_jobs";
                                         ?>
                                     </span>
                                 </div>

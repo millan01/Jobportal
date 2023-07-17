@@ -1,10 +1,10 @@
 <?php
 session_start();
+include('./database/connection.php');
 $companyemail = $_SESSION['email'];
 if (!isset($companyemail)) {
   header("location:index.php");
 }
-include('./database/connection.php');
 $sql = "SELECT * FROM company WHERE email = '$companyemail'";
 $result = mysqli_query($conn, $sql);
 ?>
@@ -253,55 +253,49 @@ $result = mysqli_query($conn, $sql);
                     </span>
 
                     <label for="job title">Job title</label>
-                    <input type="text" name="jobtitle" id="jobtitle"
-                      value="<?php if (isset($_POST['jobtitle'])) {
-                        echo $_POST['jobtitle'];
-                      } ?>">
+                    <input type="text" name="jobtitle" id="jobtitle" value="<?php if (isset($_POST['jobtitle'])) {
+                      echo $_POST['jobtitle'];
+                    } ?>">
                     <span style="color:red">
                       <?php echo $titleErr; ?>
                     </span>
 
                     <label for="deadline-date">Deadline Date</label>
-                    <input type="date" name="deadline_date" id="deadline_date"
-                      value="<?php if (isset($_POST['deadline_date'])) {
-                        echo $_POST['deadline_date'];
-                      } ?>">
+                    <input type="date" name="deadline_date" id="deadline_date" value="<?php if (isset($_POST['deadline_date'])) {
+                      echo $_POST['deadline_date'];
+                    } ?>">
                     <span style="color:red">
                       <?php echo $deadlineErr ?>
                     </span>
 
                     <label for="deadline-time">Time</label>
-                    <input type="time" name="deadline_time" id="deadline_time"
-                      value="<?php if (isset($_POST['deadline_time'])) {
-                        echo $_POST['deadline_time'];
-                      } ?>">
+                    <input type="time" name="deadline_time" id="deadline_time" value="<?php if (isset($_POST['deadline_time'])) {
+                      echo $_POST['deadline_time'];
+                    } ?>">
                     <span style="color:red">
                       <?php echo $deadlinetimeErr; ?>
                     </span>
 
                     <label for="no-of-vacancy">No of Vacancy</label>
-                    <input type="number" name="no_of_vacancy" id="no_of_vacancy"
-                      value="<?php if (isset($_POST['no_of_vacancy'])) {
-                        echo $_POST['no_of_vacancy'];
-                      } ?>">
+                    <input type="number" name="no_of_vacancy" id="no_of_vacancy" value="<?php if (isset($_POST['no_of_vacancy'])) {
+                      echo $_POST['no_of_vacancy'];
+                    } ?>">
                     <span style="color:red">
                       <?php echo $no_of_vacancyErr; ?>
                     </span>
 
                     <label for="estimatedsalary">Estimated Salary</label>
-                    <input type="text" name="estimatedsalary" id="estimatedsalary"
-                      value="<?php if (isset($_POST['estimatedsalary'])) {
-                        echo $_POST['estimatedsalary'];
-                      } ?>">
+                    <input type="text" name="estimatedsalary" id="estimatedsalary" value="<?php if (isset($_POST['estimatedsalary'])) {
+                      echo $_POST['estimatedsalary'];
+                    } ?>">
                     <span style="color:red">
                       <?php echo $salaryErr; ?>
                     </span>
 
                     <label for="location">Job-Location</label>
-                    <input type="text" name="joblocation" id="joblocation"
-                      value="<?php if (isset($_POST['joblocation'])) {
-                        echo $_POST['joblocation'];
-                      } ?>">
+                    <input type="text" name="joblocation" id="joblocation" value="<?php if (isset($_POST['joblocation'])) {
+                      echo $_POST['joblocation'];
+                    } ?>">
                     <span style="color:red">
                       <?php echo $locationErr; ?>
                     </span>
@@ -312,6 +306,7 @@ $result = mysqli_query($conn, $sql);
                       <option value="Full time">Full time</option>
                       <option value="Part time">Part time</option>
                       <option value="Remote">Remote</option>
+                      <option value="Internship">Internship</option>
                     </select>
                     <span style="color:red">
                       <?php echo $jobtypeErr; ?>
@@ -403,8 +398,9 @@ $result = mysqli_query($conn, $sql);
           </div>
         </div>
         <!----------application------------->
+
         <?php
-        $stmt = $conn->prepare("SELECT application_id,jobID,jobTitle,jobSeekerEmail from application where companyID = ?");
+        $stmt = $conn->prepare("SELECT application_id,jobID,jobTitle,jobSeekerEmail,applicationDate,applicationStatus from application where companyID = ?");
         $stmt->bind_param("i", $companyID);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -416,17 +412,17 @@ $result = mysqli_query($conn, $sql);
               <th>Job ID</th>
               <th>Title</th>
               <th>Email</th>
+              <th>ApplicationDate</th>
               <th>Action</th>
               <th>View application</th>
               <?php
               $sn = 1;
               if ($result->num_rows > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-
                   ?>
               <tr>
                 <td>
-                  <?php echo   $sn; ?>
+                  <?php echo $sn; ?>
                 </td>
                 <td>
                   <?php echo $row['jobID']; ?>
@@ -434,10 +430,37 @@ $result = mysqli_query($conn, $sql);
                 <td>
                   <?php echo $row['jobTitle']; ?>
                 </td>
-                <td><?php echo $row['jobSeekerEmail']; ?></td>
                 <td>
+                  <?php echo $row['jobSeekerEmail']; ?>
                 </td>
-                <td> <?php echo '<a href="profileview.php?applicationid='.$row['application_id'].'" target="_blank" >View profile</a>'?> </td>
+                <td>
+                  <?php echo $row['applicationDate']; ?>
+                </td>
+                <td>
+                  <?php
+                  $jobid = $row['jobID'];
+                  if (isset($_POST['appstatus'])) {
+                    $status = $_POST['status'];
+                    $sql = "UPDATE application SET applicationStatus = '$status' where jobID = $jobid";
+                    $res = mysqli_query($conn, $sql);
+                  }
+                  ?>
+                  <form method="post">
+                    <?php $statuscon = $row['applicationStatus'];
+                    ?>
+                    <select name="status">
+                      <option value="Pending" <?php echo ($statuscon === 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                      <option value="Accepted" <?php echo ($statuscon === 'Accepted') ? 'selected' : ''; ?>>Accepted
+                      </option>
+                      <option value="Rejected" <?php echo ($statuscon === 'Rejected ') ? 'selected' : ''; ?>>Rejected
+                      </option>
+                    </select>
+                    <button type="submmit" name="appstatus" style="padding: 4px;">Update</button>
+                  </form>
+                </td>
+                <td>
+                  <?php echo '<a href="profileview.php?applicationid=' . $row['application_id'] . '" target="_blank" >View profile</a>' ?>
+                </td>
               </tr>
               <?php $sn++;
                 }

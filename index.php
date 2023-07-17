@@ -79,7 +79,7 @@ $adminSession = isset($_SESSION['admin_Email']);
     </div>
 
     <div class="mainimage">
-        <div class="image"><img src="./images/man2.jpg"  alt=""></div>
+        <div class="image"><img src="./images/man2.jpg" alt=""></div>
         <div class="text">
             <p class="text1">Discover your <span style="color: #B4710D;"> Dream Job</span> <br>
                 Explore opportunities Across <br>
@@ -89,10 +89,10 @@ $adminSession = isset($_SESSION['admin_Email']);
                 Platform and Personalized Job Recommendations</p>
 
 
-            <form action="" class="searching" method="post">
+            <form action="" class="searching" method="POST">
 
                 <label for="job title"></label>
-                <input type="text" class="jobs" id="jobs" placeholder="Job tilte">
+                <input type="text" name="job" class="jobs" id="jobs" placeholder="Job tilte">
 
                 <label for="job category"></label>
                 <select name="category" id="category">
@@ -106,13 +106,86 @@ $adminSession = isset($_SESSION['admin_Email']);
                     <option value="Tou/Travel">Tour/Travel</option>
                     <option value="E-comerce">E-comerce</option>
                 </select>
+                <select name="jobtype" id="jobtype">
+                    <option value="">Select Job-type</option>
+                    <option value="Full time">Full time</option>
+                    <option value="Part time">Part time</option>
+                    <option value="Remote">Remote</option>
+                    <option value="Internship">Internship</option>
+                </select>
 
                 <button type="submit" name="search"> <i class="fa-solid fa-magnifying-glass"></i> Search</button>
             </form>
         </div>
     </div>
+    <?php
+    $searchid = '';
+    if (!empty(isset($_POST['search']))){
+        $jobtitle = $_POST['job'];
+        $option = $_POST['category'];
+        $list = $_POST['jobtype'];
+        $sql = "SELECT * from job  LEFT JOIN company ON job.companyID = company.company_id 
+        where  deadline_date >= CURDATE()
+         AND job_title LIKE '%$jobtitle%' 
+         OR category like '%$option%' 
+         OR job_type LIKE '%$list%'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            ?>
+            <section id="trendingjob">
+                <p class="trendingtext">Searched Result</p>
+                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                    <div class="trendingjob">
+                        <div class="cards">
+                            <?php echo '<a href="jobdescription.php?job_id=' . $row['job_id'] . '">' ?>
+                            <!--contents -->
+                            <div class="cardscontent">
+                                <div class="imagearea">
+                                    <div class="companyimg">
+                                        <?php echo '<img src="./images/uploaded_image/' . $row['Image_name'] . '"alt="">' ?>
+                                    </div>
+                                    <div class="companyname">
+                                        <li>
+                                            <?php echo $row['job_title']; ?>
+                                        </li>
+                                        <li>
+                                            <?php echo $row['company_name']; ?>
+                                        </li>
+                                    </div>
+                                </div>
+                                <div class="info">
+                                    <li>
+                                        <?php echo "location:" . $row['job_address']; ?>
+                                    </li>
+                                    <li>
+                                        <?php echo "Job-type:" . $row['job_type']; ?>
+                                    </li>
+                                    <li>
+                                        <?php
+                                        $deaddate = $row['deadline_date'];
+                                        $deadstamp = strtotime($deaddate);
+                                        $dead = date('Y-m-d', $deadstamp);
+                                        echo "Deadlinedate:" . $dead;
+                                        ?>
+                                    </li>
+                                </div>
+                                <?php echo '<a href="jobdescription.php?job_id=' . $row['job_id'] . '">
+                                <button>Apply</button> </a>' ?>
+                                <?php echo '</a>' ?>
+                            </div>
+                        </div>
 
+                    </div>
 
+                    <?php
+                }
+        } else { ?>
+                <h3 style='font-style:Italic; word-spacing:1px;'>No jobs found matching your criteria</h3>
+
+            <?php }
+    }
+    ?>
+    </section>
     <section id="trendingjob">
         <p class="trendingtext">Trending <span>Jobs</span></p>
         <!-- main div-->
@@ -120,7 +193,7 @@ $adminSession = isset($_SESSION['admin_Email']);
         $sql = "SELECT j.job_title,j.job_address,j.job_type,j.deadline_date,j.job_id,c.company_name,c.Image_name from company c 
         Inner JOIN job j ON c.company_id = j.companyID 
          where deadline_date >= CURDATE() ORDER BY RAND()";
-        $result = mysqli_query($conn,$sql);
+        $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
             <div class="trendingjob">
@@ -148,7 +221,7 @@ $adminSession = isset($_SESSION['admin_Email']);
                             <li>
                                 <?php echo "Job-type:" . $row['job_type']; ?>
                             </li>
-                            <li> 
+                            <li>
                                 <?php
                                 $deaddate = $row['deadline_date'];
                                 $deadstamp = strtotime($deaddate);
@@ -159,7 +232,7 @@ $adminSession = isset($_SESSION['admin_Email']);
                         </div>
                         <?php echo '<a href="jobdescription.php?job_id=' . $row['job_id'] . '">
                                 <button>Apply</button> </a>' ?>
-                    <?php echo '</a>' ?>
+                        <?php echo '</a>' ?>
                     </div>
                 </div>
 

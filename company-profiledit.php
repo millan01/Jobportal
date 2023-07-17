@@ -154,7 +154,7 @@ function test_input($data)
                                     } else {
                                         echo '<img src="./images/uploaded_image/' . $row['Image_name'] . '">';
                                     } ?>
-                                    <input type="file" name="image">
+                                    <input type="file" name="image" value="<?php echo $imagefile;?>">
                                 </div>
                             </div>
                         </div>

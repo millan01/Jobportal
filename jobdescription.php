@@ -218,13 +218,13 @@ $adminSession = isset($_SESSION['admin_Email']);
                     </div>
 
                     <div class="upper-five">
-                        <?php if ($seekerSession) { ?>
-                            <?php echo '<a href="javascript:void(0);" onclick="applyjob(' . $row['job_id'] . ')"><button>Apply</button></a>' ?>
-                        <?php } elseif ($companySession) { ?>
-                            <a href="" onclick="checkuser()"><button>Apply</button></a>
-                        <?php } else { ?>
-                            <a href="" onclick="checksession()"><button>Apply</button></a>
-                        <?php } ?>
+                        <?php if ($seekerSession) {
+                            echo '<a href="javascript:void(0);"onclick="applyjob(' . $row['job_id'] . ')"><button>Apply</button></a>';
+                        } elseif ($companySession) {
+                            echo '<a href="" onclick="checkuser()"><button>Apply</button></a>';
+                        } else {
+                            echo '<a href="" onclick="checksession()"><button>Apply</button></a>';
+                        } ?>
                     </div>
                 </div>
 
@@ -328,10 +328,15 @@ $adminSession = isset($_SESSION['admin_Email']);
             alert("Company cannot apply for any job post :)");
         }
         function applyjob(job_id) {
-            var success = (window.location.href = "job_apply.php?job_id=" + job_id);
-            if (success) {
-                alert("Job applied successfully :)");
-            }
+                var success;
+                var check;
+                if(check = (window.location.href = "appliedjobcheck.php?job_id="+job_id)){
+                    alert("You have already applied for this job :)");
+                }
+                else if( success=(window.location.href = "job_apply.php?job_id=" + job_id)) {
+                    alert("Job applied successfully");
+                }
+            
         }
     </script>
 </body>
