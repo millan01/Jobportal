@@ -31,9 +31,9 @@ if (isset($_POST['signin'])) {
   $stmt->bind_param("s", $email);
   $stmt->execute();
   $isPasswordCorrect = FALSE;
-  $stmt->bind_result($jobseekerpassword);
+  $stmt->bind_result($adminpassword);
   if ($stmt->fetch() == TRUE) {
-    $isPasswordCorrect = password_verify($password, $jobseekerpassword);
+    $isPasswordCorrect = password_verify($password, $adminpassword);
     $_SESSION['admin_Email'] = $email;
 
     header("Location:admindashboard.php");

@@ -14,7 +14,7 @@ $adminSession = isset($_SESSION['admin_Email']);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="./styles/index.css">
+    <link rel="stylesheet" href="./styles/indexx.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
@@ -120,15 +120,14 @@ $adminSession = isset($_SESSION['admin_Email']);
     </div>
     <?php
     $searchid = '';
-    if (!empty(isset($_POST['search']))){
+    if (!empty(isset($_POST['search']))) {
         $jobtitle = $_POST['job'];
         $option = $_POST['category'];
         $list = $_POST['jobtype'];
         $sql = "SELECT * from job  LEFT JOIN company ON job.companyID = company.company_id 
-        where  deadline_date >= CURDATE()
-         AND job_title LIKE '%$jobtitle%' 
+        where  job_title LIKE '%$jobtitle%' 
          OR category like '%$option%' 
-         OR job_type LIKE '%$list%'";
+         OR job_type LIKE '%$list%' AND deadline_date >= CURDATE() ";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
             ?>
@@ -241,35 +240,59 @@ $adminSession = isset($_SESSION['admin_Email']);
     </section>
 
     <section id="featurejobs">
-        <p class="featuretext">Featured <span>Jobs</span></p>
-        <!-- main div-->
-        <div class="featurejob">
-            <div class="cards">
-                <a href="jobdescription.php">
+        <p class="featuretext">Recently Added <span>Jobs</span></p>
+        <?php
+        $sql = "SELECT j.job_title,j.job_address,j.job_type,j.deadline_date,j.job_id,c.company_name,c.Image_name from company c 
+        Inner JOIN job j ON c.company_id = j.companyID 
+         where deadline_date >= CURDATE()";
+        $result = mysqli_query($conn, $sql);
+        while ($row = mysqli_fetch_assoc($result)) {
+            ?>
+            <!-- main div-->
+            <div class="featurejob">
+                <div class="cards">
+                    <?php echo '<a href="jobdescription.php?job_id=' . $row['job_id'] . '">' ?>
                     <!--contents -->
                     <div class="cardscontent">
                         <div class="imagearea">
                             <div class="companyimg">
-                                <img src="./images/esewa.svg" alt="">
+                                <?php echo '<img src="./images/uploaded_image/' . $row['Image_name'] . '"alt="">' ?>
                             </div>
                             <div class="companyname">
-                                <li>Ui/UX Designer</li>
-                                <li>Kathmandu</li>
+                                <li>
+                                    <?Php echo $row['job_title'] ?>
+                                </li>
+                                <li>
+                                    <?php echo $row['company_name'] ?>
+                                </li>
                             </div>
                         </div>
                         <div class="info">
-                            <li>location:</li>
-                            <li>Job-type:</li>
-                            <li>Deadline:</li>
+                            <li>
+                                <?php echo "location:" . $row['job_address'] ?>
+                            </li>
+                            <li>
+                                <?php echo "Job-type:" . $row['job_type'] ?>
+                            </li>
+                            <li>
+                                <?php
+                                $deaddate = $row['deadline_date'];
+                                $deadstamp = strtotime($deaddate);
+                                $dead = date('Y-m-d', $deadstamp);
+                                echo "Deadlinedate:" . $dead;
+                                ?>
+                            </li>
                         </div>
-                        <a href="">
-                            <button>Apply</button>
-                        </a>
-                    </div>
-                </a>
-            </div>
 
-        </div>
+                        <?php echo '<a href="jobdescription.php?job_id=' . $row['job_id'] . '">
+                                <button>Apply</button> </a>' ?>
+                        <?php echo '</a>' ?>
+                    </div>
+                    
+                </div>
+
+            </div>
+        <?php } ?>
     </section>
 
     <section id="trustedcompany">

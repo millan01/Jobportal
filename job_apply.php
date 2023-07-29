@@ -28,14 +28,14 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 $stmt->close();
 
-$stmt = $conn->prepare("SELECT Job_seeker_id,contact_email from job_seeker where Email =?");
+$stmt = $conn->prepare("SELECT Job_seeker_id,Email from job_seeker where Email =?");
 $stmt->bind_param("s", $seekerSession);
 $stmt->execute();
 $result = $stmt->get_result();
 if ($result->num_rows == 1) {
     while ($row = mysqli_fetch_assoc($result)) {
         $jobseeker = $row['Job_seeker_id'];
-        $email = $row['contact_email'];
+        $email = $row['Email'];
     }
 }
 $stmt->close();

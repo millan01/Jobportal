@@ -43,7 +43,6 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
 </head>
-
 <body>
     <div class="navbarflow">
         <div class="logo">
@@ -120,8 +119,8 @@ $result = $stmt->get_result();
                 $stmt->bind_param("s", $jobseeker_email);
                 $stmt->execute();
                 $result = $stmt->get_result();
-                $name = $sex = $birthdate = $datebirth = $address = $phone = $mobile = $website = $contactemail = $whoami = $imagename = "";
-                $nameErr = $genderErr = $dobErr = $addressErr = $phoneErr = $mobileErr = $websiteErr = $whoamiErr = $contactErr = $imageErr = "";
+                $name = $sex = $birthdate = $datebirth = $lookingfor = $address = $experience = $phone = $mobile = $website = $contactemail = $whoami = $imagename = "";
+                $nameErr = $genderErr = $dobErr = $lookingforErr = $addressErr = $experienceErr = $phoneErr = $mobileErr = $websiteErr = $whoamiErr = $contactErr = $imageErr = "";
                 if (isset($_POST['submit'])) {
 
                     if (isset($_FILES["image"]) && $_FILES["image"]["error"] == UPLOAD_ERR_OK) {
@@ -199,10 +198,12 @@ $result = $stmt->get_result();
                     }
 
 
+                    
+
                     $whoami = test_input($_POST['description']);
 
                     if (empty($nameErr) && empty($genderErr) && empty($dobErr) && empty($addressErr) && empty($phoneErr) && empty($mobileErr) && empty($websitErr) && empty($whoamiErr) && empty($imageErr)) {
-                        $stmt = $conn->prepare("UPDATE job_seeker SET Full_name =?, gender=?,Age=?,jobseeker_address=?,Phone=?, Mobile=?,contact_email=?,website=?,jobseeker_description=?,Image_name=? where Email=?");
+                        $stmt = $conn->prepare("UPDATE job_seeker SET Full_name =?, gender=?,Age=?,jobseeker_address=?,Phone=?, Mobile=?,contact_email=?,website=? ,jobseeker_description=?,Image_name=? where Email=?");
                         $stmt->bind_param("sssssssssss", $name, $sex, $datebirth, $address, $phone, $mobile, $contactemail, $website, $whoami, $imageName, $jobseeker_email);
                         $stmt->execute();
                         $stmt->close();
@@ -323,6 +324,7 @@ $result = $stmt->get_result();
                                         </div>
 
 
+
                                         <div class="col4">
                                             <label for="description">Who am I</label>
                                             <textarea name="description" id="description" cols="48" rows="15"
@@ -352,20 +354,7 @@ $result = $stmt->get_result();
                 $stmt->bind_param("s", $jobseeker_email);
                 $stmt->execute();
                 $result = $stmt->get_result();
-                ?>
-                <div class="lookingfor">
-                    <li style="font-weight: bold;">Looking for:</li>
-                    <li>
-                        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                            <?php echo $row['Position'] ?>
-                        </li>
-                    </div>
-
-                    <div class="years">
-                        <li style="font-weight: bold;">Experience</li>
-
-                        <li></li>
-                    </div>
+               while ($row = mysqli_fetch_assoc($result)) { ?>
                     <div class="age">
                         <li style="font-weight: bold;">Age</li>
                         <?php $date = $row['Age'];
@@ -398,15 +387,10 @@ $result = $stmt->get_result();
                         <?php
                         include('./database/connection.php');
                         $totaljob = '';
-                        $stmt = $conn->prepare("SELECT COUNT(jobSeekerID) from  application where jobSeekerID  = ? ");
-                        $stmt->bind_param("i", $seekerID);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-                        if ($result->num_rows > 1) {
-                            $row = mysqli_fetch_assoc($result);
-                            $totaljob = $row['jobSeekerID '];
-                        }
-                        $stmt->close();
+                        $sql = "SELECT COUNT(*) as jobSeekerID from application where jobSeekerEmail = '$jobseeker_email'";
+                        $result = mysqli_query($conn, $sql);
+                        $row = mysqli_fetch_assoc($result);
+                        $totaljob = $row['jobSeekerID'];
                         ?>
                         <li>
                             <?php echo $totaljob; ?>
@@ -414,11 +398,42 @@ $result = $stmt->get_result();
                     </div>
                     <div class="pending">
                         <li style="font-weight: bold;">Pending jobs</li>
-                        <li> </li>
+                        <?php
+                        $pendingjob = '';
+                        $sql = "SELECT COUNT(*) as jobSeekerID from application where jobSeekerEmail = '$jobseeker_email' AND applicationStatus = 'Pending' ";
+                        $result = mysqli_query($conn, $sql);
+                        $row = mysqli_fetch_assoc($result);
+                        $pendingjob = $row['jobSeekerID'];
+                        ?>
+                        <li>
+                            <?php echo $pendingjob; ?>
+                        </li>
                     </div>
                     <div class="Rejected">
                         <li style="font-weight: bold;">Rejected jobs</li>
-                        <li> </li>
+                        <?php
+                        $rejectedjob = '';
+                        $sql = "SELECT COUNT(*) as jobSeekerID from application where jobSeekerEmail = '$jobseeker_email' AND applicationStatus = 'Rejected' ";
+                        $result = mysqli_query($conn, $sql);
+                        $row = mysqli_fetch_assoc($result);
+                        $rejectedjob = $row['jobSeekerID'];
+                        ?>
+                        <li>
+                            <?php echo $rejectedjob; ?>
+                        </li>
+                    </div>
+                    <div class="Rejected">
+                        <li style="font-weight: bold;">Accepted jobs</li>
+                        <?php
+                        $acceptedjob = '';
+                        $sql = "SELECT COUNT(*) as jobSeekerID from application where jobSeekerEmail = '$jobseeker_email' AND applicationStatus = 'Accepted' ";
+                        $result = mysqli_query($conn, $sql);
+                        $row = mysqli_fetch_assoc($result);
+                        $acceptedjob = $row['jobSeekerID'];
+                        ?>
+                        <li>
+                            <?php echo $acceptedjob; ?>
+                        </li>
                     </div>
                 </div>
             </div>
@@ -490,13 +505,13 @@ $result = $stmt->get_result();
                         $presentErr = "Date not entered";
                     }
                     if (isset($_POST['present'])) {
-                        $end = "Current";
+                        $end = "Running";
                     } else {
                         $end = test_input(isset($_POST['passed']));
                     }
-                    if (empty($courseErr) && empty($boardErr) && empty($nameErr) && empty($startedErr) && empty($endErr)) {
-                        $stmt = $conn->prepare("INSERT INTO jobseeker_education (course,board,institute,started_year,end_year ,jobseeker_id) VALUES (?,?,?,?,?,?)");
-                        $stmt->bind_param("sssiii", $course, $board, $name, $started, $end, $seekerID);
+                    if (empty($courseErr) && empty($boardErr) && empty($nameErr) && empty($startedErr)) {
+                        $stmt = $conn->prepare("INSERT INTO jobseeker_education (course,board,institute,started_year,end_year,jobseeker_id) VALUES (?,?,?,?,?,?)");
+                        $stmt->bind_param("sssisi", $course, $board, $name, $started, $end, $seekerID);
                         $stmt->execute();
                         $stmt->close();
                     }
@@ -925,7 +940,9 @@ $result = $stmt->get_result();
                         <td>
                             <?php echo $counter; ?>
                         </td>
-                        <td><?php echo $row['companyName']; ?></td>
+                        <td>
+                            <?php echo $row['companyName']; ?>
+                        </td>
                         <td>
                             <?php echo $row['jobTitle'] ?>
                         </td>
@@ -935,7 +952,7 @@ $result = $stmt->get_result();
                         <td>
                             <?php echo $row['applicationStatus']; ?>
                         </td>
-                        <td></td>
+                        
                     </tr>
                     <?php
                     $counter++;

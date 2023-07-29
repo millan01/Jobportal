@@ -253,6 +253,11 @@ textarea {
   box-shadow: 1px 1px 1px #999;
   font-family: "Times New Roman", Times, serif;
 }
+.col7{
+ /* display: flex;
+ justify-content: space-between;
+ gap: 20px; */
+}
 .col6 {
   margin-left: 81%;
 }

@@ -76,11 +76,6 @@ $adminSession = isset($_SESSION['admin_Email']);
     if ($_GET['job_id']) {
         $id = $_GET['job_id'];
     }
-    $sql = "SELECT jobSeekerID from application where jobID = $id";
-    $result = mysqli_query($conn,$sql);
-    if(mysqli_num_rows($result) == 1){
-        $applied = true;
-    }
     $stmt = $conn->prepare("SELECT c.company_name,c.location,c.description,c.phone,c.website,c.contact_email, c.Image_name,
     j.job_title,j.job_id,j.job_address,j.no_of_vacancy,j.estimated_salary,j.category,j.job_type,j.posted_date,j.deadline_date,
     j.job_description,j.experience
@@ -221,22 +216,27 @@ $adminSession = isset($_SESSION['admin_Email']);
 
                         </div>
                     </div>
-                        <?php 
-                        
-                        ?>
+                    <?php
+
+                    ?>
                     <div class="upper-five">
-                        <?php if ($seekerSession) {
-                           if($applied){
-                             echo '<a href=""><button>Applied</button></a>';
-                            }else{
-                             echo '<a href="javascript:void(0);"onclick="applyjob(' . $row['job_id'] . ')"><button>Apply</button></a>';
+                        <?php
+                         if ($seekerSession) {
+                            $sql = "SELECT jobSeekerID from application where jobSeekerEmail = $seekerSession AND jobID = $id";
+                            $result = mysqli_query($conn, $sql);
+                            if ($result && mysqli_num_rows($result) == 1) {
+                                echo '<a href=""><button>Applied</button></a>';
+                                return true;
+                            } else {
+                                echo '<a href="javascript:void(0);"onclick="applyjob(' . $row['job_id'] . ')"><button>Apply</button></a>';
 
                             }
                         } elseif ($companySession) {
                             echo '<a href="" onclick="checkuser()"><button>Apply</button></a>';
                         } else {
                             echo '<a href="" onclick="checksession()"><button>Apply</button></a>';
-                        } ?>
+                        } 
+                        ?>
                     </div>
                 </div>
 
@@ -340,10 +340,10 @@ $adminSession = isset($_SESSION['admin_Email']);
             alert("Company cannot apply for any job post :)");
         }
         function applyjob(job_id) {
-                var success = window.location.href = "job_apply.php?job_id=" + job_id;
-                if(success)
+            var success = window.location.href = "job_apply.php?job_id=" + job_id;
+            if (success)
                 alert("Job applied successfully")
-                }
+        }
     </script>
 </body>
 

@@ -196,27 +196,40 @@ if (isset($_POST['submit'])) {
                                     <th>Address</th>
                                     <th> Email</th>
                                     <th> Phone</th>
-                                    <th>Action</th>
                                     <!-- <th>Total Posted job</th> -->
                                     <!-- <th>Total Application Received</th> -->
+                                    <th>Action</th>
                                 </tr>
                                 <!-- php to retrive company data from the database in the tabe  -->
                                 <?php
                                 include('./database/connection.php');
+                                // $sql = "SELECT SUM(companyID) as companyID from job";
+                                // $result = mysqli_query($conn, $sql);
+                                // if(mysqli_num_rows($result)>0){
+                                //     while($row = mysqli_fetch_assoc($result)){
+                                //         $companyid = $row['companyID'];
+                                //     }
+                                // }
+                                // $row = mysqli_fetch_assoc($result);
+                                
                                 $sql = "SELECT * from company";
                                 $result = mysqli_query($conn, $sql);
 
                                 if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_assoc($result)) {
+                                        $companyid = $row['company_id'];
                                         echo "<tr>";
                                         echo "<td>" . $row['company_id'] . "</td>";
                                         echo "<td>" . $row['company_name'] . "</td>";
                                         echo "<td>" . $row['location'] . "</td>";
                                         echo "<td>" . $row['email'] . "</td>";
                                         echo "<td>" . $row['phone'] . "</td>";
-                                        echo "<td>" . '<a class="btn" href="javascript:void(0);" onclick="confirmDelete(' . $row['company_id'] . ');"><button style ="padding:3px 6px">Delete <i class="fa fa-trash" style=" color: #F33636; font-weight: lighter;"></i> </button></a>'
+                                        // echo "<td>" . $companyid . "</td>";
+                                        echo "<td>" . "</td>";
+                                        echo "<td>" . '<a class="btn" href="javascript:void(0);" onclick="confirmDelete('. $row['company_id'].')"><button style ="padding:3px 6px">Delete <i class="fa fa-trash" style=" color: #F33636; font-weight: lighter;"></i> </button></a>'
                                             . "</td>";
-                                     
+
+
                                         echo "</tr>";
                                     }
                                 }
@@ -356,15 +369,16 @@ if (isset($_POST['submit'])) {
 
                                 $userpassword = password_hash($addpass, PASSWORD_DEFAULT);
 
-                                $sql = "INSERT INTO  admin_login (Email, username, Password) VALUES('$addemail','$adduser','$addpass')";
-                                $result = mysqli_query($conn,$sql);
-                                if($result){
+                                $sql = "INSERT INTO  admin_login (Email, username, Password) VALUES('$addemail','$adduser','$userpassword')";
+                                $result = mysqli_query($conn, $sql);
+                                if ($result) {
                                     echo "Admin added successfully";
                                 }
                                 // header('location:admindashboard.php');
                             }
                         }
-                        function test_input($data){
+                        function test_input($data)
+                        {
                             $data = trim($data);
                             $data = stripslashes($data);
                             $data = htmlspecialchars($data);

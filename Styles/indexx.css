@@ -185,13 +185,13 @@
 .featurejob {
   display: inline-grid;
   grid-template-columns: auto auto;
-  column-gap: 6px;
+  column-gap: 8px;
   row-gap: 6px;
 }
 .featurejob .cards {
   height: auto;
   width: fit-content;
-  margin-left: 20px;
+  margin-left: 8px;
   background-color: #f5ecec;
   border-radius: 8px;
   margin-top: 10px;
