@@ -209,33 +209,25 @@ $adminSession = isset($_SESSION['admin_Email']);
                     </div>
                     <div class="upper-four">
                         <div class="description">
-                            <h3>Specification</h3>
+                            <h3>Description</h3>
                             <p>
                                 <?php echo $row['job_description']; ?>
                             </p>
 
                         </div>
                     </div>
-                    <?php
 
-                    ?>
                     <div class="upper-five">
                         <?php
-                         if ($seekerSession) {
-                            $sql = "SELECT jobSeekerID from application where jobSeekerEmail = $seekerSession AND jobID = $id";
-                            $result = mysqli_query($conn, $sql);
-                            if ($result && mysqli_num_rows($result) == 1) {
-                                echo '<a href=""><button>Applied</button></a>';
-                                return true;
-                            } else {
-                                echo '<a href="javascript:void(0);"onclick="applyjob(' . $row['job_id'] . ')"><button>Apply</button></a>';
+                        if ($seekerSession) {
 
-                            }
+                            echo '<a href="javascript:void(0);"onclick="applyjob(' . $row['job_id'] . ')"><button>Apply</button></a>';
+
                         } elseif ($companySession) {
                             echo '<a href="" onclick="checkuser()"><button>Apply</button></a>';
                         } else {
                             echo '<a href="" onclick="checksession()"><button>Apply</button></a>';
-                        } 
+                        }
                         ?>
                     </div>
                 </div>
@@ -256,8 +248,9 @@ $adminSession = isset($_SESSION['admin_Email']);
                             <?php echo $row['contact_email'] ?>
                         </p>
                     </div>
-                    <?php $stmt->close();
-                    } ?>
+                <?php }
+                    $stmt->close();
+                    ?>
 
                 <div class="relatedjob">
                     <div class="relatedjobtitle">
@@ -265,7 +258,7 @@ $adminSession = isset($_SESSION['admin_Email']);
                     </div>
                     <?php
                     $sql = "SELECT c.company_name, c.Image_name ,j.job_id, j.job_title from company c INNER JOIN job j 
-                        ON c.company_id = j.companyID where j.deadline_date >= CURDATE() ORDER BY RAND() LIMIT 4";
+                        ON c.company_id = j.companyID where  j.deadline_date >= CURDATE() ORDER BY RAND() LIMIT 4";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
                         ?>
@@ -344,6 +337,7 @@ $adminSession = isset($_SESSION['admin_Email']);
             if (success)
                 alert("Job applied successfully")
         }
+
     </script>
 </body>
 

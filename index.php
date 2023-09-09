@@ -191,7 +191,7 @@ $adminSession = isset($_SESSION['admin_Email']);
         <?php
         $sql = "SELECT j.job_title,j.job_address,j.job_type,j.deadline_date,j.job_id,c.company_name,c.Image_name from company c 
         Inner JOIN job j ON c.company_id = j.companyID 
-         where deadline_date >= CURDATE() ORDER BY RAND()";
+         where deadline_date >= CURDATE() ORDER BY RAND() LIMIT 6";
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
             ?>

@@ -225,7 +225,6 @@ if (isset($_POST['submit'])) {
                                         echo "<td>" . $row['email'] . "</td>";
                                         echo "<td>" . $row['phone'] . "</td>";
                                         // echo "<td>" . $companyid . "</td>";
-                                        echo "<td>" . "</td>";
                                         echo "<td>" . '<a class="btn" href="javascript:void(0);" onclick="confirmDelete('. $row['company_id'].')"><button style ="padding:3px 6px">Delete <i class="fa fa-trash" style=" color: #F33636; font-weight: lighter;"></i> </button></a>'
                                             . "</td>";
 
