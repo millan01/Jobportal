@@ -265,7 +265,7 @@ $result = $stmt->get_result();
                                             </div>
                                             <div class="dob">
                                                 <label for="dob">Date of birth:</label>
-                                                <input type="date" name="dob" value="<?php echo $row['Age'] ?>" required>
+                                                <input type="date" name="dob" value="<?php echo $row['Age'] ?>" >
                                                 <span style="color:red;">
                                                     <?php echo $dobErr; ?>
                                                 </span>
@@ -275,7 +275,7 @@ $result = $stmt->get_result();
                                             <div class="address">
                                                 <label for="address">Address:</label>
                                                 <input type="text" name="address" id="address"
-                                                    value="<?php echo $row['jobseeker_address'] ?>" required>
+                                                    value="<?php echo $row['jobseeker_address'] ?>" >
                                                 <span style="color:red;">
                                                     <?php echo $addressErr; ?>
                                                 </span>
@@ -288,7 +288,7 @@ $result = $stmt->get_result();
                                             <div class="phone">
                                                 <label for="phone">Phone:</label>
                                                 <input type="text" name="phone" id="phone"
-                                                    value="<?php echo $row['Phone']; ?>" required>
+                                                    value="<?php echo $row['Phone']; ?>">
                                                 <span style="color:red;">
                                                     <?php echo $phoneErr; ?>
                                                 </span>
@@ -306,7 +306,7 @@ $result = $stmt->get_result();
                                             <div class="website">
                                                 <label for="website">Website<span>(if any):</span></label>
                                                 <input type="text" name="website" id="website"
-                                                    value="<?php echo $row['website'] ?>" required>
+                                                    value="<?php echo $row['website'] ?>">
                                                 <span style="color:red;">
                                                     <?php echo $websiteErr; ?>
                                                 </span>
@@ -848,7 +848,7 @@ $result = $stmt->get_result();
 
                                 <div class="form">
                                     <label for="companyname">Company Name</label>
-                                    <input type="text" name="cname" id="cname" required>
+                                    <input type="text" name="cname" id="cname" >
                                     <span style="color:red;">
                                         <?php echo $companynameErr ?>
                                     </span>

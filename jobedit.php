@@ -180,8 +180,7 @@ function test_input($data)
                 <div class="postjob-details-qualification">
                   <h3>Edit JOb</h3>
                   <div class="basicinfo">
-                    <form action="" method="post">
-                      <?php echo $id; ?>
+                    <form action="" method="post">   
                       <label for="Category"></label>
                       <select name="basciinfo" id="basicinfo">
 

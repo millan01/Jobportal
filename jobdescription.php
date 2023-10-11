@@ -5,6 +5,15 @@ include('./database/connection.php');
 $seekerSession = isset($_SESSION['seeker_Email']);
 $companySession = isset($_SESSION['email']);
 $adminSession = isset($_SESSION['admin_Email']);
+
+if($seekerSession){
+    $sql = "SELECT jobSeekerID from application where jobSeekerEmail = '$seekerSession'";
+    $result = mysqli_query($conn,$sql);
+    if(mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $jobseeker_id = $row['jobSeekerID'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -71,11 +80,25 @@ $adminSession = isset($_SESSION['admin_Email']);
         </div>
     </div>
 
-
     <?php
     if ($_GET['job_id']) {
         $id = $_GET['job_id'];
     }
+   
+    //function to check whether the user have already applied job or not
+    function hasUserApplied($conn, $seekerSession,  $id)
+    {
+        $sql = "SELECT * FROM application WHERE jobSeekerEmail = $seekerSession AND jobID =   $id";
+        $result = mysqli_query($conn, $sql);
+
+        if ($result) {
+            return mysqli_num_rows($result) > 0;
+        } else {
+            die("Query error: " . mysqli_error($conn));
+        }
+    }
+
+
     $stmt = $conn->prepare("SELECT c.company_name,c.location,c.description,c.phone,c.website,c.contact_email, c.Image_name,
     j.job_title,j.job_id,j.job_address,j.no_of_vacancy,j.estimated_salary,j.category,j.job_type,j.posted_date,j.deadline_date,
     j.job_description,j.experience
@@ -219,16 +242,22 @@ $adminSession = isset($_SESSION['admin_Email']);
 
                     <div class="upper-five">
                         <?php
-                        if ($seekerSession) {
-
-                            echo '<a href="javascript:void(0);"onclick="applyjob(' . $row['job_id'] . ')"><button>Apply</button></a>';
-
-                        } elseif ($companySession) {
+                    
+                        if($companySession){
                             echo '<a href="" onclick="checkuser()"><button>Apply</button></a>';
-                        } else {
+                        }elseif($seekerSession){
+                            if(hasUserApplied($conn, $seekerSession,  $id)){
+                                 echo '<a href="" onclick="doubleapplycheck()"><button>Apply</button></a>';
+
+                            }else{
+                                echo '<a href="javascript:void(0);"onclick="applyjob(' . $row['job_id'] . ')"><button>Apply</button></a>';
+                            }
+                        }else{
                             echo '<a href="" onclick="checksession()"><button>Apply</button></a>';
+
                         }
                         ?>
+
                     </div>
                 </div>
 
@@ -338,6 +367,9 @@ $adminSession = isset($_SESSION['admin_Email']);
                 alert("Job applied successfully")
         }
 
+        function doubleapplycheck() {
+            alert("You have already applied for this job");
+        }
     </script>
 </body>
 

@@ -114,74 +114,83 @@ $adminSession = isset($_SESSION['admin_Email']);
                     <option value="Internship">Internship</option>
                 </select>
 
-                <button type="submit" name="search"> <i class="fa-solid fa-magnifying-glass"></i> Search</button>
+                <button type="submit" name="submit"> <i class="fa-solid fa-magnifying-glass"></i> Search</button>
             </form>
         </div>
     </div>
     <?php
     $searchid = '';
-    if (!empty(isset($_POST['search']))) {
+    include('./database/connection.php');
+    if ((isset($_POST['submit']))) {
         $jobtitle = $_POST['job'];
         $option = $_POST['category'];
         $list = $_POST['jobtype'];
-        $sql = "SELECT * from job  LEFT JOIN company ON job.companyID = company.company_id 
-        where  job_title LIKE '%$jobtitle%' 
-         OR category like '%$option%' 
-         OR job_type LIKE '%$list%' AND deadline_date >= CURDATE() ";
+        $sql = "SELECT * FROM job
+             LEFT JOIN company ON job.companyID = company.company_id 
+             WHERE  
+            (job_title LIKE '%$jobtitle%' 
+            OR category LIKE '%$option%' 
+            OR job_type LIKE '%$list%')
+            AND deadline_date >= CURDATE()";
         $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0) {
-            ?>
-            <section id="trendingjob">
-                <p class="trendingtext">Searched Result</p>
-                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                    <div class="trendingjob">
-                        <div class="cards">
-                            <?php echo '<a href="jobdescription.php?job_id=' . $row['job_id'] . '">' ?>
-                            <!--contents -->
-                            <div class="cardscontent">
-                                <div class="imagearea">
-                                    <div class="companyimg">
-                                        <?php echo '<img src="./images/uploaded_image/' . $row['Image_name'] . '"alt="">' ?>
+        ?>
+        <section id="trendingjob">
+            <p class="trendingtext">Searched Result</p>
+            <?php
+            if ($result) {
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) { ?>
+                        <div class="trendingjob">
+                            <div class="cards">
+                                <?php echo '<a href="jobdescription.php?job_id=' . $row['job_id'] . '">' ?>
+                                <!--contents -->
+                                <div class="cardscontent">
+                                    <div class="imagearea">
+                                        <div class="companyimg">
+                                            <?php echo '<img src="./images/uploaded_image/' . $row['Image_name'] . '"alt="">' ?>
+                                        </div>
+                                        <div class="companyname">
+                                            <li>
+                                                <?php echo $row['job_title']; ?>
+                                            </li>
+                                            <li>
+                                                <?php echo $row['company_name']; ?>
+                                            </li>
+                                        </div>
                                     </div>
-                                    <div class="companyname">
+                                    <div class="info">
                                         <li>
-                                            <?php echo $row['job_title']; ?>
+                                            <?php echo "location:" . $row['job_address']; ?>
                                         </li>
                                         <li>
-                                            <?php echo $row['company_name']; ?>
+                                            <?php echo "Job-type:" . $row['job_type']; ?>
+                                        </li>
+                                        <li>
+                                            <?php
+                                            $deaddate = $row['deadline_date'];
+                                            $deadstamp = strtotime($deaddate);
+                                            $dead = date('Y-m-d', $deadstamp);
+                                            echo "Deadlinedate:" . $dead;
+                                            ?>
                                         </li>
                                     </div>
-                                </div>
-                                <div class="info">
-                                    <li>
-                                        <?php echo "location:" . $row['job_address']; ?>
-                                    </li>
-                                    <li>
-                                        <?php echo "Job-type:" . $row['job_type']; ?>
-                                    </li>
-                                    <li>
-                                        <?php
-                                        $deaddate = $row['deadline_date'];
-                                        $deadstamp = strtotime($deaddate);
-                                        $dead = date('Y-m-d', $deadstamp);
-                                        echo "Deadlinedate:" . $dead;
-                                        ?>
-                                    </li>
-                                </div>
-                                <?php echo '<a href="jobdescription.php?job_id=' . $row['job_id'] . '">
+                                    <?php echo '<a href="jobdescription.php?job_id=' . $row['job_id'] . '">
                                 <button>Apply</button> </a>' ?>
-                                <?php echo '</a>' ?>
+                                    <?php echo '</a>' ?>
+                                </div>
                             </div>
+
                         </div>
 
-                    </div>
-
+                        <?php
+                    }
+                } else { ?>
+                    <h3 style='font-style:Italic; word-spacing:1px;'>searched job not found:</h3>
                     <?php
                 }
-        } else { ?>
-                <h3 style='font-style:Italic; word-spacing:1px;'>No jobs found matching your criteria</h3>
-
-            <?php }
+            } else {
+                die("Query error: " . mysqli_error($conn));
+            }
     }
     ?>
     </section>
@@ -191,7 +200,7 @@ $adminSession = isset($_SESSION['admin_Email']);
         <?php
         $sql = "SELECT j.job_title,j.job_address,j.job_type,j.deadline_date,j.job_id,c.company_name,c.Image_name from company c 
         Inner JOIN job j ON c.company_id = j.companyID 
-         where deadline_date >= CURDATE() ORDER BY RAND() LIMIT 6";
+         where deadline_date >= CURDATE() ORDER BY RAND() LIMIT 7";
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
@@ -288,7 +297,7 @@ $adminSession = isset($_SESSION['admin_Email']);
                                 <button>Apply</button> </a>' ?>
                         <?php echo '</a>' ?>
                     </div>
-                    
+
                 </div>
 
             </div>
@@ -349,7 +358,7 @@ $adminSession = isset($_SESSION['admin_Email']);
                     <a href="company-login.php">Post Jobs</a>
                 </div>
                 <div class="sociallinks">
-                    <h2>Socail Links</h2>
+                    <h2>Social Links</h2>
                     <div class="upper">
                         <a href="https://facebook.com"><img src="./images/facebook.svg" width="30px" height="30px"
                                 alt=""></a>

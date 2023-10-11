@@ -2,9 +2,9 @@
 session_start();
 include('./database/connection.php');
 $companyemail = $_SESSION['email'];
-if (!isset($companyemail)) {
-  header("location:index.php");
-}
+// if (!isset($companyemail)) {
+//   header("location:index.php");
+// }
 $sql = "SELECT * FROM company WHERE email = '$companyemail'";
 $result = mysqli_query($conn, $sql);
 ?>
@@ -339,14 +339,12 @@ $result = mysqli_query($conn, $sql);
             require_once('./database/connection.php');
 
             $email = $_SESSION['email'];
-            $sql = "SELECT company_id,company_name FROM company WHERE email = '$email'";
+            $sql = "SELECT company_id FROM company WHERE email = '$email'";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
               $row = $result->fetch_assoc();
               $companyID = $row['company_id'];
-              $companyName = $row['company_name'];
             }
-
             $query = "SELECT * FROM job where companyID =$companyID ORDER BY job_id DESC";
             $result = mysqli_query($conn, $query);
             ?>
@@ -363,7 +361,17 @@ $result = mysqli_query($conn, $sql);
                 <th>Status</th>
                 <th>Action</th>
               </tr>
-              <?php $counter = 1; ?>
+              <?php 
+              $itemsPerPage = 15;
+
+              // Get the current page number from the URL
+              if (isset($_GET['page'])) {
+                  $currentPage = $_GET['page'];
+              } else {
+                  $currentPage = 1;
+              }
+              $offset = ($currentPage - 1) * $itemsPerPage;
+              $counter = 1; ?>
               <?php while ($row = mysqli_fetch_assoc($result)) {
                 ?>
                 <tr>
@@ -396,13 +404,13 @@ $result = mysqli_query($conn, $sql);
               }
               ?>
 
-
             </table>
           </div>
         </div>
         <!----------application------------->
 
         <?php
+       
         $stmt = $conn->prepare("SELECT application_id,jobID,jobTitle,jobSeekerEmail,applicationDate,applicationStatus from application where companyID = ?");
         $stmt->bind_param("i", $companyID);
         $stmt->execute();
@@ -466,8 +474,20 @@ $result = mysqli_query($conn, $sql);
                 </td>
               </tr>
               <?php $sn++;
+
                 }
-              } ?>
+              } 
+              $totalItemsQuery = "SELECT COUNT(*) as total FROM job";
+    $totalItemsResult = $conn->query($totalItemsQuery);
+    $totalItems = $totalItemsResult->fetch_assoc()['total'];
+
+    $totalPages = ceil($totalItems / $itemsPerPage);
+
+    echo "<ul class='pagination'>";
+    for ($i = 1; $i <= $totalPages; $i++) {
+        echo "<li><a href='paginate_data.php?page=$i'>$i</a></li>";
+    }
+    echo "</ul>";?>
             </table>
           </div>
         </div>
