@@ -36,6 +36,6 @@ function confirmDeleteseeker(Job_seeker_id) {
 function confirmDelete(company_id) {
   var confirmed = confirm('Are you sure you want to delete?');
   if (confirmed) {
-      window.location.href ="adminaction.php?company_id=" + company_id;
+      window.location.href ="../adminaction.php?company_id=" + company_id;
   }
 }

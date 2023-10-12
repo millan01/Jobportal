@@ -283,7 +283,7 @@ if($seekerSession){
 
                 <div class="relatedjob">
                     <div class="relatedjobtitle">
-                        <h3>Jobs from related company</h3>
+                        <h3>Related Jobs </h3>
                     </div>
                     <?php
                     $sql = "SELECT c.company_name, c.Image_name ,j.job_id, j.job_title from company c INNER JOIN job j 

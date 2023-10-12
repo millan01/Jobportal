@@ -14,7 +14,7 @@ $adminSession = isset($_SESSION['admin_Email']);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="./styles/indexx.css">
+    <link rel="stylesheet" href="./styles/index.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/brands.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/fontawesome.css">
     <link rel="stylesheet" href="./include/fontawesome-free-6.4.0-web/css/solid.css">
@@ -88,13 +88,12 @@ $adminSession = isset($_SESSION['admin_Email']);
             <p class="text2">Find Your Perfect Fit with Our User-Friendly <br>
                 Platform and Personalized Job Recommendations</p>
 
-
             <form action="" class="searching" method="POST">
 
                 <label for="job title"></label>
                 <input type="text" name="job" class="jobs" id="jobs" placeholder="Job tilte">
 
-                <label for="job category"></label>
+                <!-- <label for="job category"></label>
                 <select name="category" id="category">
                     <option value="Category">Select category</option>
                     <option value="IT&Telecommunication">IT&Telecommunication</option>
@@ -105,14 +104,14 @@ $adminSession = isset($_SESSION['admin_Email']);
                     <option value="Engineering/Architectures">Engineering/Architectures</option>
                     <option value="Tou/Travel">Tour/Travel</option>
                     <option value="E-comerce">E-comerce</option>
-                </select>
-                <select name="jobtype" id="jobtype">
+                </select> -->
+                <!-- <select name="jobtype" id="jobtype">
                     <option value="">Select Job-type</option>
                     <option value="Full time">Full time</option>
                     <option value="Part time">Part time</option>
                     <option value="Remote">Remote</option>
                     <option value="Internship">Internship</option>
-                </select>
+                </select> -->
 
                 <button type="submit" name="submit"> <i class="fa-solid fa-magnifying-glass"></i> Search</button>
             </form>
@@ -122,24 +121,28 @@ $adminSession = isset($_SESSION['admin_Email']);
     $searchid = '';
     include('./database/connection.php');
     if ((isset($_POST['submit']))) {
-        $jobtitle = $_POST['job'];
-        $option = $_POST['category'];
-        $list = $_POST['jobtype'];
-        $sql = "SELECT * FROM job
-             LEFT JOIN company ON job.companyID = company.company_id 
-             WHERE  
-            (job_title LIKE '%$jobtitle%' 
-            OR category LIKE '%$option%' 
-            OR job_type LIKE '%$list%')
+        $jobtitle = htmlspecialchars($_POST['job']);
+        // $option = $_POST['category'];
+        // $list = $_POST['jobtype'];
+        // $sql = "SELECT * FROM job
+        //      LEFT JOIN company ON job.companyID = company.company_id 
+        //      WHERE  
+        //     (job_title LIKE '%$jobtitle%' 
+        //     OR category LIKE '%$option%' 
+        //     OR job_type LIKE '%$list%')
+        //     AND deadline_date >= CURDATE()";
+        if (!empty($jobtitle)) {
+            $sql = "SELECT j.job_title,j.job_address,j.job_type,j.deadline_date,j.job_id,c.company_name,c.Image_name from company c 
+        Inner JOIN job j ON c.company_id = j.companyID 
+         where (job_title LIKE '%$jobtitle%')
             AND deadline_date >= CURDATE()";
-        $result = mysqli_query($conn, $sql);
-        ?>
-        <section id="trendingjob">
-            <p class="trendingtext">Searched Result</p>
-            <?php
-            if ($result) {
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) { ?>
+            $result = mysqli_query($conn, $sql);
+            ?>
+            <section id="trendingjob">
+                <p class="trendingtext">Searched Result</p>
+                <?php
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) { ?>
                         <div class="trendingjob">
                             <div class="cards">
                                 <?php echo '<a href="jobdescription.php?job_id=' . $row['job_id'] . '">' ?>
@@ -188,9 +191,11 @@ $adminSession = isset($_SESSION['admin_Email']);
                     <h3 style='font-style:Italic; word-spacing:1px;'>searched job not found:</h3>
                     <?php
                 }
-            } else {
-                die("Query error: " . mysqli_error($conn));
-            }
+        } else {
+            ?>
+                <h3 style='font-style:Italic; word-spacing:1px;'>Please Input the keywords:</h3>
+                <?php
+        }
     }
     ?>
     </section>

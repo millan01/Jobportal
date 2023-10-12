@@ -89,7 +89,7 @@
   border-radius: 12px;
   background-color: white;
   opacity: 0.8;
-  font-size: 14px;
+  font-size: 18px;
 }
 .searching select {
   padding: 10px;
@@ -100,8 +100,8 @@
 }
 .searching button {
   margin: 7px;
-  padding: 7px 14px;
-  border-radius: 12px;
+  padding: 9px 17px;
+  border-radius: 11px;
   opacity: 0.6;
 }
 

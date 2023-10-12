@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 include('./database/connection.php');
 $jobseeker_email = $_SESSION['seeker_Email'];

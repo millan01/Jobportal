@@ -1,6 +1,11 @@
 <!-- session start here  -->
 <?php
 session_start();
+include('./database/connection.php');
+$sessionemail = $_SESSION['admin_Email'];
+if(!isset($sessionemail)){
+    header('location:index.php');
+}
 ?>
 
 
@@ -125,7 +130,7 @@ if (isset($_POST['submit'])) {
                         <li><a onclick="openTab(event,'jobseeker_tab')" class="tablinks">Manage Job Seeker</a></li>
                         <li><a onclick="openTab(event,'setting_tab')" class="tablinks">Setting</a></li>
                         <li><a onclick="openTab(event,'addadmin')" class="tablinks">Add Admin</a></li>
-                        <li><a onclick="openTab(event,'logout_tab')" class="tablinks">Logout</a></li>
+                        <!-- <li><a onclick="openTab(event,'logout_tab')" class="tablinks">Logout</a></li> -->
 
                     </ul>
                 </div>
@@ -204,10 +209,13 @@ if (isset($_POST['submit'])) {
                                 <?php
                                 include('./database/connection.php');
                                 // $sql = "SELECT SUM(companyID) as companyID from job";
+                                // $sql = "SELECT companyID, COUNT(*) as total_jobs
+                                // FROM job
+                                // GROUP BY companyID";
                                 // $result = mysqli_query($conn, $sql);
                                 // if(mysqli_num_rows($result)>0){
                                 //     while($row = mysqli_fetch_assoc($result)){
-                                //         $companyid = $row['companyID'];
+                                //         $companyid = $row['total_jobs'];
                                 //     }
                                 // }
                                 // $row = mysqli_fetch_assoc($result);
